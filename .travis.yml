@@ -2,8 +2,13 @@ sudo: required
 language: node_js
 node_js: 
   - "0.12"
+ env:
+	global:
+		MONGO_URL: "mongodb://localhost:27017/meteor"
+		
+services: mongodb
 install: 
   - "curl https://install.meteor.com | /bin/sh"
   - "meteor update"
 script: 
-  - "meteor --test --once"
+  - "meteor --test --production --once"
