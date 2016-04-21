@@ -13,6 +13,7 @@ install:
 script: 
   - "meteor test --once -driver-package mocha"
 notifications:
+  email: false
   slack:
     rooms:
       - smart-s:eCjA7fJqFdq7mRSC3hPgOwqa#traviscibuilds
