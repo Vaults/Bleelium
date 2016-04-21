@@ -7,11 +7,13 @@ env:
          MONGO_URL: "mongodb://localhost:27017/meteor"
 services:
  - mongodb
+before-install:
+  - "npm install spacejam"
 install: 
   - "curl https://install.meteor.com | /bin/sh"
   - "meteor update"
 script: 
-  - "meteor test --once -driver-package mocha"
+  - "meteor test --once --driver-package practicalmeteor:mocha-console-runner"
 notifications:
   email: false
   slack:
