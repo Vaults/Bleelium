@@ -8,12 +8,12 @@ env:
 services:
  - mongodb
 before_install:
-  - "npm install spacejam"
+  - "npm install -g gagarin"
 install: 
   - "curl https://install.meteor.com | /bin/sh"
   - "meteor update"
 script: 
-  - "meteor test --once --driver-package practicalmeteor:mocha-console-runner"
+  - "gagarin tests"
 notifications:
   email: false
   slack:

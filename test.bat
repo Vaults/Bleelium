@@ -1,0 +1,1 @@
+cmd /c "set TEST_WATCH=1;C:\Dropbox\Documents\TU\Software Engineering Project\git && meteor test --once --driver-package dispatch:mocha-phantomjs"
