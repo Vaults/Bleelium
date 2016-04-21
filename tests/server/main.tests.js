@@ -1,7 +1,3 @@
-import { Meteor } from 'meteor/meteor';
-import { assert } from 'meteor/practicalmeteor:chai';
-
-console.log("Test loaded.");
 function add() {
   return Array.prototype.slice.call(arguments).reduce(function(prev, curr) {
     return prev + curr;
@@ -20,7 +16,7 @@ describe('add()', function() {
   tests.forEach(function(test) {
     it('correctly adds ' + test.args.length + ' args', function() {
       var res = add.apply(null, test.args);
-      assert.equal(res, test.expected);
+       expect(res).to.equal(test.expected);
     });
   });
 });
