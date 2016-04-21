@@ -7,7 +7,7 @@ env:
          MONGO_URL: "mongodb://localhost:27017/meteor"
 services:
  - mongodb
-before-install:
+before_install:
   - "npm install spacejam"
 install: 
   - "curl https://install.meteor.com | /bin/sh"
