@@ -11,4 +11,8 @@ install:
   - "curl https://install.meteor.com | /bin/sh"
   - "meteor update"
 script: 
-  - "meteor --test --production --once"
+  - "meteor test --once -driver-package mocha"
+notifications:
+  slack:
+    rooms:
+      - smart-s:eCjA7fJqFdq7mRSC3hPgOwqa#traviscibuilds
