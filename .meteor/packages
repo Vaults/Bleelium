@@ -21,3 +21,4 @@ insecure                # Allow all DB writes from clients (for prototyping)
 #practicalmeteor:mocha
 #dispatch:mocha-phantomjs
 anti:gagarin
+peerlibrary:xml2js
