@@ -1,0 +1,15 @@
+<div class="nav">
+    <div class="pull-left" ng-controller="dashboardCtrl">
+        <img src="img/logo_smart-s.png" class="logo">
+        <ul>
+            <li ng-repeat="category in categories" style="border-top-color: {{category.color}}">
+                {{category.name}}
+            </li>
+        </ul>
+    </div>
+    <div class="pull-right">
+        <div class="user-container">
+        </div>
+    </div>
+</div>
+
