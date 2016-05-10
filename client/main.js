@@ -4,21 +4,23 @@ import angularMeteor from 'angular-meteor';
 angular.module('dashboard', [
     angularMeteor
 ])
-    .directive('navBar', function(){
+.directive('navBar', function(){
         return {
             templateUrl: 'client/nav-bar.html',
-            scope: {
-                categories: '=',
-            }
         };
     })
-    .controller('dashboardCtrl', function($scope){
-
+.controller('navBarCtrl', function($scope){
     $scope.categories = [
-        {name:'MOBILITY', color: '#ea5959'},
-        {name:'WEATHER', color: '#eb9860'},
-        {name:'SECURITY', color: '#52acdb'},
-        {name:'COMFORT', color: '#70cf7d'},
-        {name:'ENERGY', color: '#f3db36'},
+        {link: 'mobility', text:'MOBILITY', color: '#ea5959'},
+        {link: 'weather', text:'WEATHER', color: '#eb9860'},
+        {link: 'security', text:'SECURITY', color: '#52acdb'},
+        {link: 'comfort', text:'COMFORT', color: '#70cf7d'},
+        {link: 'energy', text:'ENERGY', color: '#f3db36'},
     ]
-})
+    $scope.navClass = function(page) {
+        var currentRoute = $location.path().substring(1) || 'weather';
+        if (page === currentRoute){ return 'active'}
+        return '';
+        //return page === currentRoute ? 'active' : '';
+    };
+});

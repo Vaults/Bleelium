@@ -1,9 +1,9 @@
-<div class="nav">
-    <div class="pull-left" ng-controller="dashboardCtrl">
+<div class="nav" ng-app="dashboard">
+    <div class="pull-left" ng-controller="navBarCtrl">
         <img src="img/logo_smart-s.png" class="logo">
         <ul>
-            <li ng-repeat="category in categories" style="border-top-color: {{category.color}}">
-                {{category.name}}
+            <li ng-repeat="category in categories" style="border-top-color: {{category.color}}" ng-class="navClass('{{category.link}}')"> //This code doesn't execute for some reason
+                <a href="#/{{category.link}}">{{category.text}}</a>
             </li>
         </ul>
     </div>
