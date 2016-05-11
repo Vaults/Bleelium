@@ -49,10 +49,10 @@ function exitIfDone(type, failures) {
     console.log('--------------------------------');
     if (!process.env.TEST_WATCH) {
       if (clientFailures + serverFailures > 0) {
-		process.env.SERVER_FAILURES = "It seems, in my 'humble' opinion, that your 'program' has been 'built' 'unsuccessfully'. You have " + serverFailures + " failures.";
+		process.env.SVN_REVISION= "It seems, in my 'humble' opinion, that your 'program' has been 'built' 'unsuccessfully'. You have " + serverFailures + " failures.";
         process.exit(2); // exit with non-zero status if there were failures
       } else {
-		 process.env.SERVER_FAILURES = "No 'failures' in this 'build'."
+		 process.env.SVN_REVISION = "No 'failures' in this 'build'."
         process.exit(0);
       }
     }
