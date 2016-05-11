@@ -1,4 +1,5 @@
 import { MAIN_MODULE } from './mainModule.js';
+import { HTTP } from 'meteor/http';
 
 MAIN_MODULE.directive('infoWeather', function () {
     return {
@@ -8,7 +9,7 @@ MAIN_MODULE.directive('infoWeather', function () {
 }).controller('infoCtrl', function ($scope) {
     $scope.location = "location data"  //TODO grab from server.
     $scope.coordinates = "coordinate data"  //TODO grab from server.
-    $scope.currentTemp = 26 //TODO grab from server.
+    $scope.currentTemp = 22
     $scope.predictTemp = "predictTemp"
     $scope.minTemp = "12"
     $scope.maxTemp = "27"
@@ -16,4 +17,5 @@ MAIN_MODULE.directive('infoWeather', function () {
     $scope.windSpeed = "windSpeed"
     $scope.sunrise = 8
     $scope.sunset = 22
+
 });

@@ -17,3 +17,4 @@ MAIN_MODULE.directive('navBar', function () {
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
     });
+
