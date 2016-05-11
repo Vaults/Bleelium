@@ -10,6 +10,18 @@ var dashboard = angular.module('dashboard', [
             scope: '=',
         };
     })
+
+    .directive('info', function(){
+        return {
+            templateUrl: 'client/info.html',
+            scope: '=',
+        };
+    })
+    
+.controller('infoCtrl', function ($scope) {
+   
+})    
+    
 .controller('navBarCtrl', function($scope, $location){
     $scope.navClass = function(path) {
         return (($location.path().substr(1, path.length) === path) ? 'active' : '');
