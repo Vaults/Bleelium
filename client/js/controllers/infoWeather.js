@@ -6,5 +6,14 @@ MAIN_MODULE.directive('infoWeather', function () {
         scope: '=',
     };
 }).controller('infoCtrl', function ($scope) {
-
+    $scope.location = "location data"  //TODO grab from server.
+    $scope.coordinates = "coordinate data"  //TODO grab from server.
+    $scope.currentTemp = 26 //TODO grab from server.
+    $scope.predictTemp = "predictTemp"
+    $scope.minTemp = "12"
+    $scope.maxTemp = "27"
+    $scope.rainChance = "rainChance"
+    $scope.windSpeed = "windSpeed"
+    $scope.sunrise = 8
+    $scope.sunset = 22
 });

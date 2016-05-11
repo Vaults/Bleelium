@@ -41,6 +41,7 @@ livedata@1.0.17
 logging@1.0.11
 meteor@1.1.13
 meteor-base@1.0.3
+meteorhacks:picker@1.0.3
 minifier-css@1.1.10
 minifier-js@1.1.10
 minimongo@1.0.13
