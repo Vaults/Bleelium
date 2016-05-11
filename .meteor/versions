@@ -21,7 +21,7 @@ ddp-server@1.2.5
 deps@1.0.11
 diff-sequence@1.0.4
 dispatch:mocha-core@0.0.1
-dispatch:mocha-phantomjs@0.1.0
+dispatch:mocha-manual@0.1.0
 dispatch:phantomjs-tests@0.0.4
 ecmascript@0.4.2
 ecmascript-runtime@0.2.9
