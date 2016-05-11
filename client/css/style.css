@@ -25,6 +25,10 @@ html, body {
   padding: 0;
   font-size: 0;
 }
+.nav a{
+  color: #888888;
+  text-decoration: none;
+}
 .nav ul li {
   font-size: 17px;
   font-weight: 900;
