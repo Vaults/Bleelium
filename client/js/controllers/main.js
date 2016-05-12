@@ -16,10 +16,6 @@ MAIN_MODULE.directive('navBar', function () {
             {link: 'comfort', text: 'COMFORT', color: '#70cf7d'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
-<<<<<<< HEAD
-    });
-
-=======
     }).directive('googleMap', function() {
     return {
         templateUrl: 'client/js/directives/google-map.html',
@@ -38,4 +34,4 @@ MAIN_MODULE.directive('navBar', function () {
         }
     };
 });
->>>>>>> Test_Branch
+
