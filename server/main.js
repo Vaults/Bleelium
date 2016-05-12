@@ -6,7 +6,7 @@ WeatherStations = new Mongo.Collection('weatherStations');
 
 Meteor.publish('weatherPub', function weatherPublication(){
   return WeatherStations.find({});
-})
+});
 
 HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/queryContext', {
     data: {
