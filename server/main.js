@@ -4,6 +4,10 @@ import { Mongo } from 'meteor/mongo';
 
 WeatherStations = new Mongo.Collection('weatherStations');
 
+Meteor.publish('weatherPub', function weatherPublication(){
+  return WeatherStations.find({});
+})
+
 HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/queryContext', {
     data: {
         "entities": [
@@ -18,6 +22,19 @@ HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/queryContext', {
     if ( error ) {
         console.log( error );
     } else {
-        WeatherStations.insert(response);
+        WeatherStations.remove({}); 
+        var attributesToKeyValue= function(attr){
+        	var temp = {}
+        	attr.forEach(function(o){
+        		temp[o.name] = o.value;
+        	});
+        	return temp;
+        }
+        var rewriteAttributes = function(obj){
+        	obj.data.contextResponses[0].contextElement.attributes = attributesToKeyValue(	obj.data.contextResponses[0].contextElement.attributes);
+          return obj;
+        }
+        json = rewriteAttributes(response);
+        WeatherStations.insert(json.data.contextResponses[0].contextElement);
     }
 });
