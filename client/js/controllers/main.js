@@ -43,7 +43,7 @@ MAIN_MODULE.directive('navBar', function () {
                 events: {
                     click: (mapModel, eventName, originalEventArgs) => {
                         this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                        $scope.$apply();
+                          $scope.$apply();
                     }
                 },
                 options: {
@@ -60,7 +60,7 @@ MAIN_MODULE.directive('navBar', function () {
 
             $scope.marker = {
                 options: {
-                    draggable: true
+                    draggable: false
                 },
                 events: {
                     click: (marker, eventName, args) => {
