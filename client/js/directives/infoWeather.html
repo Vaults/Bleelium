@@ -1,0 +1,15 @@
+<div class="background" ng-controller="infoCtrl">
+    <div class="side clearfix">
+        <h2>{{location}}</h2>
+        <h4>{{weatherStation.attributes.coord_lon}} / {{weatherStation.attributes.coord_lat}} </h4>
+        <h3 style="margin-bottom: 0" align="center">Current temperature:</h3>
+        <h3 style="margin-bottom: 20px" align="center">{{weatherStation.attributes.temp}}</h3>
+        <div class="clearfix">
+            Sunrise/Sunset : <br>
+            {{weatherStation.attributes.sunrise}} / {{weatherStation.attributes.sunset}}<br><br>
+            Min/Max :<br>
+            {{weatherStation.attributes.temp_min}} / {{weatherStation.attributes.temp_max}}<br><br>
+        </div>
+
+    </div>
+</div>
