@@ -58,7 +58,17 @@ html, body {
   color: white;
   margin-left: 5px;
 }
-
+.main {
+  height: 100%;
+  left: 0px;
+  right: 320px;
+  position: absolute;
+}
+.angular-google-map-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
 .background {
   background-image: url("../img/map.png");
   width: 100%;

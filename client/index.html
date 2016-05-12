@@ -1,5 +1,7 @@
 <body ng-app="dashboard">
     <nav-bar></nav-bar>
-    <info-weather></info-weather>
-    <div ng-include src="'client/main.html'" class="background"></div>
+    <div class="background">
+        <info-weather></info-weather>
+        <google-map></google-map>
+    </div>
 </body>
