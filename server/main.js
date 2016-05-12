@@ -39,7 +39,6 @@ var pull = function(){
 			json = rewriteAttributes(response);
 			WeatherStations.insert(json.data.contextResponses[0].contextElement);
 			console.log('pulled from Orion');
-			response.end('end');
 		}
 	});
 };
