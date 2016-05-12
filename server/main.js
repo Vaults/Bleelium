@@ -22,7 +22,7 @@ HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/queryContext', {
     if ( error ) {
         console.log( error );
     } else {
-        WeatherStations.remove({}); 
+        WeatherStations.remove({});
         var attributesToKeyValue= function(attr){
         	var temp = {}
         	attr.forEach(function(o){
