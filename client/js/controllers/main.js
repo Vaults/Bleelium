@@ -16,5 +16,22 @@ MAIN_MODULE.directive('navBar', function () {
             {link: 'comfort', text: 'COMFORT', color: '#70cf7d'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
-    });
+    }).directive('googleMap', function() {
+    return {
+        templateUrl: 'client/js/directives/google-map.html',
+        scope: '='
+    }
+}).controller('googleMapCtrl', function($scope) {
+    $scope.map = {
+        center: {
+            longitude: 5.4,
+            latitude: 51.4
+        },
+        zoom: 11,
+        events: {},
+        options: {
+            disableDefaultUI: true
+        }
+    };
+});
 

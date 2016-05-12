@@ -11,16 +11,6 @@ MAIN_MODULE.directive('infoWeather', function () {
     };
 }).controller('infoCtrl', function ($scope, $meteor) {
     $meteor.subscribe('weatherPub');
-    $scope.location = "location data"  //TODO grab from server.
-    $scope.coordinates = "coordinate data"  //TODO grab from server.
-    $scope.currentTemp = 22
-    $scope.predictTemp = "predictTemp"
-    $scope.minTemp = "22"
-    $scope.maxTemp = "27"
-    $scope.rainChance = "rainChance"
-    $scope.windSpeed = "windSpeed"
-    $scope.sunrise = 8
-    $scope.sunset = 22
 
     $scope.helpers({
       weatherStation() {
