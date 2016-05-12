@@ -6,7 +6,7 @@ WeatherStations = new Mongo.Collection('weatherStations');
 
 Meteor.publish('weatherPub', function weatherPublication(){
   return WeatherStations.find({});
-})
+});
 
 var pull = function(){
 	console.log('pulled from Orion');
