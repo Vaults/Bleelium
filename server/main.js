@@ -9,7 +9,7 @@ Meteor.publish('weatherPub', function weatherPublication(){
 });
 
 var pull = function(){
-	console.log('pulled from Orion');
+	
 	HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/queryContext', {
 		data: {
 			"entities": [
@@ -38,6 +38,7 @@ var pull = function(){
 			}
 			json = rewriteAttributes(response);
 			WeatherStations.insert(json.data.contextResponses[0].contextElement);
+			console.log('pulled from Orion');
 		}
 	});
 };
