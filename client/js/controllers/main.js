@@ -28,10 +28,49 @@ MAIN_MODULE.directive('navBar', function () {
             latitude: 51.4
         },
         zoom: 11,
-        events: {},
+        events: {
+            click: (mapModel, eventName, originalEventArgs) => {
+                $scope.marker.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+                $scope.$apply();
+            }
+        },
         options: {
             disableDefaultUI: true
         }
+
+    };
+
+    $scope.marker = {
+        options: {
+            draggable: true
+        },
+        events: {
+            dragend: (marker, eventName, args) => {
+                this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                $scope.$apply();
+            }
+        },
+        location: {
+            longitude: 5.4,
+            latitude: 51.4
+        },
+    };
+    
+    $scope.setLocation = function (latitude, longitude) {
+        return {
+            latitude,
+            longitude
+        };
+
     };
 });
+
+// .config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
+//     GoogleMapApi.configure({
+//         client : 'Smart-S GMaps Key',
+//         v: '3.17',
+//         libraries: 'weather,geometry,visualization',
+//         key: 'AIzaSyDrDOuv952_6s8fSldXtgoJsCMyEo6LXEE'
+//     });
+// }]);
 
