@@ -1,5 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
+import { Mongo } from 'meteor/mongo';
+
+export const TestCol = new Mongo.Collection('testcol');
 
 console.log("Test loaded.");
 function add() {
@@ -13,8 +16,6 @@ describe('add()', function() {
     {args: [1, 2],       expected: 3},
     {args: [1, 2, 3],    expected: 6},
     {args: [1, 2, 3, 4], expected: 10},
-    {args: [1, 2, 3, 4], expected: 12},
-    {args: [1, 2, 3, 4], expected: 14}
   ];
 
   tests.forEach(function(test) {
@@ -23,4 +24,16 @@ describe('add()', function() {
       assert.equal(res, test.expected);
     });
   });
+});
+
+
+describe('simple database test', function() {
+	before(function() {
+		TestCol.remove({});
+	});
+	it('simple add', function(){
+		var testobj = {test: "A"};
+		TestCol.insert(testobj);
+		assert.equal(TestCol.find().count(), 1);
+	});
 });
