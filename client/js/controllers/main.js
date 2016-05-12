@@ -21,48 +21,68 @@ MAIN_MODULE.directive('navBar', function () {
         templateUrl: 'client/js/directives/google-map.html',
         scope: '='
     }
-}).controller('googleMapCtrl', function($scope) {
-    $scope.map = {
-        center: {
-            longitude: 5.4,
-            latitude: 51.4
-        },
-        zoom: 11,
-        events: {
-            click: (mapModel, eventName, originalEventArgs) => {
-                $scope.marker.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                $scope.$apply();
-            }
-        },
-        options: {
-            disableDefaultUI: true
+}).controller('googleMapCtrl', function($scope, $meteor, $reactive) {
+    $meteor.subscribe('weatherPub');
+
+    $scope.helpers({
+        weatherStation() {
+            return WeatherStations.findOne({});
+        }
+    });
+
+    var reload = function(){
+        $reactive(this).attach($scope);
+        var weatherStation = this.getReactively('weatherStation');
+        if(weatherStation) {
+            $scope.map = {
+                center: {
+                    longitude: weatherStation.attributes.coord_lon,
+                    latitude: weatherStation.attributes.coord_lat,
+                },
+                zoom: 11,
+                events: {
+                    click: (mapModel, eventName, originalEventArgs) => {
+                        this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+                        $scope.$apply();
+                    }
+                },
+                options: {
+                    disableDefaultUI: true
+                }
+
+            };
+
+            $scope.setLocation = function (latitude, longitude) {
+                return {
+                    latitude,
+                    longitude
+                }};
+
+            $scope.marker = {
+                options: {
+                    draggable: true
+                },
+                events: {
+                    click: (marker, eventName, args) => {
+                        this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                        $scope.$apply();
+                    },
+                    dragend: (marker, eventName, args) => {
+                        this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                        $scope.$apply();
+                    }
+                },
+                location: {
+                    longitude: weatherStation.attributes.coord_lon,
+                    latitude: weatherStation.attributes.coord_lat,
+                },
+            };
         }
 
-    };
+    }
+    $scope.autorun(reload)
 
-    $scope.marker = {
-        options: {
-            draggable: true
-        },
-        events: {
-            dragend: (marker, eventName, args) => {
-                this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
-                $scope.$apply();
-            }
-        },
-        location: {
-            longitude: 5.4,
-            latitude: 51.4
-        },
-    };
-    
-    $scope.setLocation = function (latitude, longitude) {
-        return {
-            latitude,
-            longitude
-        };
 
-    };
 });
 
 // .config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
