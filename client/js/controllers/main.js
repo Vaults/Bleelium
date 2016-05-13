@@ -1,6 +1,7 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
 MAIN_MODULE.directive('navBar', function () {
+    document.title = 'Smart-S';
         return {
             templateUrl: 'client/js/directives/nav-bar.html',
             scope: '=',
