@@ -34,23 +34,26 @@ MAIN_MODULE.directive('navBar', function () {
         $reactive(this).attach($scope);
         var weatherStation = this.getReactively('weatherStation');
         if(weatherStation) {
-            $scope.map = {
-                center: {
-                    longitude: weatherStation.attributes.coord_lon,
-                    latitude: weatherStation.attributes.coord_lat,
-                },
-                zoom: 11,
-                events: {
-                    click: (mapModel, eventName, originalEventArgs) => {
-                        this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                          $scope.$apply();
-                    }
-                },
-                options: {
-                    disableDefaultUI: true
-                }
+            if(!$scope.map) {
 
-            };
+                $scope.map = {
+                    center: {
+                        longitude: weatherStation.attributes.coord_lon,
+                        latitude: weatherStation.attributes.coord_lat,
+                    },
+                    zoom: 11,
+                    events: {
+                        click: (mapModel, eventName, originalEventArgs) => {
+                            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+                            $scope.$apply();
+                        }
+                    },
+                    options: {
+                        disableDefaultUI: true
+                    }
+
+                };
+            }
 
             $scope.setLocation = function (latitude, longitude) {
                 return {
