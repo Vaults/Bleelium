@@ -14,7 +14,6 @@ MAIN_MODULE.directive('navBar', function () {
             {link: "mobility", text: 'MOBILITY', color: '#ea5959'},
             {link: 'weather', text: 'WEATHER', color: '#eb9860'},
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
-            {link: 'comfort', text: 'COMFORT', color: '#70cf7d'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
     }).directive('googleMap', function() {
