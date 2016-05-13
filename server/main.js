@@ -33,7 +33,7 @@ SyncedCron.add({
                             {
                             "name": "name",
                                     "type": "string",
-                                    "value": clone.name
+                                    "value": response.data.name
                             },
                             {
                             "name": "location",
@@ -43,84 +43,84 @@ SyncedCron.add({
                             {
                             "name": "coord_lon",
                                     "type": "float",
-                                    "value": clone.coord.lon
+                                    "value": response.data.coord.lon
                             },
                             {
                             "name": "coord_lat",
                                     "type": "float",
-                                    "value": clone.coord.lat
+                                    "value": response.data.coord.lat
                             },
                             {
                             "name": "weather_main",
                                     "type": "string",
-                                    "value": clone.weather.main
+                                    "value": response.data.weather.main
                             },
                             {
                             "name": "weather_description",
                                     "type": "string",
-                                    "value": clone.weather.description
+                                    "value": response.data.weather.description
                             },
                             {
                             "name": "weather_icon",
                                     "type": "string",
-                                    "value": clone.weather.icon
+                                    "value": response.data.weather.icon
                             },
                             {
                             "name": "temp",
                                     "type": "float",
-                                    "value": clone.main.temp
+                                    "value": response.data.main.temp
                             },
                             {
                             "name": "pressure",
                                     "type": "float",
-                                    "value": clone.main.pressure
+                                    "value": response.data.main.pressure
                             },
                             {
                             "name": "humidity",
                                     "type": "float",
-                                    "value": clone.main.humidity
+                                    "value": response.data.main.humidity
                             },
                             {
                             "name": "temp_min",
                                     "type": "float",
-                                    "value": clone.main.temp_min
+                                    "value": response.data.main.temp_min
                             },
                             {
                             "name": "temp_max",
                                     "type": "float",
-                                    "value": clone.main.temp_max
+                                    "value": response.data.main.temp_max
                             },
                             {
                             "name": "wind_speed",
                                     "type": "float",
-                                    "value": clone.wind.speed
+                                    "value": response.data.wind.speed
                             },
                             {
                             "name": "wind_deg",
                                     "type": "float",
-                                    "value": clone.wind.deg
+                                    "value": response.data.wind.deg
                             },
                             {
                             "name": "country",
                                     "type": "string",
-                                    "value": clone.sys.country
+                                    "value": response.data.sys.country
                             },
                             {
                             "name": "sunrise",
                                     "type": "int",
-                                    "value": clone.sys.sunrise
+                                    "value": response.data.sys.sunrise
                             },
                             {
                             "name": "sunset",
                                     "type": "int",
-                                    "value": clone.sys.sunset
+                                    "value": response.data.sys.sunset
                             }
                         ]
                     }
                   ],
                     "updateAction": "APPEND"
-                };
-            HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/updateContext',
+      };
+      HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/updateContext',
             {data: weatherdata},
             function( error2, response2 ) {
                 if ( error2 ) {
