@@ -155,7 +155,7 @@ SyncedCron.add({
   }
 });
 
-SyncedCron.start();
+
 
 var pull = function(){
 	
@@ -188,4 +188,7 @@ var reloadPull = function(){
 	Meteor.setTimeout(reloadPull, 5000);
 }
 
-reloadPull();
+if(!Meteor.isTest){
+	SyncedCron.start();
+	reloadPull();
+}
