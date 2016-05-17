@@ -45,19 +45,21 @@ MAIN_MODULE.directive('navBar', function () {
     };
 
     $scope.findWeatherStationInfo = function (loc) {
-        var selector = {'attributes.coord_lat': String(lodash.round(loc.latitude,2)), 'attributes.coord_lon': String(lodash.round(loc.longitude,2))};
+        var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
         return WeatherStations.findOne(selector);
     }
 
-
+    $scope.get
      
 
     $scope.$on('setInfo', function(event, arg){
-        $scope.loc = $scope.setLocation(arg.lat(), arg.lng());
-        $scope.name = $scope.findWeatherStationInfo($scope.setLocation(arg.lat(), arg.lng())).attributes.name;
-        $scope.latitude = arg.lat();
-        $scope.longtitude = arg.lng();
-        $scope.temperature = ($scope.findWeatherStationInfo($scope.setLocation(arg.lat(), arg.lng())).attributes.temp);
+        var loc = $scope.findWeatherStationInfo(arg);
+        $scope.name = loc.attributes.name;
+        $scope.latitude = lodash.round(arg.lat(),2);
+        $scope.longtitude = lodash.round(arg.lng(),2);
+        $scope.temperature = loc.attributes.temp;
+        $scope.sunrise = loc.attributes.sunrise;
+        $scope.sunset = loc.attributes.sunset;
         $scope.$apply();
 
     })
