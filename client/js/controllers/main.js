@@ -29,7 +29,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 	var setInfo = function(event, arg){
          if(arg){
              var loc = $scope.findWeatherStationInfo(arg);
-			 console.log(loc);
              $scope.loc = arg;
              $scope.name = loc.attributes.name;
              $scope.latitude = lodash.round(arg.lat(),2);
@@ -139,13 +138,3 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
    
 
 });
-
-// .config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
-//     GoogleMapApi.configure({
-//         client : 'Smart-S GMaps Key',
-//         v: '3.17',
-//         libraries: 'weather,geometry,visualization',
-//         key: 'AIzaSyDrDOuv952_6s8fSldXtgoJsCMyEo6LXEE'
-//     });
-// }]);
-
