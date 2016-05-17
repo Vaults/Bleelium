@@ -14,6 +14,8 @@ if(!MAIN_MODULE) {
 		'ui.router'
     ]).config(function($stateProvider, $urlRouterProvider){
 			$urlRouterProvider.otherwise('/weather');
+			
+			
 			$stateProvider.state('weather',
 				{
 					templateUrl: 'client/ui-view.html',
