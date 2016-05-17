@@ -11,7 +11,7 @@ MAIN_MODULE.directive('navBar', function () {
             return (($location.path().substr(1, path.length) === path) ? 'active' : '');
         };
         $scope.categories = [
-            {link: "mobility", text: 'MOBILITY', color: '#ea5959'},
+            {link: "parking", text: 'PARKING', color: '#ea5959'},
             {link: 'weather', text: 'WEATHER', color: '#eb9860'},
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
@@ -21,7 +21,72 @@ MAIN_MODULE.directive('navBar', function () {
         templateUrl: 'client/js/directives/google-map.html',
         scope: '='
     }
-}).controller('googleMapCtrl', function($scope, $meteor, $reactive) {
+}).controller('weatherCtrl', function($scope, $meteor, $reactive) {
+    $meteor.subscribe('weatherPub');
+
+    $scope.helpers({
+        weatherStation() {
+            return WeatherStations.findOne({});
+        }
+    });
+
+    var reload = function(){
+        $reactive(this).attach($scope);
+        var weatherStation = this.getReactively('weatherStation');
+        if(weatherStation) {
+            if(!$scope.map) {
+
+                $scope.map = {
+                    center: {
+                        longitude: weatherStation.attributes.coord_lon,
+                        latitude: weatherStation.attributes.coord_lat,
+                    },
+                    zoom: 11,
+                    events: {
+                        click: (mapModel, eventName, originalEventArgs) => {
+                            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+                            $scope.$apply();
+                        }
+                    },
+                    options: {
+                        disableDefaultUI: true
+                    }
+
+                };
+            }
+
+            $scope.setLocation = function (latitude, longitude) {
+                return {
+                    latitude,
+                    longitude
+                }};
+
+            $scope.marker = {
+                options: {
+                    draggable: false
+                },
+                events: {
+                    click: (marker, eventName, args) => {
+                        this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                        $scope.$apply();
+                    },
+                    dragend: (marker, eventName, args) => {
+                        this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                        $scope.$apply();
+                    }
+                },
+                location: {
+                    longitude: weatherStation.attributes.coord_lon,
+                    latitude: weatherStation.attributes.coord_lat,
+                },
+            };
+        }
+
+    }
+    $scope.autorun(reload)
+
+
+}).controller('parkingCtrl', function($scope, $meteor, $reactive) {
     $meteor.subscribe('weatherPub');
 
     $scope.helpers({

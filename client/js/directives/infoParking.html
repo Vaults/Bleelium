@@ -1,0 +1,23 @@
+<h2>{{weatherStation.attributes.name}}</h2>
+<h4>{{weatherStation.attributes.location}}</h4>
+<h4>{{'Latitude ' + marker.location.latitude}}</h4>
+<h4>{{'Longitude ' + marker.location.longitude}}</h4>
+<br>
+Current temperature:<br>
+<h2>{{weatherStation.attributes.temp}}</h2>
+<br>
+<div class="clearfix">
+  <div class="pull-left">
+    Sunrise: <br>
+    Sunset: <br><br>
+    Min:<br>
+    Max:<br>
+  </div>
+  <div class="pull-right">
+    {{weatherStation.attributes.sunrise * 1000 | date:'HH:mm'}} <br>
+    {{weatherStation.attributes.sunset * 1000 | date:'HH:mm'}} <br><br>
+    {{weatherStation.attributes.temp_min}}<br>
+    {{weatherStation.attributes.temp_max}}<br>
+  </div>
+</div>
+

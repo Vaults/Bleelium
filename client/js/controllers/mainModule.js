@@ -16,8 +16,20 @@ if(!MAIN_MODULE) {
 			$urlRouterProvider.otherwise('/weather');
 			$stateProvider.state('weather',
 				{
+					templateUrl: 'client/ui-view.html',
+					controller: 'weatherCtrl'
+				}).state('weather.sub',
+				{
 					url:'/weather',
 					templateUrl: 'client/js/directives/infoWeather.html'
+				}).state('parking',
+				{
+					templateUrl: 'client/ui-view.html',
+					controller: 'parkingCtrl'
+				}).state('parking.sub',
+				{
+					url:'/parking',
+					templateUrl: 'client/js/directives/infoParking.html'
 				});
 	});
 }
