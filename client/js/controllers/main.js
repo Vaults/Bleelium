@@ -48,7 +48,11 @@ MAIN_MODULE.directive('navBar', function () {
         var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
         return WeatherStations.findOne(selector);
     }
-
+	var sanitizeStr = function(dirty){
+		var clean = lodash.replace(str, '/', '');
+		var cleaner = lodash.replace(str, '.', '');
+		return cleaner;
+	}
      var setInfo = function(event, arg){
          if(arg){
              var loc = $scope.findWeatherStationInfo(arg);
@@ -59,6 +63,7 @@ MAIN_MODULE.directive('navBar', function () {
              $scope.temperature = loc.attributes.temp;
              $scope.sunrise = loc.attributes.sunrise;
              $scope.sunset = loc.attributes.sunset;
+			 $scope.iconURL = '/img/weather/' + sanitizeStr(loc.attributes.weather_icon) + '.png';
              $scope.$apply();
          }
      };
@@ -98,7 +103,7 @@ MAIN_MODULE.directive('navBar', function () {
                 options: {
                     draggable: false,
                     icon: {
-                        url: '/img/weather/' + weatherStation.attributes.weather_icon + '.png',
+                        url: $scope.iconURL,
                         size: {
                             height: 200,
                             width: 200
