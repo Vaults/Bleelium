@@ -9,12 +9,4 @@ MAIN_MODULE.directive('infoWeather', function () {
         templateUrl: 'client/js/directives/infoWeather.html',
         scope: '=',
     };
-}).controller('infoCtrl', function ($scope, $meteor) {
-    $meteor.subscribe('weatherPub');
-
-    $scope.helpers({
-      weatherStation() {
-        return WeatherStations.findOne({});
-      }
-    });
-});
+})
