@@ -24,7 +24,7 @@ MAIN_MODULE.directive('navBar', function () {
 }).controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope) {
 	
     $meteor.subscribe('weatherPub');
-
+	$scope.markers = [];
     $scope.helpers({
         weatherStationDebug(){
             return WeatherStations.findOne({});
@@ -49,13 +49,17 @@ MAIN_MODULE.directive('navBar', function () {
         return WeatherStations.findOne(selector);
     }
 	var sanitizeStr = function(dirty){
-		var clean = lodash.replace(str, '/', '');
-		var cleaner = lodash.replace(str, '.', '');
+		var clean = lodash.replace(dirty, '/', '');
+		var cleaner = lodash.replace(clean, '.', '');
 		return cleaner;
 	}
-     var setInfo = function(event, arg){
+	var retIconURL = function(str){
+		return '/img/weather/' + sanitizeStr(str) + '.png';
+	}
+	var setInfo = function(event, arg){
          if(arg){
              var loc = $scope.findWeatherStationInfo(arg);
+			 console.log(loc);
              $scope.loc = arg;
              $scope.name = loc.attributes.name;
              $scope.latitude = lodash.round(arg.lat(),2);
@@ -63,7 +67,7 @@ MAIN_MODULE.directive('navBar', function () {
              $scope.temperature = loc.attributes.temp;
              $scope.sunrise = loc.attributes.sunrise;
              $scope.sunset = loc.attributes.sunset;
-			 $scope.iconURL = '/img/weather/' + sanitizeStr(loc.attributes.weather_icon) + '.png';
+			 $scope.iconURL = retIconURL(loc.attributes.weather_icon);
              $scope.$apply();
          }
      };
@@ -77,6 +81,7 @@ MAIN_MODULE.directive('navBar', function () {
     var reload = function(){
         $reactive(this).attach($scope);
         var selStation = $scope.getReactively('weatherStationDebug');
+		var stations = $scope.getReactively('weatherStations');
         setInfo(null, $scope.loc);
         if(selStation) {
             if(!$scope.map) {
@@ -99,41 +104,45 @@ MAIN_MODULE.directive('navBar', function () {
 
                 };
             }
-            $scope.marker = {
-                options: {
-                    draggable: false,
-                    icon: {
-                        url: $scope.iconURL,
-                        size: {
-                            height: 200,
-                            width: 200
-                        },
-                        anchor: {
-                            x: 24,
-                            y: 24
-                        },
-                        scaledSize: {
-                            height: 48,
-                            width: 48
-                        }
-                    },
-                },
-                events: {
-                    click: (marker, eventName, args) => {
-                        $rootScope.$broadcast('setInfo', marker.getPosition());
-                    },
-                    dragend: (marker, eventName, args) => {
-                        this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
-                        $scope.$apply();
-                    }
-                },
-                location: {
-                    longitude: selStation.attributes.coord_lon,
-                    latitude: selStation.attributes.coord_lat,
-                },
-            };
         }
-
+		$scope.markers = [];
+		for(var i = 0; i < stations.length; i++){
+			if(stations[i].attributes){
+				 $scope.markers.push({
+					options: {
+						draggable: false,
+						icon: {
+							url: retIconURL(stations[i].attributes.weather_icon),
+							size: {
+								height: 200,
+								width: 200
+							},
+							anchor: {
+								x: 24,
+								y: 24
+							},
+							scaledSize: {
+								height: 48,
+								width: 48
+							}
+						},
+					},
+					events: {
+						click: (marker, eventName, args) => {
+							$rootScope.$broadcast('setInfo', marker.getPosition());
+						},
+						dragend: (marker, eventName, args) => {
+							this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+							$scope.$apply();
+						}
+					},
+					location: {
+						longitude: stations[i].attributes.coord_lon,
+						latitude: stations[i].attributes.coord_lat,
+					},
+				});
+			}
+		}
     }
     $scope.autorun(reload)
 
