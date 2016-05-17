@@ -44,13 +44,24 @@ MAIN_MODULE.directive('navBar', function () {
         return {attributes: {coord_lon: 5.4, coord_lat: 51.4}};
     };
 
+    $scope.findWheaterstationInfo = function (loc) {
+        var selector = {'attributes.coord_lat': String(lodash.round(loc.latitude,2)), 'attributes.coord_lon': String(lodash.round(loc.longitude,2))};
+        return WeatherStations.findOne(selector);
+    }
+
     $scope.setName = function(name){
         $scope.test = name;
     }
+
+    $scope
+
     $scope.$on('name', function(event, arg){
         $scope.loc = $scope.setLocation(arg.lat(), arg.lng());
+        $scope.setName($scope.findWheaterstationInfo($scope.setLocation(arg.lat(), arg.lng())).attributes.name);
+        $scope.latitude = arg.lat();
+        $scope.longtitude = arg.lng();
+        $scope.temperture = ($scope.findWheaterstationInfo($scope.setLocation(arg.lat(), arg.lng())).attributes.temp);
         $scope.$apply();
-        console.log('wstation', $scope.weatherStation());
 
     })
     $scope.setLocation = function (latitude, longitude) {
