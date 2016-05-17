@@ -24,3 +24,5 @@ meteorhacks:picker
 http
 ejson
 percolate:synced-cron
+urigo:angular-ui-router
+angularui:angular-ui-bootstrap

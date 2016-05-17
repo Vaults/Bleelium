@@ -1,7 +1,9 @@
 <body ng-app="dashboard">
     <nav-bar></nav-bar>
     <div class="background">
-        <info-weather></info-weather>
-        <google-map></google-map>
+		<div ng-controller="googleMapCtrl">
+			<div class="side clearfix" ui-view></div>
+			<google-map></google-map>
+		</div>
     </div>
 </body>

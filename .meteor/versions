@@ -1,5 +1,8 @@
 allow-deny@1.0.4
 angular-templates@1.0.2
+angular:angular@1.4.8
+angularui:angular-ui-bootstrap@0.13.0
+angularui:angular-ui-router@0.2.15
 autoupdate@1.2.9
 babel-compiler@6.6.4
 babel-runtime@0.1.8
@@ -76,6 +79,7 @@ tmeasday:test-reporter-helpers@0.2.1
 tracker@1.0.13
 ui@1.0.11
 underscore@1.0.8
+urigo:angular-ui-router@0.7.0
 url@1.0.9
 webapp@1.2.8
 webapp-hashing@1.0.9
