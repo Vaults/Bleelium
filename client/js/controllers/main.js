@@ -63,7 +63,22 @@ MAIN_MODULE.directive('navBar', function () {
 
             $scope.marker = {
                 options: {
-                    draggable: false
+                    draggable: false,
+                    icon: {
+                        url: '/img/weather/' + weatherStation.attributes.weather_icon + '.png',
+                        size: {
+                            height: 200,
+                            width: 200
+                        },
+                        anchor: {
+                            x: 24,
+                            y: 24
+                        },
+                        scaledSize: {
+                            height: 48,
+                            width: 48
+                        }
+                    },
                 },
                 events: {
                     click: (marker, eventName, args) => {
