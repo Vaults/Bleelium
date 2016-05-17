@@ -49,20 +49,21 @@ MAIN_MODULE.directive('navBar', function () {
         return WeatherStations.findOne(selector);
     }
 
-    $scope.get
-     
+     var setInfo = function(event, arg){
+         if(arg){
+             var loc = $scope.findWeatherStationInfo(arg);
+             $scope.loc = arg;
+             $scope.name = loc.attributes.name;
+             $scope.latitude = lodash.round(arg.lat(),2);
+             $scope.longtitude = lodash.round(arg.lng(),2);
+             $scope.temperature = loc.attributes.temp;
+             $scope.sunrise = loc.attributes.sunrise;
+             $scope.sunset = loc.attributes.sunset;
+             $scope.$apply();
+         }
+     };
 
-    $scope.$on('setInfo', function(event, arg){
-        var loc = $scope.findWeatherStationInfo(arg);
-        $scope.name = loc.attributes.name;
-        $scope.latitude = lodash.round(arg.lat(),2);
-        $scope.longtitude = lodash.round(arg.lng(),2);
-        $scope.temperature = loc.attributes.temp;
-        $scope.sunrise = loc.attributes.sunrise;
-        $scope.sunset = loc.attributes.sunset;
-        $scope.$apply();
-
-    })
+    $scope.$on('setInfo', setInfo);
     $scope.setLocation = function (latitude, longitude) {
         return {
             latitude,
@@ -71,7 +72,7 @@ MAIN_MODULE.directive('navBar', function () {
     var reload = function(){
         $reactive(this).attach($scope);
         var selStation = $scope.getReactively('weatherStationDebug');
-
+        setInfo(null, $scope.loc);
         if(selStation) {
             if(!$scope.map) {
 
@@ -99,9 +100,7 @@ MAIN_MODULE.directive('navBar', function () {
                 },
                 events: {
                     click: (marker, eventName, args) => {
-                        console.log(marker.getPosition());
                         $rootScope.$broadcast('setInfo', marker.getPosition());
-                        $scope.$apply();
                     },
                     dragend: (marker, eventName, args) => {
                         this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
