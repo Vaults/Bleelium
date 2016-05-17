@@ -1,48 +1,18 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
-MAIN_MODULE.directive('navBar', function () {
-    document.title = 'Smart-S';
-        return {
-            templateUrl: 'client/js/directives/nav-bar.html',
-            scope: '=',
-        };
-    }).controller('navBarCtrl', function ($scope, $location) {
-        $scope.navClass = function (path) {
-            return (($location.path().substr(1, path.length) === path) ? 'active' : '');
-        };
-        $scope.categories = [
-            {link: "parking", text: 'PARKING', color: '#ea5959'},
-            {link: 'weather', text: 'WEATHER', color: '#eb9860'},
-            {link: 'security', text: 'SECURITY', color: '#52acdb'},
-            {link: 'energy', text: 'ENERGY', color: '#f3db36'},
-        ];
-    }).directive('googleMap', function() {
-    return {
-        templateUrl: 'client/js/directives/google-map.html',
-        scope: '='
-    }
-}).controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope) {
+MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope) {
 	
     $meteor.subscribe('weatherPub');
 	$scope.markers = [];
     $scope.helpers({
         weatherStationDebug(){
-            return WeatherStations.findOne({});
+            return WeatherStations.findOne({"attributes.name":"Eindhoven"});
         },
         weatherStations(){
             return WeatherStations.find({});
         }
     });
 
-    $scope.weatherStation = function(){
-        var loc = $scope.getReactively('loc');
-        var selector = {'attributes.coord_lat': String(lodash.round(loc.latitude,2)), 'attributes.coord_lon': String(lodash.round(loc.longitude,2))};
-        console.log(selector);
-        if(loc) {
-            return WeatherStations.findOne(selector);
-        }
-        return {attributes: {coord_lon: 5.4, coord_lat: 51.4}};
-    };
 
     $scope.findWeatherStationInfo = function (loc) {
         var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
@@ -78,14 +48,15 @@ MAIN_MODULE.directive('navBar', function () {
             latitude,
             longitude
         }};
-    var reload = function(){
+  
+
+  var reload = function(){
         $reactive(this).attach($scope);
         var selStation = $scope.getReactively('weatherStationDebug');
 		var stations = $scope.getReactively('weatherStations');
         setInfo(null, $scope.loc);
         if(selStation) {
             if(!$scope.map) {
-
                 $scope.map = {
                     center: {
                         longitude: selStation.attributes.coord_lon,
@@ -149,23 +120,22 @@ MAIN_MODULE.directive('navBar', function () {
 
 }).controller('parkingCtrl', function($scope, $meteor, $reactive) {
 
-					$scope.map = {
-                    center: {
-                        longitude: 5.4500238,
-                        latitude: 51.4523127,
-                    },
-                    zoom: 15,
-                    events: {
-                        click: (mapModel, eventName, originalEventArgs) => {
-                            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                            $scope.$apply();
-                        }
-                    },
-                    options: {
-                        disableDefaultUI: true
-                    }
-
-                };
+	$scope.map = {
+		center: {
+			longitude: 5.4500238,
+			latitude: 51.4523127,
+		},
+		zoom: 15,
+		events: {
+			click: (mapModel, eventName, originalEventArgs) => {
+				this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+				$scope.$apply();
+			}
+		},
+		options: {
+			disableDefaultUI: true
+		}
+	};
    
 
 });

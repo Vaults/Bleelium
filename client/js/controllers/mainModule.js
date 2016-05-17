@@ -13,27 +13,46 @@ if(!MAIN_MODULE) {
 		'ui.bootstrap',
 		'ui.router'
     ]).config(function($stateProvider, $urlRouterProvider){
+			document.title = 'Smart-S';
 			$urlRouterProvider.otherwise('/weather');
 			
-			
-			$stateProvider.state('weather',
-				{
+			$stateProvider.state('weather',	{
 					templateUrl: 'client/ui-view.html',
 					controller: 'weatherCtrl'
-				}).state('weather.sub',
-				{
+				})
+				.state('weather.sub',	{
 					url:'/weather',
 					templateUrl: 'client/js/directives/infoWeather.html'
-				}).state('parking',
-				{
+				})
+				.state('parking',	{
 					templateUrl: 'client/ui-view.html',
 					controller: 'parkingCtrl'
-				}).state('parking.sub',
-				{
+				})
+				.state('parking.sub',	{
 					url:'/parking',
 					templateUrl: 'client/js/directives/infoParking.html'
 				});
-	});
+	}).directive('navBar', function () {
+			return {
+				templateUrl: 'client/js/directives/nav-bar.html',
+				scope: '=',
+			};
+		}).controller('navBarCtrl', function ($scope, $location) {
+			$scope.navClass = function (path) {
+				return (($location.path().substr(1, path.length) === path) ? 'active' : '');
+			};
+			$scope.categories = [
+				{link: "parking", text: 'PARKING', color: '#ea5959'},
+				{link: 'weather', text: 'WEATHER', color: '#eb9860'},
+				{link: 'security', text: 'SECURITY', color: '#52acdb'},
+				{link: 'energy', text: 'ENERGY', color: '#f3db36'},
+			];
+		}).directive('googleMap', function() {
+			return {
+				templateUrl: 'client/js/directives/google-map.html',
+				scope: '='
+			}
+		});	
 }
 
 export {MAIN_MODULE}
