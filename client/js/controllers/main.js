@@ -102,8 +102,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 						icon: {
 							url: retIconURL(stations[i].attributes.weather_icon),
 							size: {
-								height: 200,
-								width: 200
+								height: 600,
+								width: 600
 							},
 							anchor: {
 								x: 24,
