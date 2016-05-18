@@ -1,7 +1,8 @@
 import {MAIN_MODULE} from  './mainModule.js';
+import {WIND_DIR} from './windDirections.js';
 
 MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope) {
-	
+
     $meteor.subscribe('weatherPub');
 	$scope.markers = [];
 
@@ -14,7 +15,19 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         }
     });
 
-	
+	$scope.findWindDir = function(degrees){
+		var min = 360;
+		var answer = '';
+
+		for(var key in WIND_DIR){
+				if ((Math.abs(degrees - (WIND_DIR[key].deg)) < min)) {
+                    min = degrees - WIND_DIR[key].deg;
+					answer = WIND_DIR[key].name;
+				}
+		}
+		return answer;
+	}
+
     $scope.findWeatherStationInfo = function (loc) {
         var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
         return WeatherStations.findOne(selector);
@@ -27,6 +40,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 	var retIconURL = function(str){
 		return '/img/weather/' + sanitizeStr(str) + '.png';
 	}
+
 	var setInfo = function(event, arg){
          if(arg){
              var loc = $scope.findWeatherStationInfo(arg);
@@ -35,7 +49,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
              $scope.latitude = lodash.round(arg.lat(),2);
              $scope.longtitude = lodash.round(arg.lng(),2);
              $scope.temperature = loc.attributes.temp;
-			 $scope.Winddirection = lodash.round(loc.attributes.wind_deg);
+			 $scope.windDirection = $scope.findWindDir(loc.attributes.wind_deg);
 			 $scope.Airpressure = lodash.round(loc.attributes.pressure);
 			 $scope.Humidity = lodash.round(loc.attributes.humidity);
              $scope.sunrise = loc.attributes.sunrise;
@@ -51,7 +65,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             latitude,
             longitude
         }};
-  
+
 
   var reload = function(){
         $reactive(this).attach($scope);
@@ -139,6 +153,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 			disableDefaultUI: true
 		}
 	};
-   
+
 
 });
