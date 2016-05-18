@@ -30,7 +30,6 @@ SyncedCron.add({
 		return parser.text('every 20 seconds');
 	},
 	job: function() {
-		console.log("updated");
 		var update = function(locations){
 			HTTP.call( 'GET',  "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id="+locations+ "&units=metric", {}, function( error, response ) {
 				if ( error ) {
@@ -150,20 +149,14 @@ SyncedCron.add({
 			});
 		}
 
-
-		// Een dirty manier wellicht kun je items makkelijker in een list zetten
-		var locations
-		var cnt = 0;
-
-		for(key in dataIDmap){
-			if(cnt == 0) {
-				locations = key
+    for(key in dataIDmap){
+    	if(!locations){
+				var locations = key;
 			}
-			else {
-			 locations = locations+','+key
-			}
-			cnt++;
-		}
+      else {
+         locations = locations+','+key
+      }
+    }
 		update(locations);
   }
 });
