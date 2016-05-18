@@ -137,4 +137,23 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 	};
    
 
+}).controller('securityCtrl', function($scope, $meteor, $reactive) {
+
+  $scope.map = {
+		center: {
+			longitude: 5.4500238,
+			latitude: 51.4523127,
+		},
+		zoom: 15,
+		events: {
+			click: (mapModel, eventName, originalEventArgs) => {
+				this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+				$scope.$apply();
+			}
+		},
+		options: {
+			disableDefaultUI: true
+		}
+	};
+  
 });
