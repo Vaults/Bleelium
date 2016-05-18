@@ -58,6 +58,35 @@ html, body {
   color: white;
   margin-left: 5px;
 }
+.forecast-top {
+  height: 75px;
+  z-index: 2;
+  position: relative;
+  width: 100%;
+  box-sizing: content-box;
+  text-align: center;
+}
+.forecast-main {
+  top: 75px;
+  bottom: 0px;
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.forecast-item {
+  border: 1px solid black;
+  width: 30%;
+  height:100%;
+  padding: 0px;
+  margin: 0;
+  display: inline-block;
+  white-space: nowrap;
+  text-align: center;
+}
+.forecast-item .temp {
+  display: inline-block;
+  margin: 10px;
+ }
 .main {
   height: 100%;
   left: 0px;

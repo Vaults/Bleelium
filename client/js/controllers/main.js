@@ -4,6 +4,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 	
     $meteor.subscribe('weatherPub');
 	$scope.markers = [];
+
     $scope.helpers({
         weatherStationDebug(){
             return WeatherStations.findOne({"attributes.name":"Eindhoven"});
@@ -13,7 +14,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         }
     });
 
-
+	
     $scope.findWeatherStationInfo = function (loc) {
         var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
         return WeatherStations.findOne(selector);
@@ -34,6 +35,9 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
              $scope.latitude = lodash.round(arg.lat(),2);
              $scope.longtitude = lodash.round(arg.lng(),2);
              $scope.temperature = loc.attributes.temp;
+			 $scope.Winddirection = lodash.round(loc.attributes.wind_deg);
+			 $scope.Airpressure = lodash.round(loc.attributes.pressure);
+			 $scope.Humidity = lodash.round(loc.attributes.humidity);
              $scope.sunrise = loc.attributes.sunrise;
              $scope.sunset = loc.attributes.sunset;
 			 $scope.iconURL = retIconURL(loc.attributes.weather_icon);
