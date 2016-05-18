@@ -24,6 +24,11 @@ if(!MAIN_MODULE) {
 					url:'/weather',
 					templateUrl: 'client/js/directives/infoWeather.html'
 				})
+				.state('forecast', {
+					url:'/forecast',
+					templateUrl: 'client/js/directives/infoForecast.html',
+					controller: 'weatherCtrl'
+				})
 				.state('parking',	{
 					templateUrl: 'client/ui-view.html',
 					controller: 'parkingCtrl'
