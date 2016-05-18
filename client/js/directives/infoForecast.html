@@ -1,23 +1,24 @@
 <div class="forecast-top">
-    <h1>Eindhoven Weather Forecast</h1>
+    <h1>{{name}} Weather Forecast</h1>
 </div>
 <div class="forecast-main">
     <div class="row-fluid">
-        <div class="forecast-item">
-            <h1>Wednesday</h1>
-            <h2>18th of May</h2>
-            <p>Icon</p>
+        <div class="forecast-item" ng-repeat="day in forecast">
+            <h1>{{day.date}}</h1>
+            <p>{{day.weather_icon}}</p>
             <div class="temp">
                 Min:
                 <br>
-                12.84
+                {{day.temp_min}}
             </div>
             <div class="temp">
                 Max:
                 <br>
-                15.28
+                {{day.temp_max}}
             </div>
-            <p>Wind direction: </p>
+            <p>Wind direction: {getClosestDirection(day.deg)}</p>
+            <p>Air pressure: {{day.pressure}}</p>
+            <p>Humidity: {{day.humidity}}</p>
         </div>
     </div>
 </div>
