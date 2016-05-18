@@ -31,136 +31,149 @@ SyncedCron.add({
 	},
 	job: function() {
 		console.log("updated");
-		var update = function(loc, id){
-			HTTP.call( 'GET',  "http://api.openweathermap.org/data/2.5/weather?appid=ec57dc1b5b186be9c7900a63a3e34066&q="+ loc+ "&units=metric", {}, function( error, response ) {
+		var update = function(locations){
+			HTTP.call( 'GET',  "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id="+locations+ "&units=metric", {}, function( error, response ) {
 				if ( error ) {
 					console.log( error );
 				} else {
-	
-					var weatherdata =  {
-							"contextElements": [
-								{
-									"type": "WeatherStation",
-									"isPattern": "false",
-									"id": id,
-									"attributes": [
-										{
-										"name": "name",
-												"type": "string",
-												"value": response.data.name
-										},
-										{
-										"name": "location",
-												"type": "string",
-												"value": loc,
-										},
-										{
-										"name": "coord_lon",
-												"type": "float",
-												"value": response.data.coord.lon
-										},
-										{
-										"name": "coord_lat",
-												"type": "float",
-												"value": response.data.coord.lat
-										},
-										{
-										"name": "weather_main",
-												"type": "string",
-												"value": response.data.weather[0].main
-										},
-										{
-										"name": "weather_description",
-												"type": "string",
-												"value": response.data.weather[0].description
-										},
-										{
-										"name": "weather_icon",
-												"type": "string",
-												"value": response.data.weather[0].icon
-										},
-										{
-										"name": "temp",
-												"type": "float",
-												"value": response.data.main.temp
-										},
-										{
-										"name": "pressure",
-												"type": "float",
-												"value": response.data.main.pressure
-										},
-										{
-										"name": "humidity",
-												"type": "float",
-												"value": response.data.main.humidity
-										},
-										{
-										"name": "temp_min",
-												"type": "float",
-												"value": response.data.main.temp_min
-										},
-										{
-										"name": "temp_max",
-												"type": "float",
-												"value": response.data.main.temp_max
-										},
-										{
-										"name": "wind_speed",
-												"type": "float",
-												"value": response.data.wind.speed
-										},
-										{
-										"name": "wind_deg",
-												"type": "float",
-												"value": response.data.wind.deg
-										},
-										{
-										"name": "country",
-												"type": "string",
-												"value": response.data.sys.country
-										},
-										{
-										"name": "sunrise",
-												"type": "int",
-												"value": response.data.sys.sunrise
-										},
-										{
-										"name": "sunset",
-												"type": "int",
-												"value": response.data.sys.sunset
-										}
-									]
-								}
-							],
-							"updateAction": "APPEND"
-					};
-					
-					/* proof that OpenWeatherMap is messing up 
-					console.log(response.data);
-					console.log('weatherdata:', loc, id, weatherdata.contextElements[0].attributes[0], weatherdata.contextElements[0].attributes[7], response.data.main.temp, response.data.name);
-					*/
-			
-					HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/updateContext', {data: weatherdata},	function( error2, response2 ) {
-						if ( error2 ) {
-							console.log( error2 );
-						} 
-					});
+					for (i = 0; i < response.data.cnt; i++) {
+						var weatherdata =  {
+								"contextElements": [
+									{
+										"type": "WeatherStation",
+										"isPattern": "false",
+										"id": response.data.list[i].id,
+										"attributes": [
+											{
+											"name": "name",
+													"type": "string",
+													"value": response.data.list[i].name
+											},
+											{
+											"name": "location",
+													"type": "string",
+													"value": response.data.list[i].name,
+											},
+											{
+											"name": "coord_lon",
+													"type": "float",
+													"value": response.data.list[i].coord.lon
+											},
+											{
+											"name": "coord_lat",
+													"type": "float",
+													"value": response.data.list[i].coord.lat
+											},
+											{
+											"name": "weather_main",
+													"type": "string",
+													"value": response.data.list[i].weather[0].main
+											},
+											{
+											"name": "weather_description",
+													"type": "string",
+													"value": response.data.list[i].weather[0].description
+											},
+											{
+											"name": "weather_icon",
+													"type": "string",
+													"value": response.data.list[i].weather[0].icon
+											},
+											{
+											"name": "temp",
+													"type": "float",
+													"value": response.data.list[i].main.temp
+											},
+											{
+											"name": "pressure",
+													"type": "float",
+													"value": response.data.list[i].main.pressure
+											},
+											{
+											"name": "humidity",
+													"type": "float",
+													"value": response.data.list[i].main.humidity
+											},
+											{
+											"name": "temp_min",
+													"type": "float",
+													"value": response.data.list[i].main.temp_min
+											},
+											{
+											"name": "temp_max",
+													"type": "float",
+													"value": response.data.list[i].main.temp_max
+											},
+											{
+											"name": "wind_speed",
+													"type": "float",
+													"value": response.data.list[i].wind.speed
+											},
+											{
+											"name": "wind_deg",
+													"type": "float",
+													"value": response.data.list[i].wind.deg
+											},
+											{
+											"name": "country",
+													"type": "string",
+													"value": response.data.list[i].sys.country
+											},
+											{
+											"name": "sunrise",
+													"type": "int",
+													"value": response.data.list[i].sys.sunrise
+											},
+											{
+											"name": "sunset",
+													"type": "int",
+													"value": response.data.list[i].sys.sunset
+											}
+										]
+									}
+								],
+								"updateAction": "APPEND"
+						};
+
+						/* proof that OpenWeatherMap is messing up
+						console.log(response.data);
+						console.log('weatherdata:', loc, id, weatherdata.contextElements[0].attributes[0], weatherdata.contextElements[0].attributes[7], response.data.main.temp, response.data.name);
+						*/
+
+						HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/updateContext', {data: weatherdata},	function( error2, response2 ) {
+							if ( error2 ) {
+								console.log( error2 );
+							}
+						});
+					}
 				}
 			});
 		}
-		
+
+
+		// Een dirty manier wellicht kun je items makkelijker in een list zetten
+		var locations
+		var cnt = 0;
+
 		for(key in dataIDmap){
-			update(dataIDmap[key], key);
-		}  
+			if(cnt == 0) {
+				locations = key
+			}
+			else {
+			 locations = locations+','+key
+			}
+			cnt++;
+		}
+		update(locations);
   }
 });
 
 
 
 var pull = function(){
-	
+
 	HTTP.call( 'POST', 'http://131.155.70.152:1026/v1/queryContext', query, function( error, response ) {
-		
+
 		if ( error ) {
 			console.log( error );
 		} else {
