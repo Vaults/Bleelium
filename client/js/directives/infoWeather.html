@@ -6,18 +6,33 @@
 	<br>
 	<div class="clearfix">
 	    <div class="pull-left">
+				<h3>{{min}} &deg;C</h3>
+				<p>
+					min
+				</p>
+				<p>
 	        Wind direction: <br>
 	        Air pressure: <br>
 	        Humidity: <br>
 	        Sunrise: <br>
 	        Sunset: <br>
+				</p>
 	    </div>
 	    <div class="pull-right">
-	        {{windDirection}}<br>
-	        {{Airpressure / 10}} kPa<br>
-	        {{Humidity}} %<br>
-	        {{sunrise * 1000 | date:'HH:mm'}}<br>
-	        {{sunset * 1000 | date:'HH:mm'}}<br>
+					<h3>{{max}} &deg;C</h3>
+					<p>
+						max
+					</p>
+	        <p>
+						{{windDirection}} <img src="img/weather/windDir.png" class="wind-direction" style="-ms-transform: rotate({{windDegrees}}deg);-webkit-transform: rotate({{windDegrees}}deg);transform: rotate({{windDegrees}}deg);-webkit-backface-visibility: hidden;"/><br>
+		        {{Airpressure / 10}} kPa<br>
+		        {{Humidity}} %<br>
+		        {{sunrise * 1000 | date:'HH:mm'}}<br>
+		        {{sunset * 1000 | date:'HH:mm'}}<br>
+					</p>
 	    </div>
 	</div>
+	<button class="button button-red">
+		Forecast
+	</button>
 </div>

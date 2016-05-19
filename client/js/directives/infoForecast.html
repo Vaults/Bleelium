@@ -1,23 +1,44 @@
 <div class="forecast-top">
-    <h1>Eindhoven Weather Forecast</h1>
+    <h1>{{name}} Eindhoven</h1> <!-- "Eindhoven" should still be removed-->
+    <!--<h4>{{'Long: '+ longtitude + '&nbsp;&nbsp;&nbsp;  Lat: ' + latitude}}</h4>-->
 </div>
 <div class="forecast-main">
     <div class="row-fluid">
-        <div class="forecast-item">
-            <h1>Wednesday</h1>
-            <h2>18th of May</h2>
-            <p>Icon</p>
-            <div class="temp">
-                Min:
-                <br>
-                12.84
-            </div>
-            <div class="temp">
-                Max:
-                <br>
-                15.28
-            </div>
-            <p>Wind direction: </p>
+      <div class="col-md-2">
+        <div class="weather-item">
+          <h2>Monday</h2><!--Calculate from Unix timestamp-->
+        	<h4>{{date}} 27-3</h4><!-- change from unix timestamp, and remove "27-3"-->
+        	<img src="{{iconURL}}" class="weather-icon" />
+        	<br>
+        	<div class="clearfix">
+        	    <div class="pull-left">
+        				<h3>{{min}} &deg;C</h3>
+        				<p>
+        					min
+        				</p>
+        				<p>
+        	        Wind direction: <br>
+        	        Air pressure: <br>
+        	        Humidity: <br>
+        	        Sunrise: <br>
+        	        Sunset: <br>
+        				</p>
+        	    </div>
+        	    <div class="pull-right">
+        					<h3>{{max}} &deg;C</h3>
+        					<p>
+        						max
+        					</p>
+        	        <p>
+        						{{windDirection}} <img src="img/weather/windDir.png" class="wind-direction" style="-ms-transform: rotate({{windDegrees}}deg);-webkit-transform: rotate({{windDegrees}}deg);transform: rotate({{windDegrees}}deg);-webkit-backface-visibility: hidden;"/><br>
+        		        {{Airpressure / 10}} kPa<br>
+        		        {{Humidity}} %<br>
+        		        {{sunrise * 1000 | date:'HH:mm'}}<br>
+        		        {{sunset * 1000 | date:'HH:mm'}}<br>
+        					</p>
+        	    </div>
+        	</div>
         </div>
+      </div>
     </div>
 </div>
