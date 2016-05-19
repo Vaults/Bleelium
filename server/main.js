@@ -136,11 +136,6 @@ SyncedCron.add({
                             "updateAction": "APPEND"
                         };
 
-                        /* proof that OpenWeatherMap is messing up
-                         console.log(response.data);
-                         console.log('weatherdata:', loc, id, weatherdata.contextElements[0].attributes[0], weatherdata.contextElements[0].attributes[7], response.data.main.temp, response.data.name);
-                         */
-
                         HTTP.call('POST', 'http://131.155.70.152:1026/v1/updateContext', {data: weatherdata}, function (error2, response2) {
                             if (error2) {
                                 console.log(error2);
@@ -160,6 +155,16 @@ SyncedCron.add({
             }
         }
         update(locations);
+
+        HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', function(error, response) {
+          if (error) {
+              console.log(error);
+          } else {
+            xml2js.parseString(response.content, function (err, result) {
+                console.log(result.rss.channel[0].item[0].guid[0]._);
+            });
+          }
+        });
     }
 });
 
