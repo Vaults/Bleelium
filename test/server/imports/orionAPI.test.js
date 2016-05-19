@@ -40,7 +40,8 @@ describe('postOrionData()', function(){
 			updateAction: 'APPEND' 
 		}
 		postOrionData(postWeatherTest, function(error, result){
-			assert.equal(result.statusCode, 200);
+			assert.isDefined(result.data.statusCode, 200);
+			assert.equal(result.data.statusCode.code, 200);
 		});
 	});
 	it('Errors when sending false data', function(){
@@ -48,8 +49,9 @@ describe('postOrionData()', function(){
 			"bogus": "element"
 		}
 		postOrionData(postWeatherTest, function(error, result){
-			assert.notEqual(result.statusCode, 200);
+			assert.isUndefined(result.data.statusCode);
+			assert.isUndefined(result.data.errorCode);
 		});
 	});
-	
+		
 });
