@@ -1,5 +1,4 @@
 import {MAIN_MODULE} from  './mainModule.js';
-import {WIND_DIR} from './windDirections.js';
 
 MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope) {
 
@@ -8,25 +7,13 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 
     $scope.helpers({
         weatherStationDebug(){
-            return WeatherStations.findOne({"attributes.name":"Eindhoven"});
+            return WeatherStations.findOne({"id":"2750953"});
         },
         weatherStations(){
             return WeatherStations.find({});
         }
     });
 
-	$scope.findWindDir = function(degrees){
-		var min = 360;
-		var answer = '';
-
-		for(var key in WIND_DIR){
-				if ((Math.abs(degrees - (WIND_DIR[key].deg)) < min)) {
-                    min = degrees - WIND_DIR[key].deg;
-					answer = WIND_DIR[key].name;
-				}
-		}
-		return answer;
-	}
 
     $scope.findWeatherStationInfo = function (loc) {
         var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
@@ -44,12 +31,13 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 	var setInfo = function(event, arg){
          if(arg){
              var loc = $scope.findWeatherStationInfo(arg);
+			 console.log(loc);
              $scope.loc = arg;
              $scope.name = loc.attributes.name;
              $scope.latitude = lodash.round(arg.lat(),2);
              $scope.longtitude = lodash.round(arg.lng(),2);
              $scope.temperature = loc.attributes.temp;
-			 $scope.windDirection = $scope.findWindDir(loc.attributes.wind_deg);
+			 $scope.windDirection = getWindDir(loc.attributes.wind_deg);
 			 $scope.Airpressure = lodash.round(loc.attributes.pressure);
 			 $scope.Humidity = lodash.round(loc.attributes.humidity);
              $scope.sunrise = loc.attributes.sunrise;
@@ -58,6 +46,14 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
              $scope.$apply();
          }
      };
+
+	var getWindDir = function (degrees) {
+		Meteor.call('findWindDir', degrees , function(error, result){
+			$scope.windDirection = result;
+		})
+	}
+
+
 
     $scope.$on('setInfo', setInfo);
     $scope.setLocation = function (latitude, longitude) {
@@ -156,3 +152,16 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 
 
 });
+/*
+Meteor.methods({
+	'testFunc': function(a, b, c){
+	// code;
+	}
+}
+
+Meteor.call('testFunc', a , b, c, function(error, result){
+
+	use(result)
+
+});
+ */
