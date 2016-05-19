@@ -7,7 +7,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 
     $scope.helpers({
         weatherStationDebug(){
-            return WeatherStations.findOne({"id": "2750953"});
+            return WeatherStations.findOne({"id": "2756253"});
         },
         weatherStations(){
             return WeatherStations.find({});

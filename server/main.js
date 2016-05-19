@@ -9,7 +9,8 @@ Meteor.publish('weatherPub', function weatherPublication() {
 })
 
 var dataIDmap = {
-    "2750953": "Eindhoven",
+    "2750953": "Mensfort",
+	"2756253": "Eindhoven",
     "2745706": "Veldhoven",
     "2754447": "Helmond",
     "2759794": "Amsterdam"
