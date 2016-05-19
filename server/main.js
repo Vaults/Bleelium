@@ -195,19 +195,31 @@ var reloadPull = function () {
     Meteor.setTimeout(reloadPull, 5000);
 }
 
+var Future = Npm.require('fibers/future');
+
 Meteor.methods({
     'findWindDir': function (degrees) {
-            var min = 360;
-            var answer = '';
+        //Set up future
+        var future = new Future();
+        var onComplete = future.resolver();
 
-            for(var key in WIND_DIR){
-                if ((Math.abs(degrees - (WIND_DIR[key].deg)) < min)) {
-                    min = degrees - WIND_DIR[key].deg;
-                    answer = WIND_DIR[key].name;
-                }
+        var min = 360;
+        var answer = '';
+
+        for (var key in WIND_DIR) {
+            if ((Math.abs(degrees - (WIND_DIR[key].deg)) < min)) {
+                min = degrees - WIND_DIR[key].deg;
+                answer = WIND_DIR[key].name;
+               // console.log(answer)
             }
-            return answer;
         }
+
+        var error = 'ow shit'
+        future.resolver(error,answer);
+
+        return future;
+        Future.wait(future);
+    }
 })
 
 if (!Meteor.isTest) {
