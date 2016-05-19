@@ -2,12 +2,12 @@
 <h4>{{'Long: '+ longtitude + '  Lat: ' + latitude}}</h4>
 <br>
 Current temperature:<br>
-<h2>{{temperature}}</h2>
+<h2>{{temperature}} &deg; C</h2>
 <br>
 <div class="clearfix">
     <div class="pull-left">
         Wind direction: <br>
-        Air pressure (kPa): <br>
+        Air pressure (hPa): <br>
         Humidity: <br>
         Sunrise: <br>
         Sunset: <br><br>
@@ -15,8 +15,8 @@ Current temperature:<br>
     </div>
     <div class="pull-right">
         {{windDirection}} <br>
-        {{Airpressure / 10}} <br>
-        {{Humidity}} <br>
+        {{Airpressure}} <br>
+        {{Humidity}} &#37;<br>
         {{sunrise * 1000 | date:'HH:mm'}} <br>
         {{sunset * 1000 | date:'HH:mm'}} <br><br>
 
