@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   height: 100%;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .nav {
@@ -9,17 +9,15 @@ html, body {
   z-index: 2;
   position: relative;
   width: 100%;
-  border-top: 3px solid #000;
+  border-top: 3px solid black;
   box-sizing: content-box;
 }
-
 .nav .logo {
   height: 100px;
   float: left;
   margin-left: 20px;
   margin-top: -3px;
 }
-
 .nav ul {
   list-style: none;
   float: left;
@@ -27,37 +25,33 @@ html, body {
   padding: 0;
   font-size: 0;
 }
-
 .nav ul li {
   font-size: 17px;
   font-weight: 900;
   margin-top: -3px;
   display: inline-block;
   height: 72px;
-  color: #A8A8A8;
+  color: #a8a8a8;
   box-sizing: content-box;
   line-height: 72px;
   padding: 0 20px;
   border-top: 3px solid;
   letter-spacing: 1px;
 }
-
 .nav .user-container {
   padding: 0 40px;
   background-color: #ea5959;
   height: 72px;
   width: 320px;
 }
-
 .nav .user-container .profile {
   border-radius: 50%;
   height: 50px;
-  border: 2px solid #fff;
+  border: 2px solid white;
   margin: 11px 0;
 }
-
 .nav .user-container .fa {
-  color: #fff;
+  color: white;
   margin-left: 5px;
 }
 
@@ -82,7 +76,7 @@ html, body {
 
 .forecast-item {
   border: 0px;
-  border-right: 1px solid lightgrey;
+  border-right: 1px solid lightgray;
   width: 384px;
   top: 10px;
   bottom: 10px;
@@ -95,7 +89,6 @@ html, body {
   white-space: nowrap;
   text-align: center;
 }
-
 .forecast-item .temp {
   display: inline-block;
   margin: 10px;
@@ -122,39 +115,65 @@ html, body {
   position: absolute;
   background-size: cover;
 }
-
 .background .side {
-  background-color: #fff;
+  background-color: white;
   width: 320px;
   height: 100%;
-  color: #000;
+  color: black;
   position: absolute;
   top: 0;
   right: 0;
   padding: 20px 40px;
   font-size: 17px;
 }
-
 .background .side h2 {
   font-size: 24px;
   font-weight: 900;
   margin-top: 0;
   margin-bottom: 10px;
 }
-
 .background .side h3 {
   font-size: 20px;
   font-weight: normal;
   margin-top: 0;
   margin-bottom: 20px;
 }
-
 .background .side h4 {
   font-size: 17px;
   font-weight: normal;
-  color: #A8A8A8;
+  color: #a8a8a8;
   margin-top: 0;
   margin-bottom: 10px;
+}
+
+.weather-item h2 {
+  font-size: 24px;
+  font-weight: 900;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.weather-item h3 {
+  font-size: 20px;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.weather-item h4 {
+  font-size: 17px;
+  font-weight: normal;
+  color: #a8a8a8;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.weather-item .weather-icon {
+  width: 75%;
+  margin: 15px auto;
+  display: block;
+}
+.weather-item .pull-right {
+  text-align: right;
 }
 
 .footer {
