@@ -2,16 +2,28 @@ import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
 import { Mongo } from 'meteor/mongo';
 
-export const TestCol = new Mongo.Collection('testcol');
+
+//to be tested functions
+import {pull} from '/server/main.js';
+import {dataIDmap} from '/server/main.js';
+
+WeatherStations = new Mongo.Collection('weatherStations');
 
 console.log("Test loaded.");
 function add() {
+	console.log(pull);
   return Array.prototype.slice.call(arguments).reduce(function(prev, curr) {
     return prev + curr;
   }, 0);
 }
 
-describe('add()', function() {
+describe('Pull pulls to the database', function() {
+	var len = Objects.keys(dataIDmap).length;
+	it('correctly adds' + len + 'weatherstations to the database'){
+		assert.equal(WeatherStations.find().count(), len);
+	}
+	
+  /*
   var tests = [
     {args: [1, 2],       expected: 3},
     {args: [1, 2, 3],    expected: 6},
@@ -24,16 +36,7 @@ describe('add()', function() {
       assert.equal(res, test.expected);
     });
   });
+  */
 });
 
 
-describe('simple database test', function() {
-	before(function() {
-		TestCol.remove({});
-	});
-	it('simple add', function(){
-		var testobj = {test: "A"};
-		TestCol.insert(testobj);
-		assert.equal(TestCol.find().count(), 1);
-	});
-});

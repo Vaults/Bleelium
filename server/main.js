@@ -199,3 +199,7 @@ if(!Meteor.isTest){
 	SyncedCron.start();
 	reloadPull();
 }
+
+
+//exports for tests
+export {pull}
