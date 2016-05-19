@@ -14,7 +14,7 @@ var dataWeatherMap = {
 }
 var weatherQuery = initQuery("WeatherStation", dataWeatherMap);
 
-var createWeatherData = function(o){
+var createWeatherData = function(o){ //Creates orion-compliant objects for Orion storage
 	return {
 		"contextElements": [
 			{
@@ -113,7 +113,7 @@ var createWeatherData = function(o){
 		"updateAction": "APPEND"
 	};
 }
-var pushWeatherToOrion = function () {
+var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherMap to Orion
     var update = function (locations) {
         HTTP.call('GET', "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + locations + "&units=metric", {}, function (error, response) {
             if (error) {
@@ -138,7 +138,7 @@ var pushWeatherToOrion = function () {
 }
 
 /* https://github.com/percolatestudio/meteor-synced-cron */
-SyncedCron.add({
+SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing weather to Orion',
     schedule: function (parser) {
         return parser.text('every 30 minutes');
@@ -146,7 +146,7 @@ SyncedCron.add({
     job: pushWeatherToOrion
 });
 
-if (!Meteor.isTest) {
+if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
     SyncedCron.start();
 	reloadPull("WeatherStations", weatherQuery);
 }

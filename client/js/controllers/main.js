@@ -5,7 +5,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
 
-    $scope.helpers({
+    $scope.helpers({	//Scope helpers to get from Meteor collections
         weatherStationDebug(){
             return WeatherStations.findOne({"id": "2756253"});
         },
@@ -15,20 +15,20 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     });
 
 
-    $scope.findWeatherStationInfo = function (loc) {
+    $scope.findWeatherStationInfo = function (loc) { //Finds a weather station from coordinates
         var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
         return WeatherStations.findOne(selector);
     }
-	var sanitizeStr = function(dirty){
+	var sanitizeStr = function(dirty){	//Cleans a string to prevent filepath exploits
 		var clean = lodash.replace(dirty, '/', '');
 		var cleaner = lodash.replace(clean, '.', '');
 		return cleaner;
 	}
-	var retIconURL = function(str){
+	var retIconURL = function(str){	//returns an image for a certain image id
 		return '/img/weather/' + sanitizeStr(str) + '.png';
 	}
 
-	var setInfo = function(event, arg){
+	var setInfo = function(event, arg){ //Updates scope to the current selected weatherstation
          if(arg){
              var loc = $scope.findWeatherStationInfo(arg);
 			 console.log(loc);
@@ -51,7 +51,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         }
     };
 
-    var getWindDir = function (degrees) {
+    var getWindDir = function (degrees) {	//gets Wind Direction from a degree
         Meteor.call('findWindDir', degrees, function (error, result) {
             if (!error) {
                 $scope.windDirection = result;
@@ -69,7 +69,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         }};
 
 
-    var reload = function () {
+    var reload = function () { //Runs whenever the weatherstation collection is updated. Pulls all weatherstations and updates all UI elements
         $reactive(this).attach($scope);
         var selStation = $scope.getReactively('weatherStationDebug');
         var stations = $scope.getReactively('weatherStations');
