@@ -1,26 +1,35 @@
 import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
 import { Mongo } from 'meteor/mongo';
-
+import {WeatherStations} from '/server/main.js';
 
 //to be tested functions
 import {pull} from '/server/main.js';
 import {dataIDmap} from '/server/main.js';
 
-WeatherStations = new Mongo.Collection('weatherStations');
-
 console.log("Test loaded.");
 function add() {
-	console.log(pull);
   return Array.prototype.slice.call(arguments).reduce(function(prev, curr) {
     return prev + curr;
   }, 0);
 }
 
 describe('Pull pulls to the database', function() {
-	var len = Objects.keys(dataIDmap).length;
-	it('correctly adds' + len + 'weatherstations to the database', function(){
-		assert.equal(WeatherStations.find().count(), len);
+
+	it('correctly adds all weatherstations to the database within 1 second.', function(){
+		pull();
+		var len = Object.keys(dataIDmap).length;
+		Meteor.setTimeout(function(){
+			for(key in dataIDmap){
+				assert.isTrue(WeatherStations.findOne({"id": key})); //checks if all entries in dataIDmap exist
+			}
+			assert.isFalse(WeatherStations.findOne({"id": -1})); //checks if it doesn't always return true for non-existing values
+		}, 1000);
+	});
+	
+	it('test', function(){
+		console.log("WAT");
+		assert.equal(true,true);
 	});
 	
   /*
@@ -38,5 +47,4 @@ describe('Pull pulls to the database', function() {
   });
   */
 });
-
 

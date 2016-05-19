@@ -3,7 +3,7 @@ import {EJSON} from 'meteor/ejson';
 import {Mongo} from 'meteor/mongo';
 import {WIND_DIR} from './windDirections.js';
 
-WeatherStations = new Mongo.Collection('weatherStations');
+export const WeatherStations = new Mongo.Collection('weatherStations');
 Meteor.publish('weatherPub', function weatherPublication() {
     return WeatherStations.find({});
 })
@@ -218,3 +218,4 @@ if (!Meteor.isTest) {
 
 //exports for tests
 export {pull}
+export {dataIDmap}
