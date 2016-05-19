@@ -35,7 +35,7 @@ describe('pushWeatherToOrion()', function(){
 });
 describe('findWindDir()', function(){
 	it('converts degrees properly', function(){
-		//no tests yet
+		//no test yet
 	});
 });
 

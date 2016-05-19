@@ -6,8 +6,8 @@ import { collectionWrapper } from '/server/imports/collections.js';
 //to be tested functions
 import {postOrionData} from '/server/imports/orionAPI.js';
 
-describe('postOrionData()', function(){
-	it('No errors from pulling openweathermap properly', function(){
+describe('postOrionData()', function(done){
+	it('No errors from pulling openweathermap properly', function(done){
 		var postWeatherTest =  { 
 			contextElements:	[
 				{ 
@@ -40,17 +40,19 @@ describe('postOrionData()', function(){
 			updateAction: 'APPEND' 
 		}
 		postOrionData(postWeatherTest, function(error, result){
-			assert.isDefined(result.data.statusCode);
-			assert.equal(result.data.statusCode.code, 200);
+			assert.isDefined(result.statusCode);
+			assert.equal(result.statusCode, 200);
+			done();
 		});
 	});
-	it('Errors when sending false data', function(){
+	it('Errors when sending false data', function(done){
 		var postWeatherTest =  { 
 			"bogus": "element"
 		}
 		postOrionData(postWeatherTest, function(error, result){
 			assert.isUndefined(result.data.statusCode);
 			assert.isDefined(result.data.errorCode);
+			done();
 		});
 	});
 		
