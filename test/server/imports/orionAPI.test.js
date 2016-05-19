@@ -40,7 +40,7 @@ describe('postOrionData()', function(){
 			updateAction: 'APPEND' 
 		}
 		postOrionData(postWeatherTest, function(error, result){
-			assert.isDefined(result.data.statusCode, 200);
+			assert.isDefined(result.data.statusCode);
 			assert.equal(result.data.statusCode.code, 200);
 		});
 	});
@@ -50,7 +50,7 @@ describe('postOrionData()', function(){
 		}
 		postOrionData(postWeatherTest, function(error, result){
 			assert.isUndefined(result.data.statusCode);
-			assert.isUndefined(result.data.errorCode);
+			assert.isDefined(result.data.errorCode);
 		});
 	});
 		
