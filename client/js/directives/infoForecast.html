@@ -1,11 +1,12 @@
 <div class="forecast-top">
-    <h1>Eindhoven Weather Forecast</h1>
+    <h1>{{name}} Eindhoven</h1> <!-- "Eindhoven" should still be removed-->
+    <!--<h4>{{'Long: '+ longtitude + '&nbsp;&nbsp;&nbsp;  Lat: ' + latitude}}</h4>-->
 </div>
 <div class="forecast-main">
     <div class="row-fluid">
       <div class="col-md-2">
         <div class="weather-item">
-        	<h2>{{name}}</h2>
+        	<h2>{{date}} 27-3</h2><!-- change from unix timestamp, and remove "27-3"-->
         	<img src="{{iconURL}}" class="weather-icon" />
         	<br>
         	<div class="clearfix">
