@@ -76,12 +76,16 @@ html, body {
   white-space: nowrap;
 }
 .forecast-item {
-  border-right: 1px solid darkgrey;
-  width: 320px;
-  bottom: 0px;
-  top: 0px;
-  padding: 1em;
-  margin: 1em;
+  border: 0px;
+  border-right: 1px solid lightgrey;
+  width: 384px;
+  top: 75px;
+  bottom: 10px;
+  position: absolute;
+  padding: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0px;
   display: inline-block;
   white-space: nowrap;
   text-align: center;
