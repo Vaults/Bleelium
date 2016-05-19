@@ -27,8 +27,7 @@ describe('Pull pulls to the database', function() {
 		}, 1000);
 	});
 	
-	it('test', function(){
-		console.log("WAT");
+	it('simple functionality test, assert true = true', function(){
 		assert.equal(true,true);
 	});
 	
