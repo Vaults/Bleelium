@@ -4,6 +4,7 @@
 <div class="forecast-main">
     <div class="row-fluid">
         <div class="forecast-item" ng-repeat="day in forecast">
+
             <h1>{{day.date}}</h1>
             <p>{{day.weather_icon}}</p>
             <div class="temp">
@@ -16,9 +17,41 @@
                 <br>
                 {{day.temp_max}}
             </div>
-            <p>Wind direction: {getClosestDirection(day.deg)}</p>
-            <p>Air pressure: {{day.pressure}}</p>
-            <p>Humidity: {{day.humidity}}</p>
+            <div class="pull-left">
+                Wind direction: <br>
+                Air pressure (kPa): <br>
+                Humidity: <br><br>
+            </div>
+            <div class="pull-right">
+                {{windDirection}} <br>
+                {{Airpressure / 10}} <br>
+                {{Humidity}} <br><br>
+            </div>
+        </div>
+        <div class="forecast-item">
+
+            <h1>19-5-2016</h1>
+            <p></p>
+            <div class="temp">
+                Min:
+                <br>
+                12.02
+            </div>
+            <div class="temp">
+                Max:
+                <br>
+                15.37
+            </div>
+            <div class="pull-left">
+                Wind direction: <br>
+                Air pressure (kPa): <br>
+                Humidity: <br><br>
+            </div>
+            <div class="pull-right">
+                NNE <br>
+                1002 <br>
+                46 <br><br>
+            </div>
         </div>
     </div>
 </div>
