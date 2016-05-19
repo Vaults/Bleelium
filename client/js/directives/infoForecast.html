@@ -1,6 +1,11 @@
 <div class="forecast-top">
-    <h1>{{name}} Eindhoven</h1> <!-- "Eindhoven" should still be removed-->
-    <!--<h4>{{'Long: '+ longtitude + '&nbsp;&nbsp;&nbsp;  Lat: ' + latitude}}</h4>-->
+  <div class="forecast-top-station">
+    <h1 align="right">{{name}} Eindhoven</h1> <!-- "Eindhoven" should still be removed-->
+  </div>
+  <div class="forecast-top-location">
+    <h4 align="left" style="display: table-cell;vertical-align: bottom; height:38px;">{{'Long: '+ longtitude }}</h4>
+    <h4 align="left" style="height:32px;">{{'Lat: ' + latitude}}</h4>
+  </div>
 </div>
 <div class="forecast-main">
     <div class="row-fluid">
