@@ -3,8 +3,8 @@
     <h1 align="right">{{name}} Eindhoven</h1> <!-- "Eindhoven" should still be removed-->
   </div>
   <div class="forecast-top-location">
-    <h4 align="left" style="display: table-cell;vertical-align: bottom; height:38px;">{{'Long: '+ longtitude }}</h4>
-    <h4 align="left" style="height:32px;">{{'Lat: ' + latitude}}</h4>
+    <h4 align="left" style="display: table-cell;vertical-align: bottom; height:38px;">{{'Long: '+ longtitude.toFixed(2) + ' &deg;'}}</h4>
+    <h4 align="left" style="height:32px;">{{'Lat: ' + latitude.toFixed(2) + ' &deg;'}}</h4>
   </div>
 </div>
 <div class="forecast-main">
@@ -17,7 +17,7 @@
         	<br>
         	<div class="clearfix">
         	    <div class="pull-left">
-        				<h3>{{min}} &deg;C</h3>
+        				<h3>{{min.toFixed(0)}} &deg;C</h3>
         				<p>
         					min
         				</p>
@@ -30,14 +30,14 @@
         				</p>
         	    </div>
         	    <div class="pull-right">
-        					<h3>{{max}} &deg;C</h3>
+        					<h3>{{max.toFixed(0)}} &deg;C</h3>
         					<p>
         						max
         					</p>
         	        <p>
         						{{windDirection}} <img src="img/weather/windDir.png" class="wind-direction" style="-ms-transform: rotate({{windDegrees}}deg);-webkit-transform: rotate({{windDegrees}}deg);transform: rotate({{windDegrees}}deg);-webkit-backface-visibility: hidden;"/><br>
-        		        {{Airpressure}} hPa<br>
-        		        {{Humidity}} %<br>
+        		        {{Airpressure.toFixed(0)}} hPa<br>
+        		        {{Humidity.toFixed(0)}} %<br>
         		        {{sunrise * 1000 | date:'HH:mm'}}<br>
         		        {{sunset * 1000 | date:'HH:mm'}}<br>
         					</p>
