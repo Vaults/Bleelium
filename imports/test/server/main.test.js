@@ -19,9 +19,9 @@ function add() {
 
 describe('Pull pulls to the database', function() {
 	var len = Objects.keys(dataIDmap).length;
-	it('correctly adds' + len + 'weatherstations to the database'){
+	it('correctly adds' + len + 'weatherstations to the database', function(){
 		assert.equal(WeatherStations.find().count(), len);
-	}
+	});
 	
   /*
   var tests = [
