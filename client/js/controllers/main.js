@@ -155,6 +155,43 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 
 
 });
+
+MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
+    var close = document.getElementsByClassName("close");
+    var i;
+
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function(){
+            var div = this.parentElement.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function(){ div.style.display = "none"; }, 600);
+        }
+    }
+    
+    $scope.data = {};
+});
+
+MAIN_MODULE.controller('securityCtrl', function($scope, $meteor, $reactive, $rootScope) {
+
+    $scope.map = {
+        center: {
+            longitude: 5.4500238,
+            latitude: 51.4523127,
+        },
+        zoom: 15,
+        events: {
+            click: (mapModel, eventName, originalEventArgs) => {
+                this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+                $scope.$apply();
+            }
+        },
+        options: {
+            disableDefaultUI: true
+        }
+    };
+});
+
+
 /*
 Meteor.methods({
 	'testFunc': function(a, b, c){

@@ -181,3 +181,78 @@ html, body {
   background-color: #ea5959;
   width: 100%;
 }
+
+.pop-up {
+  margin: 40px auto;
+  width: 400px;
+  border-radius: 15px;
+  border: 2px solid red;
+}
+
+.pop-up .event-icon {
+  width: 25%;
+  padding-top: 10px;
+  float: left;
+}
+
+.pop-up .notif {
+  top: 0;
+}
+
+.notif {
+  position: relative;
+  padding: 25px 30px 25px 100px;
+  min-height: 50px;
+  line-height: 22px;
+  border-radius: 2px;
+}
+
+.notif .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.notif .close:hover {
+  color: #06D85F;
+}
+
+.notif .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+.pop-up p {
+  font-size: 11px;
+  color: #666;
+}
+
+.pop-up h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.pop-up button {
+  font-size: 1em;
+  padding: 10px;
+  color: #fff;
+  border: 2px solid red;
+  border-radius: 20px/50px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  display: inline;
+}
+
+.pop-up button:hover {
+  background: red;
+}
+
+
