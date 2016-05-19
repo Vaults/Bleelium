@@ -1,6 +1,6 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
-MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope) {
+MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope) {
 
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
@@ -16,32 +16,35 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 
 
     $scope.findWeatherStationInfo = function (loc) { //Finds a weather station from coordinates
-        var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
+        var selector = {
+            'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
+            'attributes.coord_lon': String(lodash.round(loc.lng(), 2))
+        };
         return WeatherStations.findOne(selector);
     }
-	var sanitizeStr = function(dirty){	//Cleans a string to prevent filepath exploits
-		var clean = lodash.replace(dirty, '/', '');
-		var cleaner = lodash.replace(clean, '.', '');
-		return cleaner;
-	}
-	var retIconURL = function(str){	//returns an image for a certain image id
-		return '/img/weather/' + sanitizeStr(str) + '.png';
-	}
+    var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits
+        var clean = lodash.replace(dirty, '/', '');
+        var cleaner = lodash.replace(clean, '.', '');
+        return cleaner;
+    }
+    var retIconURL = function (str) {	//returns an image for a certain image id
+        return '/img/weather/' + sanitizeStr(str) + '.png';
+    }
 
-	var setInfo = function(event, arg){ //Updates scope to the current selected weatherstation
-         if(arg){
-             var loc = $scope.findWeatherStationInfo(arg);
-			 console.log(loc);
-             $scope.loc = arg;
-             $scope.date = loc.attributes.date;
-             $scope.name = loc.attributes.name;
-             $scope.latitude = lodash.round(arg.lat(),2);
-             $scope.longtitude = lodash.round(arg.lng(),2);
-             $scope.temperature = lodash.round(loc.attributes.temp,2);
-             $scope.min = lodash.round(loc.attributes.temp_min,2);
-             $scope.max = lodash.round(loc.attributes.temp_max,2);
-			       $scope.windDegrees = loc.attributes.wind_deg;
-            $scope.windDirection = getWindDir(loc.attributes.wind_deg);
+    var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
+        if (arg) {
+            var loc = $scope.findWeatherStationInfo(arg);
+            //console.log(loc);
+            $scope.loc = arg;
+            $scope.date = loc.attributes.date;
+            $scope.name = loc.attributes.name;
+            $scope.latitude = lodash.round(arg.lat(), 2);
+            $scope.longtitude = lodash.round(arg.lng(), 2);
+            $scope.temperature = lodash.round(loc.attributes.temp, 2);
+            $scope.min = lodash.round(loc.attributes.temp_min, 2);
+            $scope.max = lodash.round(loc.attributes.temp_max, 2);
+            $scope.windDegrees = loc.attributes.wind_deg;
+                $scope.windDirection = getWindDir(loc.attributes.wind_deg);
             $scope.Airpressure = lodash.round(loc.attributes.pressure);
             $scope.Humidity = lodash.round(loc.attributes.humidity);
             $scope.sunrise = loc.attributes.sunrise;
@@ -60,13 +63,13 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     }
 
 
-
     $scope.$on('setInfo', setInfo);
     $scope.setLocation = function (latitude, longitude) {
         return {
             latitude,
             longitude
-        }};
+        }
+    };
 
 
     var reload = function () { //Runs whenever the weatherstation collection is updated. Pulls all weatherstations and updates all UI elements
@@ -155,19 +158,62 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
-}).controller('forecastCtrl', function($scope, $meteor, $reactive, $rootScope){
-    
+}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope) {
+    $scope.forecastInfo = [
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        },
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        },
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        },
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        },
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        }
+    ];
 });
-/*
-Meteor.methods({
-	'testFunc': function(a, b, c){
-	// code;
-	}
-}
-
- Meteor.call('testFunc', a , b, c, function(error, result){
-
- use(result)
-
- });
- */
