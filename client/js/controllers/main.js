@@ -1,6 +1,6 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
-MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope) {
+MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope, WeatherService) {
 
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
@@ -32,7 +32,9 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
          if(arg){
              var loc = $scope.findWeatherStationInfo(arg);
 			 console.log(loc);
+
              $scope.loc = arg;
+             WeatherService.weatherLocation = {lat: arg.lat(), lon: arg.lng()};
              $scope.date = loc.attributes.date;
              $scope.name = loc.attributes.name;
              $scope.latitude = lodash.round(arg.lat(),2);
@@ -40,14 +42,15 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
              $scope.temperature = loc.attributes.temp;
              $scope.min = lodash.round(loc.attributes.temp_min,2);
              $scope.max = lodash.round(loc.attributes.temp_max,2);
-			       $scope.windDegrees = loc.attributes.wind_deg;
-            $scope.windDirection = getWindDir(loc.attributes.wind_deg);
-            $scope.Airpressure = lodash.round(loc.attributes.pressure);
-            $scope.Humidity = lodash.round(loc.attributes.humidity);
-            $scope.sunrise = loc.attributes.sunrise;
-            $scope.sunset = loc.attributes.sunset;
-            $scope.iconURL = retIconURL(loc.attributes.weather_icon);
-            $scope.$apply();
+             $scope.windDegrees = loc.attributes.wind_deg;
+             $scope.windDirection = getWindDir(loc.attributes.wind_deg);
+             $scope.Airpressure = lodash.round(loc.attributes.pressure);
+             $scope.Humidity = lodash.round(loc.attributes.humidity);
+             $scope.sunrise = loc.attributes.sunrise;
+             $scope.sunset = loc.attributes.sunset;
+             $scope.iconURL = retIconURL(loc.attributes.weather_icon);
+             $scope.$apply();
+
         }
     };
 
@@ -155,8 +158,20 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
-}).controller('forecastCtrl', function($scope, $meteor, $reactive, $rootScope){
-    
+}).controller('forecastCtrl', function($scope, $meteor, $reactive, WeatherService){
+    $meteor.subscribe('weatherPub');
+    $scope.helpers({
+        weatherStations(){
+            return WeatherStations.find({});
+        }
+    });
+    $scope.findWeatherStationInfo = function (loc) {
+        var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
+        return WeatherStations.findOne(selector);
+    }
+    //Use WeatherService.weatherLocation to get the required forecast
+
+
 });
 /*
 Meteor.methods({
