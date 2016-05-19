@@ -7,7 +7,7 @@ var postOrionData = function(data, callback){
 
 var pull = function(coll, query) {
 	var collection = collectionWrapper["WeatherStations"];
-	console.log(query.data.entities[0]);
+	//console.log(query.data.entities[0]);
     HTTP.call('POST', 'http://131.155.70.152:1026/v1/queryContext', query, function (error, response) {
         if (error) {
             console.log(error);

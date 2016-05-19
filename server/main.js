@@ -153,4 +153,4 @@ if (!Meteor.isTest) {
 
 
 //exports for tests
-export {createWeatherData, pushWeatherToOrion, weatherQuery}
+export {createWeatherData, pushWeatherToOrion, weatherQuery, dataWeatherMap}
