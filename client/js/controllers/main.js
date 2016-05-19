@@ -7,7 +7,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 
     $scope.helpers({
         weatherStationDebug(){
-            return WeatherStations.findOne({"attributes.name":"Eindhoven"});
+            return WeatherStations.findOne({"id":"2750953"});
         },
         weatherStations(){
             return WeatherStations.find({});
@@ -31,6 +31,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 	var setInfo = function(event, arg){
          if(arg){
              var loc = $scope.findWeatherStationInfo(arg);
+			 console.log(loc);
              $scope.loc = arg;
              $scope.name = loc.attributes.name;
              $scope.latitude = lodash.round(arg.lat(),2);
