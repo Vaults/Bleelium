@@ -56,11 +56,59 @@ html, body
       color: #fff
       margin-left: 5px
 
+.forecast-top
+  height: 75px
+  z-index: 2
+  position: relative
+  width: 100%
+  box-sizing: content-box
+  text-align: center
+
+.forecast-main
+  top: 75px
+  bottom: 0px
+  left: 0px
+  right: 0px
+  position: absolute
+  overflow-x: auto
+  white-space: nowrap
+
+.forecast-item
+  border: 0px
+  border-right: 1px solid lightgrey
+  width: 384px
+  top: 10px
+  bottom: 10px
+  position: relative
+  padding: 0px
+  padding-left: 20px
+  padding-right: 20px
+  margin: 0px
+  display: inline-block
+  white-space: nowrap
+  text-align: center
+
+  .temp
+    display: inline-block
+    margin: 10px
+
+.main
+  height: 100%
+  left: 0px
+  right: 320px
+  position: absolute
+
+.angular-google-map-container
+  height: 100%
+  width: 100%
+  position: absolute
+
 .background
   background-image: url('../img/map.png')
   width: 100%
-  height: 90%
-  position: relative
+  top: 75px
+  bottom: 0px
+  position: absolute
   background-size: cover
 
   .side
@@ -92,6 +140,8 @@ html, body
       color: $grey
       margin-top: 0
       margin-bottom: 10px
+
+
 
 .footer
   height: 3px
