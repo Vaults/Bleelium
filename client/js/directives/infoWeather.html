@@ -1,12 +1,12 @@
 <div class="weather-item">
 	<h2>{{name}}</h2>
-	<h4>{{'Long: '+ longtitude + '&nbsp;&nbsp;&nbsp;  Lat: ' + latitude}}</h4>
+	<h4>{{'Long: '+ longtitude.toFixed(2) + ' &deg;&nbsp;&nbsp;&nbsp;  Lat: ' + latitude.toFixed(2) + ' &deg;'}}</h4>
 	<img src="{{iconURL}}" class="weather-icon" />
-	<h2>{{temperature}} &deg;C</h2>
+	<h2>{{temperature.toFixed(1)}} &deg;C</h2>
 	<br>
 	<div class="clearfix">
 	    <div class="pull-left">
-				<h3>{{min}} &deg;C</h3>
+				<h3>{{min.toFixed(0)}} &deg;C</h3>
 				<p>
 					min
 				</p>
@@ -19,20 +19,22 @@
 				</p>
 	    </div>
 	    <div class="pull-right">
-					<h3>{{max}} &deg;C</h3>
+					<h3>{{max.toFixed(0)}} &deg;C</h3>
 					<p>
 						max
 					</p>
 	        <p>
 						{{windDirection}} <img src="img/weather/windDir.png" class="wind-direction" style="-ms-transform: rotate({{windDegrees}}deg);-webkit-transform: rotate({{windDegrees}}deg);transform: rotate({{windDegrees}}deg);-webkit-backface-visibility: hidden;"/><br>
-		        {{Airpressure / 10}} kPa<br>
-		        {{Humidity}} %<br>
+		        {{Airpressure.toFixed(0)}} hPa<br>
+		        {{Humidity.toFixed(0)}} %<br>
 		        {{sunrise * 1000 | date:'HH:mm'}}<br>
 		        {{sunset * 1000 | date:'HH:mm'}}<br>
 					</p>
 	    </div>
 	</div>
-	<button class="button button-red">
-		Forecast
-	</button>
+  <a href="/#/forecast">
+    <button class="button button-red">
+      Forecast
+    </button>
+  </a>
 </div>

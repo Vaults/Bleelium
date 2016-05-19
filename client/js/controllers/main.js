@@ -37,7 +37,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
              $scope.name = loc.attributes.name;
              $scope.latitude = lodash.round(arg.lat(),2);
              $scope.longtitude = lodash.round(arg.lng(),2);
-             $scope.temperature = loc.attributes.temp;
+             $scope.temperature = lodash.round(loc.attributes.temp,2);
              $scope.min = lodash.round(loc.attributes.temp_min,2);
              $scope.max = lodash.round(loc.attributes.temp_max,2);
 			       $scope.windDegrees = loc.attributes.wind_deg;
