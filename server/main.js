@@ -56,6 +56,11 @@ SyncedCron.add({
                                             "value": response.data.list[i].name,
                                         },
                                         {
+                                            "name": "date",
+                                            "type": "long",
+                                            "value": response.data.list[i].dt,
+                                        },
+                                        {
                                             "name": "coord_lon",
                                             "type": "float",
                                             "value": response.data.list[i].coord.lon

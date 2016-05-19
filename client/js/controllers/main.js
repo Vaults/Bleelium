@@ -33,6 +33,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
              var loc = $scope.findWeatherStationInfo(arg);
 			 console.log(loc);
              $scope.loc = arg;
+             $scope.date = loc.attributes.date;
              $scope.name = loc.attributes.name;
              $scope.latitude = lodash.round(arg.lat(),2);
              $scope.longtitude = lodash.round(arg.lng(),2);
@@ -154,8 +155,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
-
-
+}).controller('forecastCtrl', function($scope, $meteor, $reactive, $rootScope){
+    
 });
 /*
 Meteor.methods({
