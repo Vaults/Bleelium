@@ -4,6 +4,7 @@ import {Mongo} from 'meteor/mongo';
 import {WIND_DIR} from './windDirections.js';
 import {postOrionData, pull, reloadPull, initQuery} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
+import {rewriteAttributes} from '/server/imports/util.js';
 
 var dataWeatherMap = {
 	"2750953": "Mensfort",
@@ -125,7 +126,7 @@ var createForecastData = function(o, i, id){
 					{
 						"name": i + '-' + 'timestamp',
 						"type": "string",
-						"value": o.timestamp
+						"value": o.dt
 					},
 					{
 						"name": i + '-' + 'pressure',
@@ -140,7 +141,7 @@ var createForecastData = function(o, i, id){
 					{
 						"name": i + '-' + 'icon',
 						"type": "string",
-						"value": o.icon
+						"value": o.weather.icon
 					},
 					{
 						"name": i + '-' + 'deg',
@@ -150,12 +151,12 @@ var createForecastData = function(o, i, id){
 					{
 						"name": i + '-' + 'min',
 						"type": "string",
-						"value": o.min
+						"value": o.temp.min
 					},
 					{
 						"name": i + '-' + 'max',
 						"type": "string",
-						"value": o.max
+						"value": o.temp.max
 					},
 					
 				]
@@ -174,21 +175,15 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
                 for (i = 0; i < response.data.cnt; i++) {
 					postOrionData(createWeatherData(response.data.list[i]));  
                 }
-				for(var j = 0; j < locs.length; j++){
-					var loc = locs[j];
-					console.log(loc);
+				while(locs.length > 0){
+					var loc = locs.pop();
 					HTTP.call('GET', "http://api.openweathermap.org/data/2.5/forecast/daily?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + loc + "&units=metric", {}, function (error, response) {
 						if (error) {
 							console.log(error);
 						} else {
 							for (i = 1; i < response.data.list.length; i++) {
-								postOrionData(createForecastData(response.data.list[i], i, loc), function(e, r){
-									
-									var util = require('util');
-
-									console.log(util.inspect(r.data, {showHidden: false, depth: null}));
-
-								});  
+								
+								postOrionData(createForecastData(response.data.list[i], i, response.data.city.id));  
 							}
 						}
 					});
@@ -216,16 +211,45 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing weather to Orion',
     schedule: function (parser) {
-        return parser.text('every 5 seconds');
+        return parser.text('every 30 minutes');
     },
     job: pushWeatherToOrion
 });
+
+var numToObj = function(o){
+	o.forecast = {};
+	for(key in o){
+		var fc = key.charAt(0);
+        if(fc >= 0 && fc <= 9){
+			if(!o.forecast['day' + fc]){
+				o.forecast['day' + fc] = {}
+			}
+			o.forecast['day' + fc][key.substr(2,key.length)] = o[key];
+ 			delete o[key];
+		}
+    }
+    return o;
+}
+
+var rewriteNumbersToObjects = function(obj){
+	for (var i = 0; i < obj.data.contextResponses.length; i++) {
+		var tempobj = obj.data.contextResponses[i].contextElement;
+		tempobj.attributes = numToObj(tempobj.attributes);
+	}
+	return obj;
+}
+
 
 if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
     SyncedCron.start();
 	reloadPull("WeatherStations", weatherQuery, function(args){
 		collectionWrapper['WeatherStations'].remove({});
-		//console.log(args.data.contextResponses);		
+		var temp = rewriteAttributes(args);
+		//console.log(args.data);
+		//console.log(rewriteNumbersToObjects(temp).data.contextResponses[0].contextElement.attributes.forecast.day1);
+		rewriteNumbersToObjects(temp).data.contextResponses.forEach(function(o){
+			collectionWrapper['WeatherStations'].insert(o.contextElement);
+		});
 	});
 }
 
