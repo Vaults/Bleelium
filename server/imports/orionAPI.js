@@ -1,6 +1,6 @@
 import {HTTP} from 'meteor/http';
 import {collectionWrapper} from '/server/imports/collections.js';
-import {rewriteAndInsertAttributes} from '/server/imports/util.js';
+import {rewriteAttributes} from '/server/imports/util.js';
 
 var postOrionData = function(data, callback){ //sends data to Orion
 	HTTP.call('POST', 'http://131.155.70.152:1026/v1/updateContext', {data: data}, callback);		
@@ -14,7 +14,7 @@ var pull = function(coll, query, callback) { //grabs data from Orion
             console.log(error);
         } else {
 			collection.remove({});
-            rewriteAndInsertAttributes(response, callback);
+            rewriteAttributes(response, callback);
         }
     });
 };
