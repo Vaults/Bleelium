@@ -51,13 +51,13 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             $scope.min = lodash.round(loc.attributes.temp_min, 2);
             $scope.max = lodash.round(loc.attributes.temp_max, 2);
             $scope.windDegrees = loc.attributes.wind_deg;
-                $scope.windDirection = getWindDir(loc.attributes.wind_deg);
-             $scope.Airpressure = lodash.round(loc.attributes.pressure);
-             $scope.Humidity = lodash.round(loc.attributes.humidity);
-             $scope.sunrise = loc.attributes.sunrise;
-             $scope.sunset = loc.attributes.sunset;
-             $scope.iconURL = retIconURL(loc.attributes.weather_icon);
-             $scope.$apply();
+            $scope.windDirection = getWindDir(loc.attributes.wind_deg);
+            $scope.Airpressure = lodash.round(loc.attributes.pressure);
+            $scope.Humidity = lodash.round(loc.attributes.humidity);
+            $scope.sunrise = loc.attributes.sunrise;
+            $scope.sunset = loc.attributes.sunset;
+            $scope.iconURL = retIconURL(loc.attributes.weather_icon);
+            $scope.$apply();
 
         }
     };
@@ -96,15 +96,15 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
                     zoom: 11,
                     events: {
                         click: (mapModel, eventName, originalEventArgs) => {
-                            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                            $scope.$apply();
-                        }
-                    },
-                    options: {
-                        disableDefaultUI: true
-                    }
+                        this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+                $scope.$apply();
+            }
+            },
+                options: {
+                    disableDefaultUI: true
+                }
 
-                };
+            };
             }
         }
         $scope.markers = [];
@@ -131,18 +131,18 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
                     },
                     events: {
                         click: (marker, eventName, args) => {
-                            $rootScope.$broadcast('setInfo', marker.getPosition());
-                        },
-                        dragend: (marker, eventName, args) => {
-                            this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
-                            $scope.$apply();
-                        }
-                    },
-                    location: {
-                        longitude: stations[i].attributes.coord_lon,
+                        $rootScope.$broadcast('setInfo', marker.getPosition());
+            },
+                dragend: (marker, eventName, args) => {
+                    this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                    $scope.$apply();
+                }
+            },
+                location: {
+                    longitude: stations[i].attributes.coord_lon,
                         latitude: stations[i].attributes.coord_lat,
-                    },
-                });
+                },
+            });
             }
         }
     }
@@ -159,14 +159,14 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         zoom: 15,
         events: {
             click: (mapModel, eventName, originalEventArgs) => {
-                this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                $scope.$apply();
-            }
-        },
-        options: {
-            disableDefaultUI: true
-        }
-    };
+            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+    $scope.$apply();
+}
+},
+    options: {
+        disableDefaultUI: true
+    }
+};
 }).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
 
@@ -175,22 +175,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         var clean = lodash.replace(dirty, '/', '');
         var cleaner = lodash.replace(clean, '.', '');
         return cleaner;
-    // Get the <span> element that closes the pop-up
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        popUp.style.display = "none";
-    }
-    
-    $scope.data = {
-        
-
-
-    };
-});
-
-
     }
     //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
     var retIconURL = function (str) {	//returns an image for a certain image id
@@ -217,4 +201,24 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     return function(string){
         return parseFloat(string).toFixed();
     }
+}).controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
+    var popUp = document.getElementById('pop-up');
+
+    // Get the <span> element that closes the pop-up
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        popUp.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == popUp) {
+            popUp.style.display = "none";
+        }
+    }
+
+    $scope.data = {};
 });
+

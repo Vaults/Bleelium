@@ -36,12 +36,12 @@ if (!MAIN_MODULE) {
             .state('parking.sub', {
                 url: '/parking',
                 templateUrl: 'client/js/directives/infoParking.html'
+            })
+            .state('criticalEvent', {
+                url:'/event',
+                templateUrl: 'client/js/directives/criticalEvent.html',
+                controller: 'eventCtrl'
             });
-				.state('criticalEvent', {
-					url:'/event',
-					templateUrl: 'client/js/directives/criticalEvent.html',
-					controller: 'eventCtrl'
-				})
     }).directive('navBar', function () {
         return {
             templateUrl: 'client/js/directives/nav-bar.html',
