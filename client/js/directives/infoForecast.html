@@ -1,18 +1,18 @@
 <div class="forecast-top">
   <div class="forecast-top-station">
-    <h1 align="right">{{name}} Eindhoven</h1> <!-- "Eindhoven" should still be removed-->
+    <h1 align="right">{{name}}</h1> <!-- "Eindhoven" should still be removed-->
   </div>
   <div class="forecast-top-location">
-    <h4 align="left" style="display: table-cell;vertical-align: bottom; height:38px;">{{'Long: '+ longtitude.toFixed(2) + ' &deg;'}}</h4>
-    <h4 align="left" style="height:32px;">{{'Lat: ' + latitude.toFixed(2) + ' &deg;'}}</h4>
+    <h4 align="left" style="display: table-cell;vertical-align: bottom; height:38px;">{{'Long: '+ longitude + ' &deg;'}}</h4>
+    <h4 align="left" style="height:32px;">{{'Lat: ' + latitude + ' &deg;'}}</h4>
   </div>
 </div>
 <span class="forecast-main" ng-controller="forecastCtrl"  ng-repeat="fi in forecastInfo">
     <div class="row-fluid">
       <div class="col-md-2">
         <div  class="weather-item">
-          <h2>{{day.day}}</h2><!--Calculate from Unix timestamp-->
-        	<h4>{{fi.date}}</h4><!-- change from unix timestamp, and remove "27-3"-->
+          <h2>{{fi.date * 1000 | date: 'EEEE'}}</h2><!--Calculate from Unix timestamp-->
+        	<h4>{{fi.date * 1000| date: 'MMM d'}}</h4><!-- Calc from Unix timestamp-->
         	<img src="{{iconURL}}" class="weather-icon" />
         	<br>
         	<div class="clearfix">
@@ -25,8 +25,6 @@
         	        Wind direction: <br>
         	        Air pressure: <br>
         	        Humidity: <br>
-        	        Sunrise: <br>
-        	        Sunset: <br>
         				</p>
         	    </div>
         	    <div class="pull-right">
@@ -36,10 +34,8 @@
         					</p>
         	        <p>
         						{{fi.windDirection}} <img src="img/weather/windDir.png" class="wind-direction" style="-ms-transform: rotate({{windDegrees}}deg);-webkit-transform: rotate({{windDegrees}}deg);transform: rotate({{windDegrees}}deg);-webkit-backface-visibility: hidden;"/><br>
-        		        {{fi.Airpressure.toFixed(0)}} hPa<br>
-        		        {{fi.Humidity.toFixed(0)}} %<br>
-        		        {{fi.sunrise * 1000 | date:'HH:mm'}}<br>
-        		        {{fi.sunset * 1000 | date:'HH:mm'}}<br>
+        		        {{fi.airpressure.toFixed(0)}} hPa<br>
+        		        {{fi.humidity.toFixed(0)}} %<br>
         					</p>
         	    </div>
         	</div>
