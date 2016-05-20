@@ -5,9 +5,9 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
 
-    $scope.helpers({
+    $scope.helpers({	//Scope helpers to get from Meteor collections
         weatherStationDebug(){
-            return WeatherStations.findOne({"id": "2750953"});
+            return WeatherStations.findOne({"id": "2756253"});
         },
         weatherStations(){
             return WeatherStations.find({});
@@ -15,35 +15,38 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     });
 
 
-    $scope.findWeatherStationInfo = function (loc) {
-        var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
+    $scope.findWeatherStationInfo = function (loc) { //Finds a weather station from coordinates
+        var selector = {
+            'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
+            'attributes.coord_lon': String(lodash.round(loc.lng(), 2))
+        };
         return WeatherStations.findOne(selector);
     }
-	var sanitizeStr = function(dirty){
-		var clean = lodash.replace(dirty, '/', '');
-		var cleaner = lodash.replace(clean, '.', '');
-		return cleaner;
-	}
-	var retIconURL = function(str){
-		return '/img/weather/' + sanitizeStr(str) + '.png';
-	}
+    var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits
+        var clean = lodash.replace(dirty, '/', '');
+        var cleaner = lodash.replace(clean, '.', '');
+        return cleaner;
+    }
+    var retIconURL = function (str) {	//returns an image for a certain image id
+        return '/img/weather/' + sanitizeStr(str) + '.png';
+    }
 
-	var setInfo = function(event, arg){
-         if(arg){
-             var loc = $scope.findWeatherStationInfo(arg);
-			 console.log(loc);
+    var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
+        if (arg) {
+            var loc = $scope.findWeatherStationInfo(arg);
+            //console.log(loc);
 
-             $scope.loc = arg;
+            $scope.loc = arg;
              WeatherService.weatherLocation = {lat: arg.lat(), lon: arg.lng()};
-             $scope.date = loc.attributes.date;
-             $scope.name = loc.attributes.name;
-             $scope.latitude = lodash.round(arg.lat(),2);
-             $scope.longtitude = lodash.round(arg.lng(),2);
-             $scope.temperature = loc.attributes.temp;
-             $scope.min = lodash.round(loc.attributes.temp_min,2);
-             $scope.max = lodash.round(loc.attributes.temp_max,2);
-             $scope.windDegrees = loc.attributes.wind_deg;
-             $scope.windDirection = getWindDir(loc.attributes.wind_deg);
+            $scope.date = loc.attributes.date;
+            $scope.name = loc.attributes.name;
+            $scope.latitude = lodash.round(arg.lat(), 2);
+            $scope.longtitude = lodash.round(arg.lng(), 2);
+            $scope.temperature = lodash.round(loc.attributes.temp, 2);
+            $scope.min = lodash.round(loc.attributes.temp_min, 2);
+            $scope.max = lodash.round(loc.attributes.temp_max, 2);
+            $scope.windDegrees = loc.attributes.wind_deg;
+                $scope.windDirection = getWindDir(loc.attributes.wind_deg);
              $scope.Airpressure = lodash.round(loc.attributes.pressure);
              $scope.Humidity = lodash.round(loc.attributes.humidity);
              $scope.sunrise = loc.attributes.sunrise;
@@ -54,7 +57,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         }
     };
 
-    var getWindDir = function (degrees) {
+    var getWindDir = function (degrees) {	//gets Wind Direction from a degree
         Meteor.call('findWindDir', degrees, function (error, result) {
             if (!error) {
                 $scope.windDirection = result;
@@ -69,10 +72,11 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         return {
             latitude,
             longitude
-        }};
+        }
+    };
 
 
-    var reload = function () {
+    var reload = function () { //Runs whenever the weatherstation collection is updated. Pulls all weatherstations and updates all UI elements
         $reactive(this).attach($scope);
         var selStation = $scope.getReactively('weatherStationDebug');
         var stations = $scope.getReactively('weatherStations');
@@ -158,31 +162,62 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
-}).controller('forecastCtrl', function($scope, $meteor, $reactive, WeatherService){
-    $meteor.subscribe('weatherPub');
-    $scope.helpers({
-        weatherStations(){
-            return WeatherStations.find({});
+}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope) {
+    $scope.forecastInfo = [
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        },
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        },
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        },
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
+        },
+        {
+            day: 'monday',
+            date: 'date',
+            min: 'min',
+            max: 'max',
+            windDir: 'windDir',
+            airPressure: 'airPressure',
+            humidity: 'humidity',
+            sunrise: 'sunrise',
+            sunset: 'sunset'
         }
-    });
-    $scope.findWeatherStationInfo = function (loc) {
-        var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
-        return WeatherStations.findOne(selector);
-    }
-    //Use WeatherService.weatherLocation to get the required forecast
-
-
+    ];
 });
-/*
-Meteor.methods({
-	'testFunc': function(a, b, c){
-	// code;
-	}
-}
-
- Meteor.call('testFunc', a , b, c, function(error, result){
-
- use(result)
-
- });
- */

@@ -1,12 +1,12 @@
 html, body {
   margin: 0;
   height: 100%;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .button {
   padding: 7px 17px;
-  color: white;
+  color: #fff;
   font-size: 17px;
   border: 0px solid;
   width: 100%;
@@ -16,8 +16,9 @@ html, body {
 .button-red {
   background-color: #ea5959;
 }
+
 .button-red:hover {
-  background-color: #d45a5a;
+  background-color: #D45A5A;
 }
 
 .nav {
@@ -25,15 +26,17 @@ html, body {
   z-index: 2;
   position: relative;
   width: 100%;
-  border-top: 3px solid black;
+  border-top: 3px solid #000;
   box-sizing: content-box;
 }
+
 .nav .logo {
   height: 100px;
   float: left;
   margin-left: 20px;
   margin-top: -3px;
 }
+
 .nav ul {
   list-style: none;
   float: left;
@@ -41,43 +44,81 @@ html, body {
   padding: 0;
   font-size: 0;
 }
+
 .nav ul li {
   font-size: 17px;
   font-weight: 900;
   margin-top: -3px;
   display: inline-block;
   height: 72px;
-  color: #a8a8a8;
+  color: #A8A8A8;
   box-sizing: content-box;
   line-height: 72px;
   padding: 0 20px;
   border-top: 3px solid;
   letter-spacing: 1px;
 }
+
 .nav .user-container {
   padding: 0 40px;
   background-color: #ea5959;
   height: 72px;
   width: 320px;
 }
+
 .nav .user-container .profile {
   border-radius: 50%;
   height: 50px;
-  border: 2px solid white;
+  border: 2px solid #fff;
   margin: 11px 0;
 }
+
 .nav .user-container .fa {
-  color: white;
+  color: #fff;
   margin-left: 5px;
 }
 
 .forecast-top {
   height: 75px;
+  top: 0px;
   z-index: 2;
-  position: relative;
-  width: 100%;
+  position: absolute;
+  left: 0px;
+  right: 0px;
   box-sizing: content-box;
   text-align: center;
+}
+
+.forecast-top-station {
+  right: 50%;
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  margin-left: -25%;
+  margin-left: 10px;
+}
+
+.forecast-top-station h2 {
+  text-align: right;
+}
+
+.forecast-top-location {
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  margin-right: -25%;
+  margin-left: 10px;
+}
+
+.forecast-top-location h4 {
+  font-size: 12px;
+  height: 35px;
+  font-weight: normal;
+  color: #A8A8A8;
+  margin-top: 0;
+  margin-bottom: 0px;
+  text-align: left;
 }
 
 .forecast-main {
@@ -85,14 +126,14 @@ html, body {
   bottom: 0px;
   left: 0px;
   right: 0px;
-  position: absolute;
+  position: relative;
   overflow-x: auto;
   white-space: nowrap;
 }
 
 .forecast-item {
   border: 0px;
-  border-right: 1px solid lightgray;
+  border-right: 1px solid lightgrey;
   width: 384px;
   top: 10px;
   bottom: 10px;
@@ -105,6 +146,7 @@ html, body {
   white-space: nowrap;
   text-align: center;
 }
+
 .forecast-item .temp {
   display: inline-block;
   margin: 10px;
@@ -131,27 +173,30 @@ html, body {
   position: absolute;
   background-size: cover;
 }
+
 .background .side {
-  background-color: white;
+  background-color: #fff;
   width: 320px;
   height: 100%;
-  color: black;
+  color: #000;
   position: absolute;
   top: 0;
   right: 0;
   padding: 20px 40px;
   font-size: 17px;
 }
+
 .background .side h2 {
   font-size: 24px;
   font-weight: 900;
   margin-top: 0;
   margin-bottom: 10px;
 }
+
 .background .side h4 {
   font-size: 17px;
   font-weight: normal;
-  color: #a8a8a8;
+  color: #A8A8A8;
   margin-top: 0;
   margin-bottom: 10px;
 }
@@ -163,34 +208,40 @@ html, body {
   text-align: center;
   margin-bottom: 10px;
 }
+
 .weather-item h3 {
   font-size: 20px;
   font-weight: 900;
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .weather-item p {
   font-size: 17px;
   line-height: 30px;
   margin: 0 0 25px 0;
   font-weight: normal;
 }
+
 .weather-item h4 {
   font-size: 17px;
   font-weight: normal;
-  color: #a8a8a8;
+  color: #A8A8A8;
   margin-top: 0;
   text-align: center;
   margin-bottom: 10px;
 }
+
 .weather-item .wind-direction {
   height: 17px;
 }
+
 .weather-item .weather-icon {
   width: 75%;
   margin: 15px auto;
   display: block;
 }
+
 .weather-item .pull-right {
   text-align: right;
 }

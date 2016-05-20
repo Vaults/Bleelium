@@ -13,16 +13,16 @@ Meteor.startup(function() {
 // the idea here is to buffer all client logs until server tests have
 // finished running and then dump the buffer to the screen and continue
 // logging in real time after that if client tests are still running.
-let serverTestsDone = false;
-let clientLines = [];
-function clientLogBuffer(line) {
-  if (serverTestsDone) {
+//let serverTestsDone = false;
+//let clientLines = [];
+//function clientLogBuffer(line) {
+ // if (serverTestsDone) {
     // printing and removing the extra new-line character. The first was added by the client log, the second here.
-    console.log(line.replace(/\n$/, ''));
-  } else {
-    clientLines.push(line);
-  }
-}
+  //  console.log(line.replace(/\n$/, ''));
+  //} else {
+   // clientLines.push(line);
+ // }
+//}
 
 function printHeader(type) {
   console.log('\n--------------------------------');
