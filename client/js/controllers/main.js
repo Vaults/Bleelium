@@ -212,13 +212,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         popUp.style.display = "none";
     }
 
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == popUp) {
-            popUp.style.display = "none";
-        }
-    }
-
     $scope.data = {};
 });
 
