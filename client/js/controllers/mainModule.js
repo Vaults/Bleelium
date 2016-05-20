@@ -57,6 +57,12 @@ if (!MAIN_MODULE) {
             templateUrl: 'client/js/directives/google-map.html',
             scope: '='
         }
+		}).factory('WeatherService', function(){
+			return weatherLocation = {
+				'attributes.coord_lat': '5.48',
+				'attributes.coord_lon': '51.44'
+			};
+
     });
 }
 
