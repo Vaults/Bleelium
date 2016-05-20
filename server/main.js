@@ -3,7 +3,7 @@ import {EJSON} from 'meteor/ejson';
 import {Mongo} from 'meteor/mongo';
 import {WIND_DIR} from './windDirections.js';
 import {postOrionData, pull, reloadPull, initQuery} from '/server/imports/orionAPI.js';
-
+import {collectionWrapper} from '/server/imports/collections.js';
 
 var dataWeatherMap = {
 	"2750953": "Mensfort",
@@ -113,8 +113,60 @@ var createWeatherData = function(o){ //Creates orion-compliant objects for Orion
 		"updateAction": "APPEND"
 	};
 }
+
+var createForecastData = function(o, i, id){
+	return {
+		"contextElements": [
+			{
+				"type": "WeatherStation",
+				"isPattern": "false",
+				"id": id,
+				"attributes": [
+					{
+						"name": i + '-' + 'timestamp',
+						"type": "string",
+						"value": o.timestamp
+					},
+					{
+						"name": i + '-' + 'pressure',
+						"type": "string",
+						"value": o.pressure
+					},
+					{
+						"name": i + '-' + 'humidity',
+						"type": "string",
+						"value": o.humidity
+					},
+					{
+						"name": i + '-' + 'icon',
+						"type": "string",
+						"value": o.icon
+					},
+					{
+						"name": i + '-' + 'deg',
+						"type": "string",
+						"value": o.deg
+					},
+					{
+						"name": i + '-' + 'min',
+						"type": "string",
+						"value": o.min
+					},
+					{
+						"name": i + '-' + 'max',
+						"type": "string",
+						"value": o.max
+					},
+					
+				]
+			}
+		],
+		"updateAction": "APPEND"
+	};
+}
+
 var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherMap to Orion
-    var update = function (locations) {
+    var update = function (locationString, locs) {
         HTTP.call('GET', "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + locations + "&units=metric", {}, function (error, response) {
             if (error) {
                 console.log(error);
@@ -122,19 +174,42 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
                 for (i = 0; i < response.data.cnt; i++) {
 					postOrionData(createWeatherData(response.data.list[i]));
                 }
-            }
-        });
-    }
+				for(var j = 0; j < locs.length; j++){
+					var loc = locs[j];
+					console.log(loc);
+					HTTP.call('GET', "http://api.openweathermap.org/data/2.5/forecast/daily?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + loc + "&units=metric", {}, function (error, response) {
+						if (error) {
+							console.log(error);
+						} else {
+							for (i = 1; i < response.data.list.length; i++) {
+								postOrionData(createForecastData(response.data.list[i], i, loc), function(e, r){
+									
+									var util = require('util');
 
-    for (key in dataWeatherMap) {
-        if (!locations) {
-            var locations = key;
-        }
-        else {
-            locations = locations + ',' + key
-        }
-    }
-    update(locations);
+									console.log(util.inspect(r.data, {showHidden: false, depth: null}));
+
+								});  
+							}
+						}
+					});
+				}
+            }
+			
+        });
+		
+	}
+	var locs = [];
+	var locations = '';
+	for (key in dataWeatherMap) {
+		locs.push(key);
+		if (!locations) {
+			var locationString = key;
+		}
+		else {
+			locationString = locationString + ',' + key
+		}
+	}
+    update(locationString, locs);
 }
 
 var createP2000Data = function(o){ //Creates orion-compliant objects for Orion storage
@@ -191,7 +266,7 @@ var pushP2000ToOrion = function() {
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing weather to Orion',
     schedule: function (parser) {
-        return parser.text('every 30 minutes');
+        return parser.text('every 5 seconds');
     },
     job: pushWeatherToOrion
 });
@@ -206,7 +281,10 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
 
 if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
     SyncedCron.start();
-	reloadPull("WeatherStations", weatherQuery);
+	reloadPull("WeatherStations", weatherQuery, function(args){
+		collectionWrapper['WeatherStations'].remove({});
+		//console.log(args.data.contextResponses);		
+	});
 }
 
 

@@ -1,3 +1,25 @@
+var attributesToKeyValue = function (attr) {
+                var temp = {}
+                attr.forEach(function (o) {
+                    temp[o.name] = o.value;
+                });
+                return temp;
+            }
+var rewriteAndInsertAttributes = function (obj, callback) {
+	if(!callback){
+		collection.remove({});
+		for (var i = 0; i < obj.data.contextResponses.length; i++) {
+			var tempobj = obj.data.contextResponses[i].contextElement;
+			tempobj.attributes = attributesToKeyValue(tempobj.attributes);
+			
+				collection.insert(tempobj);
+		}
+    }else{
+		callback(obj);
+	}
+}
+
+export{attributesToKeyValue, rewriteAndInsertAttributes}
 /*
 var Future = Npm.require('fibers/future');
 
