@@ -227,7 +227,7 @@ var numToObj = function(o){
 			o.forecast['day' + fc][key.substr(2,key.length)] = o[key];
  			delete o[key];
 		}
-    }
+    } 
     return o;
 }
 
