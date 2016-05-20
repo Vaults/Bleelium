@@ -166,15 +166,12 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
     span.onclick = function() {
         popUp.style.display = "none";
     }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == popUp) {
-            popUp.style.display = "none";
-        }
-    }
     
-    $scope.data = {};
+    $scope.data = {
+        
+
+
+    };
 });
 
 
