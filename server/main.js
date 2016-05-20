@@ -4,6 +4,7 @@ import {Mongo} from 'meteor/mongo';
 import {WIND_DIR} from './windDirections.js';
 import {postOrionData, pull, reloadPull, initQuery} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
+import {rewriteAndInsertAttributes} from '/server/imports/util.js';
 
 var dataWeatherMap = {
 	"2750953": "Mensfort",
@@ -157,7 +158,7 @@ var createForecastData = function(o, i, id){
 						"type": "string",
 						"value": o.max
 					},
-					
+
 				]
 			}
 		],
@@ -176,27 +177,24 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
                 }
 				for(var j = 0; j < locs.length; j++){
 					var loc = locs[j];
-					console.log(loc);
 					HTTP.call('GET', "http://api.openweathermap.org/data/2.5/forecast/daily?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + loc + "&units=metric", {}, function (error, response) {
 						if (error) {
 							console.log(error);
 						} else {
 							for (i = 1; i < response.data.list.length; i++) {
 								postOrionData(createForecastData(response.data.list[i], i, loc), function(e, r){
-									
+
 									var util = require('util');
 
-									console.log(util.inspect(r.data, {showHidden: false, depth: null}));
-
-								});  
+								});
 							}
 						}
 					});
 				}
             }
-			
+
         });
-		
+
 	}
 	var locs = [];
 	var locations = '';
@@ -253,10 +251,18 @@ var pushP2000ToOrion = function() {
             if (error) {
                 console.log(error);
             } else {
-                console.log(response);
               }
           });
         }
+        var collection = collectionWrapper['P2000'];
+        HTTP.call('GET', 'http://131.155.70.152:1026/v1/contextEntityTypes/P2000', function (error, response) {
+            if (error) {
+                console.log(error);
+            } else {
+              console.log(rewriteAndInsertAttributes(response));
+            }
+        });
+
       });
     }
   });
@@ -266,7 +272,7 @@ var pushP2000ToOrion = function() {
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing weather to Orion',
     schedule: function (parser) {
-        return parser.text('every 5 seconds');
+        return parser.text('every 30 minutes');
     },
     job: pushWeatherToOrion
 });
@@ -281,10 +287,10 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
 
 if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
     SyncedCron.start();
-	reloadPull("WeatherStations", weatherQuery, function(args){
-		collectionWrapper['WeatherStations'].remove({});
-		//console.log(args.data.contextResponses);		
-	});
+	//reloadPull("WeatherStations", weatherQuery, function(args){
+	//	collectionWrapper['WeatherStations'].remove({});
+		//console.log(args.data.contextResponses);
+	//});
 }
 
 
