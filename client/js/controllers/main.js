@@ -37,7 +37,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             //console.log(loc);
 
             $scope.loc = arg;
-             WeatherService.weatherLocation = {lat: arg.lat(), lon: arg.lng()};
+            WeatherService.weatherLocation = {'attributes.coord_lat': ''+lodash.round(arg.lat(), 2), 'attributes.coord_lon': ''+lodash.round(arg.lng(), 2)};
             $scope.date = loc.attributes.date;
             $scope.name = loc.attributes.name;
             $scope.latitude = lodash.round(arg.lat(), 2);
@@ -162,62 +162,53 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
-}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope) {
+}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService) {
+    $meteor.subscribe('weatherPub');
+    var loc = WeatherStations.findOne(WeatherService.weatherLocation);
+    console.log(WeatherService.weatherLocation["attributes.coord_lon"]);
+    $scope.name = loc.attributes.name;
+    $scope.longitude = WeatherService.weatherLocation["attributes.coord_lon"];
+    $scope.latitude = WeatherService.weatherLocation["attributes.coord_lat"];
     $scope.forecastInfo = [
         {
-            day: 'monday',
-            date: 'date',
+            date: '1463742000',
             min: 'min',
             max: 'max',
             windDir: 'windDir',
             airPressure: 'airPressure',
-            humidity: 'humidity',
-            sunrise: 'sunrise',
-            sunset: 'sunset'
+            humidity: 10
         },
         {
-            day: 'monday',
             date: 'date',
             min: 'min',
             max: 'max',
             windDir: 'windDir',
             airPressure: 'airPressure',
-            humidity: 'humidity',
-            sunrise: 'sunrise',
-            sunset: 'sunset'
+            humidity: 'humidity'
         },
         {
-            day: 'monday',
             date: 'date',
             min: 'min',
             max: 'max',
             windDir: 'windDir',
             airPressure: 'airPressure',
-            humidity: 'humidity',
-            sunrise: 'sunrise',
-            sunset: 'sunset'
+            humidity: 'humidity'
         },
         {
-            day: 'monday',
             date: 'date',
             min: 'min',
             max: 'max',
             windDir: 'windDir',
             airPressure: 'airPressure',
-            humidity: 'humidity',
-            sunrise: 'sunrise',
-            sunset: 'sunset'
+            humidity: 'humidity'
         },
         {
-            day: 'monday',
             date: 'date',
             min: 'min',
             max: 'max',
             windDir: 'windDir',
             airPressure: 'airPressure',
-            humidity: 'humidity',
-            sunrise: 'sunrise',
-            sunset: 'sunset'
+            humidity: 'humidity'
         }
     ];
 });

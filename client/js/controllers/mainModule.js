@@ -59,8 +59,8 @@ if (!MAIN_MODULE) {
         }
 		}).factory('WeatherService', function(){
 			return weatherLocation = {
-				"lon": 5.48,
-				"lat": 51.44
+				'attributes.coord_lat': '5.48',
+				'attributes.coord_lon': '51.44'
 			};
 
     });
