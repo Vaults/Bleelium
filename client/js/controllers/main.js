@@ -22,11 +22,13 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         };
         return WeatherStations.findOne(selector);
     }
+    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
     var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits
         var clean = lodash.replace(dirty, '/', '');
         var cleaner = lodash.replace(clean, '.', '');
         return cleaner;
     }
+    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
     var retIconURL = function (str) {	//returns an image for a certain image id
         return '/img/weather/' + sanitizeStr(str) + '.png';
     }
@@ -34,10 +36,13 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
         if (arg) {
             var loc = $scope.findWeatherStationInfo(arg);
-            //console.log(loc);
+            console.log('Initial setinfo loc: ' + loc);
 
             $scope.loc = arg;
-            WeatherService.weatherLocation = {'attributes.coord_lat': ''+lodash.round(arg.lat(), 2), 'attributes.coord_lon': ''+lodash.round(arg.lng(), 2)};
+            WeatherService.weatherLocation = { //Set a global variable with current location
+                'attributes.coord_lat': ''+lodash.round(arg.lat(), 2),
+                'attributes.coord_lon': ''+lodash.round(arg.lng(), 2)
+            };
             $scope.date = loc.attributes.date;
             $scope.name = loc.attributes.name;
             $scope.latitude = lodash.round(arg.lat(), 2);
@@ -163,60 +168,44 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         }
     };
 }).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService) {
+
+
+    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
+    var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits
+        var clean = lodash.replace(dirty, '/', '');
+        var cleaner = lodash.replace(clean, '.', '');
+        return cleaner;
+    }
+    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
+    var retIconURL = function (str) {	//returns an image for a certain image id
+        return '/img/weather/' + sanitizeStr(str) + '.png';
+    }
+
     $meteor.subscribe('weatherPub');
+    //If no location selected, use Eindhoven
+    if(WeatherService.weatherLocation == null){
+        WeatherService.weatherLocation = {'attributes.coord_lat': '51.44', 'attributes.coord_lon': '5.48'};
+    }
+
     //Load the name and coordinates for this location
     var loc = WeatherStations.findOne(WeatherService.weatherLocation);
-    console.log(WeatherService.weatherLocation["attributes.coord_lon"]);
+
     $scope.name = loc.attributes.name;
     $scope.longitude = WeatherService.weatherLocation["attributes.coord_lon"];
     $scope.latitude = WeatherService.weatherLocation["attributes.coord_lat"];
 
     //Get the forecast info
     $scope.forecastInfo = [
+        //Structure example
         {
             date: '1463742000',
-            min: 12,
+            min: 11,
             max: 14,
+            iconURL: retIconURL('10d'),
             windDegrees: 180,
             windDirection: 'NE',
             airPressure: 1012,
             humidity: 10
-        },
-        {
-            date: 'date',
-            min: 'min',
-            max: 'max',
-            windDegrees: '56',
-            windDirection: 'NE',
-            airPressure: 'airPressure',
-            humidity: 'humidity'
-        },
-        {
-            date: 'date',
-            min: 'min',
-            max: 'max',
-            windDegrees: 270,
-            windDirection: 'NE',
-            airPressure: 'airPressure',
-            humidity: 'humidity'
-        },
-        {
-            date: 'date',
-            min: 'min',
-            max: 'max',
-            windDegrees: '180',
-            windDirection: 'NE',
-            airPressure: 'airPressure',
-            humidity: 'humidity'
-        },
-        {
-            date: 'date',
-            min: 'min',
-            max: 'max',
-            windDegrees: 90,
-            windDirection: 'NE',
-            airPressure: 'airPressure',
-            humidity: 'humidity'
         }
     ];
 });

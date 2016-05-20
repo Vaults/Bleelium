@@ -13,30 +13,30 @@
         <div  class="weather-item">
           <h2>{{fi.date * 1000 | date: 'EEEE'}}</h2><!--Calculate from Unix timestamp-->
         	<h4>{{fi.date * 1000| date: 'MMM d'}}</h4><!-- Calc from Unix timestamp-->
-        	<img src="{{iconURL}}" class="weather-icon" />
+        	<img src="{{fi.iconURL}}" class="weather-icon" />
         	<br>
         	<div class="clearfix">
         	    <div class="pull-left">
-        				<h3>{{fi.min.toFixed(0)}} &deg;C</h3>
-        				<p>
-        					min
-        				</p>
-        				<p>
-        	        Wind direction: <br>
-        	        Air pressure: <br>
-        	        Humidity: <br>
-        				</p>
+                    <h3>{{fi.min.toFixed(0)}} &deg;C</h3>
+                    <p>
+                        min
+                    </p>
+                    <p>
+        	            Wind direction: <br>
+        	            Air pressure: <br>
+        	            Humidity: <br>
+                    </p>
         	    </div>
         	    <div class="pull-right">
-        					<h3>{{fi.max.toFixed(0)}} &deg;C</h3>
-        					<p>
-        						max
-        					</p>
+                    <h3>{{fi.max.toFixed(0)}} &deg;C</h3>
+                    <p>
+                        max
+                    </p>
         	        <p>
-        						{{fi.windDirection}} <img src="img/weather/windDir.png" class="wind-direction" style="-ms-transform: rotate({{fi.windDegrees}}deg);-webkit-transform: rotate({{fi.windDegrees}}deg);transform: rotate({{fi.windDegrees}}deg);-webkit-backface-visibility: hidden;"/><br>
-        		        {{fi.airpressure.toFixed(0)}} hPa<br>
+                        {{fi.windDirection}} <img src="img/weather/windDir.png" class="wind-direction" style="-ms-transform: rotate({{fi.windDegrees}}deg);-webkit-transform: rotate({{fi.windDegrees}}deg);transform: rotate({{fi.windDegrees}}deg);-webkit-backface-visibility: hidden;"/><br>
+        		        {{fi.airPressure.toFixed(0)}} hPa<br>
         		        {{fi.humidity.toFixed(0)}} %<br>
-        					</p>
+                    </p>
         	    </div>
         	</div>
         </div>
