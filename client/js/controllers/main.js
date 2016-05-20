@@ -200,4 +200,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     return function(string){
         return parseFloat(string).toFixed();
     }
+}).filter('retIconUrl', function(){
+    return function(icon){
+        return 'img/weather/' + icon + '.png';
+    }
 });
