@@ -141,7 +141,7 @@ var createForecastData = function(o, i, id){
 					{
 						"name": i + '-' + 'icon',
 						"type": "string",
-						"value": o.weather.icon
+						"value": o.weather[0]['icon']
 					},
 					{
 						"name": i + '-' + 'deg',
@@ -184,7 +184,6 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
 								console.log(error);
 							} else {
 								for (i = 1; i < response.data.list.length; i++) {
-
 									postOrionData(createForecastData(response.data.list[i], i, response.data.city.id));  
 								}
 							}

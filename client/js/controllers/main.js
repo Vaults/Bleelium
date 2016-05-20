@@ -167,7 +167,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
-}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService) {
+}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
 
     //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
@@ -196,12 +196,9 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     console.log(loc.attributes.forecast);
     //Get the forecast info
     $scope.forecastInfo = loc.attributes.forecast;
+    $scope.retIconUrl = IconService.retIconUrl;
 }).filter('toFixed', function(){ //Turns string into float and removes decimals
     return function(string){
         return parseFloat(string).toFixed();
-    }
-}).filter('retIconUrl', function(){
-    return function(icon){
-        return 'img/weather/' + icon + '.png';
     }
 });
