@@ -164,25 +164,30 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     };
 }).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService) {
     $meteor.subscribe('weatherPub');
+    //Load the name and coordinates for this location
     var loc = WeatherStations.findOne(WeatherService.weatherLocation);
     console.log(WeatherService.weatherLocation["attributes.coord_lon"]);
     $scope.name = loc.attributes.name;
     $scope.longitude = WeatherService.weatherLocation["attributes.coord_lon"];
     $scope.latitude = WeatherService.weatherLocation["attributes.coord_lat"];
+
+    //Get the forecast info
     $scope.forecastInfo = [
         {
             date: '1463742000',
-            min: 'min',
-            max: 'max',
-            windDir: 'windDir',
-            airPressure: 'airPressure',
+            min: 12,
+            max: 14,
+            windDegrees: 180,
+            windDirection: 'NE',
+            airPressure: 1012,
             humidity: 10
         },
         {
             date: 'date',
             min: 'min',
             max: 'max',
-            windDir: 'windDir',
+            windDegrees: '56',
+            windDirection: 'NE',
             airPressure: 'airPressure',
             humidity: 'humidity'
         },
@@ -190,7 +195,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             date: 'date',
             min: 'min',
             max: 'max',
-            windDir: 'windDir',
+            windDegrees: 270,
+            windDirection: 'NE',
             airPressure: 'airPressure',
             humidity: 'humidity'
         },
@@ -198,7 +204,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             date: 'date',
             min: 'min',
             max: 'max',
-            windDir: 'windDir',
+            windDegrees: '180',
+            windDirection: 'NE',
             airPressure: 'airPressure',
             humidity: 'humidity'
         },
@@ -206,7 +213,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             date: 'date',
             min: 'min',
             max: 'max',
-            windDir: 'windDir',
+            windDegrees: 90,
+            windDirection: 'NE',
             airPressure: 'airPressure',
             humidity: 'humidity'
         }
