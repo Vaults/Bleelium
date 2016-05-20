@@ -141,7 +141,7 @@ var createForecastData = function(o, i, id){
 					{
 						"name": i + '-' + 'icon',
 						"type": "string",
-						"value": o.weather.icon
+						"value": o.weather[0]['icon']
 					},
 					{
 						"name": i + '-' + 'deg',
@@ -158,7 +158,7 @@ var createForecastData = function(o, i, id){
 						"type": "string",
 						"value": o.temp.max
 					},
-					
+
 				]
 			}
 		],
@@ -175,23 +175,23 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
                 for (i = 0; i < response.data.cnt; i++) {
 					postOrionData(createWeatherData(response.data.list[i]));  
                 }
-				while(locs.length > 0){
-					var loc = locs.pop();
-					HTTP.call('GET', "http://api.openweathermap.org/data/2.5/forecast/daily?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + loc + "&units=metric", {}, function (error, response) {
-						if (error) {
-							console.log(error);
-						} else {
-							for (i = 1; i < response.data.list.length; i++) {
-								
-								postOrionData(createForecastData(response.data.list[i], i, response.data.city.id));  
+				for(var j = 0; j < locs.length; j++){
+					var loc = locs[j];
+					while(locs.length > 0){
+						var loc = locs.pop();
+						HTTP.call('GET', "http://api.openweathermap.org/data/2.5/forecast/daily?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + loc + "&units=metric", {}, function (error, response) {
+							if (error) {
+								console.log(error);
+							} else {
+								for (i = 1; i < response.data.list.length; i++) {
+									postOrionData(createForecastData(response.data.list[i], i, response.data.city.id));  
+								}
 							}
-						}
-					});
+						});
+					}
 				}
             }
-			
         });
-		
 	}
 	var locs = [];
 	var locations = '';
@@ -205,6 +205,64 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
 		}
 	}
     update(locationString, locs);
+}
+
+var createP2000Data = function(o){ //Creates orion-compliant objects for Orion storage
+	return {
+		"contextElements": [
+			{
+				"type": "P2000",
+				"isPattern": "false",
+				"id": o.guid[0]._,
+				"attributes": [
+          {
+            "name": "title",
+            "type": "string",
+            "value": o.title[0]
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "value": o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '')
+          },
+					{
+						"name": "publish_date",
+						"type": "string",
+						"value": o.pubDate[0]
+					}
+				]
+			}
+		],
+		"updateAction": "APPEND"
+	};
+}
+var pushP2000ToOrion = function() {
+  HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', function(error, response) {
+    if (error) {
+        console.log(error);
+    } else {
+      xml2js.parseString(response.content, function (err, result) {
+        for(item in result.rss.channel[0].item) {
+          data = createP2000Data(result.rss.channel[0].item[item]);
+          HTTP.call('POST', 'http://131.155.70.152:1026/v1/updateContext', {data: data}, function(error, response) {
+            if (error) {
+                console.log(error);
+            } else {
+              }
+          });
+        }
+        var collection = collectionWrapper['P2000'];
+        HTTP.call('GET', 'http://131.155.70.152:1026/v1/contextEntityTypes/P2000', function (error, response) {
+            if (error) {
+                console.log(error);
+            } else {
+              console.log(rewriteAndInsertAttributes(response));
+            }
+        });
+
+      });
+    }
+  });
 }
 
 /* https://github.com/percolatestudio/meteor-synced-cron */
@@ -227,7 +285,7 @@ var numToObj = function(o){
 			o.forecast['day' + fc][key.substr(2,key.length)] = o[key];
  			delete o[key];
 		}
-    }
+    } 
     return o;
 }
 
@@ -242,6 +300,11 @@ var rewriteNumbersToObjects = function(obj){
 
 if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
     SyncedCron.start();
+
+	//reloadPull("WeatherStations", weatherQuery, function(args){
+	//	collectionWrapper['WeatherStations'].remove({});
+		//console.log(args.data.contextResponses);
+	//});
 	reloadPull("WeatherStations", weatherQuery, function(args){
 		collectionWrapper['WeatherStations'].remove({});
 		var temp = rewriteAttributes(args);

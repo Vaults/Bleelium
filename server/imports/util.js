@@ -5,6 +5,7 @@ var attributesToKeyValue = function (attr) {
                 });
                 return temp;
             }
+
 var rewriteAttributes = function (obj, callback) {
 		if(!callback){
 			for (var i = 0; i < obj.data.contextResponses.length; i++) {
