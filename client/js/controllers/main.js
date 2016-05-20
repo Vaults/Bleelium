@@ -157,38 +157,24 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 });
 
 MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
-    var close = document.getElementsByClassName("close");
-    var i;
+    var popUp = document.getElementById('pop-up');
 
-    for (i = 0; i < close.length; i++) {
-        close[i].onclick = function(){
-            var div = this.parentElement.parentElement;
-            div.style.opacity = "0";
-            setTimeout(function(){ div.style.display = "none"; }, 600);
+    // Get the <span> element that closes the pop-up
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        popUp.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == popUp) {
+            popUp.style.display = "none";
         }
     }
     
     $scope.data = {};
-});
-
-MAIN_MODULE.controller('securityCtrl', function($scope, $meteor, $reactive, $rootScope) {
-
-    $scope.map = {
-        center: {
-            longitude: 5.4500238,
-            latitude: 51.4523127,
-        },
-        zoom: 15,
-        events: {
-            click: (mapModel, eventName, originalEventArgs) => {
-                this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                $scope.$apply();
-            }
-        },
-        options: {
-            disableDefaultUI: true
-        }
-    };
 });
 
 
