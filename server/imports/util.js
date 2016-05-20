@@ -1,3 +1,24 @@
+var attributesToKeyValue = function (attr) {
+                var temp = {}
+                attr.forEach(function (o) {
+                    temp[o.name] = o.value;
+                });
+                return temp;
+            }
+var rewriteAttributes = function (obj, callback) {
+		if(!callback){
+			for (var i = 0; i < obj.data.contextResponses.length; i++) {
+					var tempobj = obj.data.contextResponses[i].contextElement;
+					tempobj.attributes = attributesToKeyValue(tempobj.attributes);
+			}
+		}
+		else{
+			return callback(obj);
+		}
+		return obj;
+}
+
+export{attributesToKeyValue, rewriteAttributes}
 /*
 var Future = Npm.require('fibers/future');
 
