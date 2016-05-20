@@ -10,7 +10,7 @@ Meteor.publish('weatherPub', function weatherPublication() {
 ​
 var dataIDmap = {
     "2750953": "Mensfort",
-	"2756253": "Eindhoven",
+	  "2756253": "Eindhoven",
     "2745706": "Veldhoven",
     "2754447": "Helmond",
     "2759794": "Amsterdam"
@@ -222,16 +222,6 @@ if (!Meteor.isTest) {
     SyncedCron.start();
     reloadPull();
 }
-​
-HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', function(error, response) {
-  if (error) {
-      console.log(error);
-  } else {
-    xml2js.parseString(response.content, function (err, result) {
-        console.log(result.rss.channel[0].item[0].guid[0]._);
-    });
-  }
-});
-​
+​​
 //exports for tests
 export {dataIDmap, postWeatherData, createWeatherData, pushToOrion, pull}
