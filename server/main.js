@@ -173,7 +173,7 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
                 console.log(error);
             } else {
                 for (i = 0; i < response.data.cnt; i++) {
-					postOrionData(createWeatherData(response.data.list[i]));  
+					postOrionData(createWeatherData(response.data.list[i]));
                 }
 				for(var j = 0; j < locs.length; j++){
 					var loc = locs[j];
@@ -184,7 +184,7 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
 								console.log(error);
 							} else {
 								for (i = 1; i < response.data.list.length; i++) {
-									postOrionData(createForecastData(response.data.list[i], i, response.data.city.id));  
+									postOrionData(createForecastData(response.data.list[i], i, response.data.city.id));
 								}
 							}
 						});
@@ -256,7 +256,10 @@ var pushP2000ToOrion = function() {
             if (error) {
                 console.log(error);
             } else {
-              console.log(rewriteAndInsertAttributes(response));
+              response = rewriteAttributes(response);
+              for(item in response.data.contextResponses) {
+                collectionWrapper['P2000'].insert(response.data.contextResponses[item].contextElement);
+              }
             }
         });
 
@@ -274,6 +277,14 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     job: pushWeatherToOrion
 });
 
+SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
+    name: 'Pushing P2000 to Orion',
+    schedule: function (parser) {
+        return parser.text('every 20 seconds');
+    },
+    job: pushP2000ToOrion
+});
+
 var numToObj = function(o){
 	o.forecast = {};
 	for(key in o){
@@ -285,7 +296,7 @@ var numToObj = function(o){
 			o.forecast['day' + fc][key.substr(2,key.length)] = o[key];
  			delete o[key];
 		}
-    } 
+    }
     return o;
 }
 
