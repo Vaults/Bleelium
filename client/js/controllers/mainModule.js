@@ -57,11 +57,24 @@ if (!MAIN_MODULE) {
             templateUrl: 'client/js/directives/google-map.html',
             scope: '='
         }
-		}).factory('WeatherService', function(){
+		}).factory('IconService', function(){
+        var IconService = {};
+        IconService.sanitizeStr = function(dirty) { //Cleans a string to prevent filepath exploits
+            var clean = lodash.replace(dirty, '/', '');
+            var cleaner = lodash.replace(clean, '.', '');
+            return cleaner;
+        }
+        IconService.retIconUrl = function(str) {
+            return '/img/weather/' + IconService.sanitizeStr(str) + '.png';
+        }
+        return IconService;
+    })
+        .factory('WeatherService', function(){
 			return weatherLocation = {
 				'attributes.coord_lat': '5.48',
 				'attributes.coord_lon': '51.44'
 			};
+
 
     });
 }
