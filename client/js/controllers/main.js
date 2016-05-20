@@ -193,19 +193,11 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     $scope.name = loc.attributes.name;
     $scope.longitude = WeatherService.weatherLocation["attributes.coord_lon"];
     $scope.latitude = WeatherService.weatherLocation["attributes.coord_lat"];
-
+    console.log(loc.attributes.forecast);
     //Get the forecast info
-    $scope.forecastInfo = [
-        //Structure example
-        {
-            date: '1463742000',
-            min: 11,
-            max: 14,
-            iconURL: retIconURL('10d'),
-            windDegrees: 180,
-            windDirection: 'NE',
-            airPressure: 1012,
-            humidity: 10
-        }
-    ];
+    $scope.forecastInfo = loc.attributes.forecast;
+}).filter('toFixed', function(){ //Turns string into float and removes decimals
+    return function(string){
+        return parseFloat(string).toFixed();
+    }
 });
