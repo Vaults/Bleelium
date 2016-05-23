@@ -155,5 +155,101 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 			disableDefaultUI: true
 		}
 	};
+
+  $scope.helpers({
+        eventDebug(){
+            return Events.findOne({"attributes.name":"Eindhoven"});
+        },
+        event(){
+            return Events.find({});
+        }
+    });
+  
+  $scope.findEventInfo = function(loc) {
+    var selector = {'attributes.coord_lat': String(lodash.round(loc.lat(),2)), 'attributes.coord_lon': String(lodash.round(loc.lng(),2))};
+    return Events.findOne(selector);
+  }
+  
+  var setInfo = function(event, arg){
+         if(arg){
+             var loc = $scope.findEventInfo(arg);
+             $scope.loc = arg;
+             
+             $scope.$apply();
+         }
+     };
+
+    $scope.$on('setInfo', setInfo);
+    $scope.setLocation = function (latitude, longitude) {
+        return {
+            latitude,
+            longitude
+        }};
+  
+  var reload = function(){
+      $reactive(this).attach($scope);
+      var selEvent = $scope.getReactively('eventDebug');
+      var events = $scope.getReactively('Events');
+      setInfo(null, $scope.loc);
+      if(selEvent) {
+        if(!$scope.map) {
+          $scope.map = {
+            center: {
+              longitude: selStation.attributes.coord_lon,
+              latitude: selStation.attributes.coord_lat,
+            },
+            zoom: 11,
+            events: {
+              click: (mapModel, eventName, originalEventArgs) => {
+                this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+                $scope.$apply();
+              }
+            },
+            options: {
+              disableDefaultUI: true
+            }
+          };
+        }
+      }
+      $scope.markers = [];
+      for(var i = 0; i < stations.length; i++){
+        if(stations[i].attributes){
+				  $scope.markers.push({
+            options: {
+              draggable: false,
+              icon: {
+                url: retIconURL(stations[i].attributes.weather_icon),
+                size: {
+                  height: 200,
+                  width: 200
+                },
+                anchor: {
+                  x: 24,
+                  y: 24
+                },
+                scaledSize: {
+                  height: 48,
+                  width: 48
+                }
+              },
+            },
+            events: {
+              click: (marker, eventName, args) => {
+							$rootScope.$broadcast('setInfo', marker.getPosition());
+              },
+              dragend: (marker, eventName, args) => {
+                this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                $scope.$apply();
+              }
+            },
+            location: {
+              longitude: stations[i].attributes.coord_lon,
+              latitude: stations[i].attributes.coord_lat,
+            },
+          });
+        }
+      }
+    }
+    $scope.autorun(reload);
   
 });
