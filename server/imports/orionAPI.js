@@ -20,19 +20,17 @@ var pull= function(coll, args, callback) { //grabs data from Orion
 
 var deleteOrionData = function(){ //delete data to from
 
-	
-
 	var delElements = {"contextElements": [
 				{
 					"type": "P2000",
 					"isPattern": "false",
-					"id": "1605240421490222"
+					"id": ""
 				}
 			],
 			"updateAction": "DELETE"
 };
-
-	postOrionData(delElements,'');
+	postOrionData(delElements,function(e, r){
+	});
 };
 
 var reloadPull = function (collection, args, callback) { //calls pull every 5 seconds until the program terminates
@@ -52,4 +50,4 @@ var reloadPull = function (collection, args, callback) { //calls pull every 5 se
 	return query;
 } */
 //exports for tests
-export {postOrionData, pull, reloadPull}
+export {postOrionData, pull, reloadPull, deleteOrionData}

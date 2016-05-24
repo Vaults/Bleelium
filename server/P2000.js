@@ -1,5 +1,5 @@
 import {HTTP} from 'meteor/http';
-import {postOrionData} from '/server/imports/orionAPI.js';
+import {postOrionData, deleteOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
 
@@ -49,6 +49,8 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
 }
 
 var titleParser = function (title) {
+    
+    deleteOrionData();
 
     if (title.split(" ") == "A1") {
         return 'A1'
