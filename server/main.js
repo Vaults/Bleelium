@@ -285,9 +285,7 @@ var rewriteNumbersToObjects = function(obj){
 	//				}
 	//			}));
 
-if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
-    SyncedCron.start();
-
+var initPulls = function(){
 	reloadPull("WeatherStation", function(args){
 		collectionWrapper['WeatherStation'].remove({});
 		//console.log(args);
@@ -304,8 +302,13 @@ if (!Meteor.isTest) { //only polls data getting/setting if the system is not in 
 			collectionWrapper['P2000'].insert(args.data.contextResponses[item].contextElement);
 		}
 	});
+}	
+
+if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
+    SyncedCron.start();
+	initPulls();
 }
 
 
 //exports for tests
-export {createWeatherData, pushWeatherToOrion, dataWeatherMap, numToObj, rewriteNumbersToObjects}
+export {dataWeatherMap, createWeatherData, createForecastData, pushWeatherToOrion, pushForecastToOrion, createP2000Data, pushP2000ToOrion, initPulls}

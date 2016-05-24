@@ -4,13 +4,13 @@ import { Mongo } from 'meteor/mongo';
 import { collectionWrapper } from '/server/imports/collections.js';
 
 //to be tested functions
-import {createWeatherData, pushWeatherToOrion, weatherQuery, dataWeatherMap} from '/server/main.js';
+import {createWeatherData, pushWeatherToOrion, weatherQuery, dataWeatherMap, initPulls} from '/server/main.js';
 import {pull} from '/server/imports/orionAPI.js';
 
 describe('pull("WeatherStations", weatherQuery)', function() {
 
 	it('correctly adds all weatherstations to the database within 1 second.', function(){
-		pull("WeatherStations");
+		initPulls();
 		//var len = Object.keys(dataWeatherMap).length;
 		var c = 0;
 		Meteor.setTimeout(function(){
@@ -20,6 +20,7 @@ describe('pull("WeatherStations", weatherQuery)', function() {
 			}
 			assert.isFalse(WeatherStations.findOne({"id": -1})); //checks if it doesn't always return true for non-existing values
 			assert.equal(WeatherStations.find().count(), c);
+			done();
 		}, 1000);
 	});
 	
