@@ -1,10 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
-import { Mongo } from 'meteor/mongo';
 import { collectionWrapper } from '/server/imports/collections.js';
 
 //to be tested functions
-import {postOrionData} from '/server/imports/orionAPI.js';
+import {postOrionData, pull, reloadPull} from '/server/imports/orionAPI.js';
 
 describe('postOrionData()', function(done){
 	it('No errors from pulling openweathermap properly', function(done){
@@ -20,9 +19,7 @@ describe('postOrionData()', function(done){
 						{ name: 'coord_lon', type: 'float', value: 5.47 },
 						{ name: 'coord_lat', type: 'float', value: 51.45 },
 						{ name: 'weather_main', type: 'string', value: 'Clouds' },
-						{ name: 'weather_description',
-							type: 'string',
-							value: 'overcast clouds' },
+						{ name: 'weather_description', type: 'string', value: 'overcast clouds' },
 						{ name: 'weather_icon', type: 'string', value: '04d' },
 						{ name: 'temp', type: 'float', value: 16.53 },
 						{ name: 'pressure', type: 'float', value: 1012 },
@@ -56,4 +53,10 @@ describe('postOrionData()', function(done){
 		});
 	});
 		
+});
+describe('pull()', function(){
+	//no tests yet
+});
+describe('reloadPull()', function(){
+	//no tests yet
 });

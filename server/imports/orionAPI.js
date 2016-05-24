@@ -20,7 +20,7 @@ var reloadPull = function (collection, callback) { //calls pull every 5 seconds 
     Meteor.setTimeout(function(){reloadPull(collection, callback)}, 5000);
 }
 
-var initQuery = function(typeName, map){ //creates a query in order to get data from Orion
+/* var initQuery = function(typeName, map){ //creates a query in order to get data from Orion
 	var query = {data: {entities: []}};
 	for (key in map) {
 		query.data.entities.push({
@@ -30,6 +30,6 @@ var initQuery = function(typeName, map){ //creates a query in order to get data 
 		});
 	}
 	return query;
-}
+} */
 //exports for tests
-export {postOrionData, pull, reloadPull, initQuery}
+export {postOrionData, pull, reloadPull}
