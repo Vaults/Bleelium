@@ -1,6 +1,7 @@
 import {HTTP} from 'meteor/http';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
+import {createP2000Data, pushP2000ToOrion, P2000Pull} from '/server/P2000.js';
 
 var postOrionData = function(data, callback){ //sends data to Orion
 	HTTP.call('POST', 'http://131.155.70.152:1026/v1/updateContext', {data: data}, callback);		
@@ -13,6 +14,25 @@ var pull= function(coll, args, callback) { //grabs data from Orion
 		collection.remove({});
         rewriteAttributes(response, callback);
     }));
+};
+
+
+
+var deleteOrionData = function(){ //delete data to from
+
+	
+
+	var delElements = {"contextElements": [
+				{
+					"type": "P2000",
+					"isPattern": "false",
+					"id": "1605240421490222"
+				}
+			],
+			"updateAction": "DELETE"
+};
+
+	postOrionData(delElements,'');
 };
 
 var reloadPull = function (collection, args, callback) { //calls pull every 5 seconds until the program terminates
