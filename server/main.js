@@ -4,7 +4,7 @@ import {Mongo} from 'meteor/mongo';
 import {WIND_DIR} from './windDirections.js';
 import {postOrionData, pull, reloadPull, initQuery} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
-import {rewriteAttributes} from '/server/imports/util.js';
+import {rewriteAttributes, handleError} from '/server/imports/util.js';
 
 var dataWeatherMap = {
 	"2750953": "Mensfort",
@@ -13,7 +13,6 @@ var dataWeatherMap = {
 	"2754447": "Helmond",
 	"2759794": "Amsterdam"
 }
-var weatherQuery = initQuery("WeatherStation", dataWeatherMap);
 
 var createWeatherData = function(o){ //Creates orion-compliant objects for Orion storage
 	return {
@@ -167,36 +166,8 @@ var createForecastData = function(o, i, id){
 }
 
 var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherMap to Orion
-    var update = function (locationString, locs) {
-        HTTP.call('GET', "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + locations + "&units=metric", {}, function (error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-                for (i = 0; i < response.data.cnt; i++) {
-					postOrionData(createWeatherData(response.data.list[i]));
-                }
-				for(var j = 0; j < locs.length; j++){
-					var loc = locs[j];
-					while(locs.length > 0){
-						var loc = locs.pop();
-						HTTP.call('GET', "http://api.openweathermap.org/data/2.5/forecast/daily?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + loc + "&units=metric", {}, function (error, response) {
-							if (error) {
-								console.log(error);
-							} else {
-								for (i = 1; i < response.data.list.length; i++) {
-									postOrionData(createForecastData(response.data.list[i], i, response.data.city.id));
-								}
-							}
-						});
-					}
-				}
-            }
-        });
-	}
-	var locs = [];
 	var locations = '';
 	for (key in dataWeatherMap) {
-		locs.push(key);
 		if (!locations) {
 			var locationString = key;
 		}
@@ -204,7 +175,21 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
 			locationString = locationString + ',' + key
 		}
 	}
-    update(locationString, locs);
+    HTTP.call('GET', "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + locations + "&units=metric", {}, handleError(function(response){
+		for (i = 0; i < response.data.cnt; i++) {
+			postOrionData(createWeatherData(response.data.list[i]));
+        }
+	}));
+}
+
+var pushForecastToOrion = function(){
+	for(id in dataWeatherMap){
+		HTTP.call('GET', "http://api.openweathermap.org/data/2.5/forecast/daily?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + id + "&units=metric", {}, handleError(function(response){
+			for (i = 1; i < response.data.list.length; i++) {
+				postOrionData(createForecastData(response.data.list[i], i, response.data.city.id));
+			}
+		}));
+	}
 }
 
 var createP2000Data = function(o){ //Creates orion-compliant objects for Orion storage
@@ -236,37 +221,17 @@ var createP2000Data = function(o){ //Creates orion-compliant objects for Orion s
 		"updateAction": "APPEND"
 	};
 }
-var pushP2000ToOrion = function() {
-  HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', function(error, response) {
-    if (error) {
-        console.log(error);
-    } else {
-      xml2js.parseString(response.content, function (err, result) {
-        for(item in result.rss.channel[0].item) {
-          data = createP2000Data(result.rss.channel[0].item[item]);
-          HTTP.call('POST', 'http://131.155.70.152:1026/v1/updateContext', {data: data}, function(error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-              }
-          });
-        }
-        var collection = collectionWrapper['P2000'];
-        HTTP.call('GET', 'http://131.155.70.152:1026/v1/contextEntityTypes/P2000', function (error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-              response = rewriteAttributes(response);
-              for(item in response.data.contextResponses) {
-                collectionWrapper['P2000'].insert(response.data.contextResponses[item].contextElement);
-              }
-            }
-        });
 
-      });
-    }
-  });
+var pushP2000ToOrion = function() {
+	HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function(response){
+		xml2js.parseString(response.content, handleError(function(result){
+			for(item in result.rss.channel[0].item) {
+				postOrionData(createP2000Data(result.rss.channel[0].item[item]));
+			}
+		}));
+	}));
 }
+
 
 /* https://github.com/percolatestudio/meteor-synced-cron */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
@@ -276,11 +241,17 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     },
     job: pushWeatherToOrion
 });
-
+SyncedCron.add({	//calls pushForecastToOrion every 30 mins
+    name: 'Pushing forecast to Orion',
+    schedule: function (parser) {
+        return parser.text('every 6 hours');
+    },
+    job: pushWeatherToOrion
+});
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing P2000 to Orion',
     schedule: function (parser) {
-        return parser.text('every 20 seconds');
+        return parser.text('every 10 seconds');
     },
     job: pushP2000ToOrion
 });
@@ -307,26 +278,34 @@ var rewriteNumbersToObjects = function(obj){
 	}
 	return obj;
 }
-
+//				HTTP.call('GET', 'http://131.155.70.152:1026/v1/contextEntityTypes/P2000', handleError(function(response){
+//					response = rewriteAttributes(response);
+	//				for(item in response.data.contextResponses) {
+	//					collectionWrapper['P2000'].insert(response.data.contextResponses[item].contextElement);
+	//				}
+	//			}));
 
 if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
     SyncedCron.start();
 
-	//reloadPull("WeatherStations", weatherQuery, function(args){
-	//	collectionWrapper['WeatherStations'].remove({});
-		//console.log(args.data.contextResponses);
-	//});
-	reloadPull("WeatherStations", weatherQuery, function(args){
-		collectionWrapper['WeatherStations'].remove({});
+	reloadPull("WeatherStation", function(args){
+		collectionWrapper['WeatherStation'].remove({});
+		console.log(args);
 		var temp = rewriteAttributes(args);
-		//console.log(args.data);
-		//console.log(rewriteNumbersToObjects(temp).data.contextResponses[0].contextElement.attributes.forecast.day1);
 		rewriteNumbersToObjects(temp).data.contextResponses.forEach(function(o){
-			collectionWrapper['WeatherStations'].insert(o.contextElement);
+			collectionWrapper['WeatherStation'].insert(o.contextElement);
 		});
+	});
+	
+	reloadPull("P2000", function(args){
+		collectionWrapper['P2000'].remove({});
+		response = rewriteAttributes(response);
+		for(item in response.data.contextResponses) {
+			collectionWrapper['P2000'].insert(response.data.contextResponses[item].contextElement);
+		}
 	});
 }
 
 
 //exports for tests
-export {createWeatherData, pushWeatherToOrion, weatherQuery, dataWeatherMap}
+export {createWeatherData, pushWeatherToOrion, dataWeatherMap, numToObj, rewriteNumbersToObjects}

@@ -10,7 +10,7 @@ import {pull} from '/server/imports/orionAPI.js';
 describe('pull("WeatherStations", weatherQuery)', function() {
 
 	it('correctly adds all weatherstations to the database within 1 second.', function(){
-		pull("WeatherStations", weatherQuery);
+		pull("WeatherStations");
 		//var len = Object.keys(dataWeatherMap).length;
 		var c = 0;
 		Meteor.setTimeout(function(){

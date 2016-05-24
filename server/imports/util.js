@@ -19,7 +19,19 @@ var rewriteAttributes = function (obj, callback) {
 		return obj;
 }
 
-export{attributesToKeyValue, rewriteAttributes}
+var handleError = function(c){
+	return function(error, response){
+		if(error){
+			console.log("--- ERROR DETECTED ---");
+			console.log(error);
+			console.log("--- ERROR DETECTED ---");
+		}else{
+			c(response);
+		}
+	}
+}
+
+export{attributesToKeyValue, rewriteAttributes, handleError}
 /*
 var Future = Npm.require('fibers/future');
 
