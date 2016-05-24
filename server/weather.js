@@ -208,6 +208,7 @@ SyncedCron.add({	//calls pushForecastToOrion every 30 mins
 
 var weatherPull = {
 	name: 'WeatherStation',
+	args: '',
 	f: function(args){
 		collectionWrapper['WeatherStation'].remove({});
 	

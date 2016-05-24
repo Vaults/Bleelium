@@ -53,6 +53,7 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
 
 var P2000Pull = {
 	name: 'WeatherStation',
+	args: '?orderBy=!publish_date&limit=1000',
 	f:  function(args){
 		collectionWrapper['P2000'].remove({});
 		response = rewriteAttributes(args);
