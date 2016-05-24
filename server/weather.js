@@ -1,5 +1,5 @@
 import {HTTP} from 'meteor/http';
-import {postOrionData, reloadPull} from '/server/imports/orionAPI.js';
+import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError, rewriteNumbersToObjects} from '/server/imports/util.js';
 
