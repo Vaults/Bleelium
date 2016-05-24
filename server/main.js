@@ -290,7 +290,7 @@ if (!Meteor.isTest) { //only polls data getting/setting if the system is not in 
 
 	reloadPull("WeatherStation", function(args){
 		collectionWrapper['WeatherStation'].remove({});
-		console.log(args);
+		//console.log(args);
 		var temp = rewriteAttributes(args);
 		rewriteNumbersToObjects(temp).data.contextResponses.forEach(function(o){
 			collectionWrapper['WeatherStation'].insert(o.contextElement);
@@ -299,9 +299,9 @@ if (!Meteor.isTest) { //only polls data getting/setting if the system is not in 
 	
 	reloadPull("P2000", function(args){
 		collectionWrapper['P2000'].remove({});
-		response = rewriteAttributes(response);
-		for(item in response.data.contextResponses) {
-			collectionWrapper['P2000'].insert(response.data.contextResponses[item].contextElement);
+		response = rewriteAttributes(args);
+		for(item in args.data.contextResponses) {
+			collectionWrapper['P2000'].insert(args.data.contextResponses[item].contextElement);
 		}
 	});
 }
