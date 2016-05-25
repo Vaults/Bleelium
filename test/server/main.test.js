@@ -27,7 +27,7 @@ describe('initPulls()', function(done) {
 				c++;
 			}
 			assert.isUndefined(WeatherStations.findOne({"_id": -1})); //checks if it doesn't always return true for non-existing values
-			assert.equal(WeatherS   tations.find().count(), c);
+			assert.equal(WeatherStations.find().count(), c);
 			done();
 		}, 1000);
 	});
