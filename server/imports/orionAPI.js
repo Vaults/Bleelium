@@ -21,6 +21,7 @@ var deleteLocalData = function(coll){
     HTTP.call('GET', 'http://131.155.70.152:1026/v1/contextEntityTypes/' + coll, handleError(function (response){
         collection.remove({});
     }));
+    console.log('local deleted')
 }
 
 var deleteOrionData = function (type, id) { //delete data to from
@@ -37,6 +38,7 @@ var deleteOrionData = function (type, id) { //delete data to from
         ],
         "updateAction": "DELETE"
     };
+    console.log('Orion deleted')
     postOrionData(delElements, function (e, r) {
     });
 };
