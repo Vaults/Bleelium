@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
+import {Meteor} from 'meteor/meteor';
+import {Mongo} from 'meteor/mongo';
 
 var WeatherStations = new Mongo.Collection('weatherStations');
 Meteor.publish('weatherPub', function weatherPublication() {
@@ -13,7 +13,7 @@ Meteor.publish('P2000Pub', function P2000Publication() {
 
 
 var collectionWrapper = {
-	"WeatherStation" : WeatherStations,
-  "P2000" : P2000
+    "WeatherStation": WeatherStations,
+    "P2000": P2000
 };
 export {collectionWrapper};

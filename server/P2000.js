@@ -1,69 +1,22 @@
 import {HTTP} from 'meteor/http';
-import {postOrionData, deleteOrionData} from '/server/imports/orionAPI.js';
+import {postOrionData, deleteOrionData, deleteLocalData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
+import {splitData} from './P2000DataSplitter.js';
 
-var createP2000Data = function (o) { //Creates orion-compliant objects for Orion storage
-    return {
-        "contextElements": [
-            {
-                "type": "P2000",
-                "isPattern": "false",
-                "id": o.guid[0]._,
-                "attributes": [
-                    {
-                        "name": "title",
-                        "type": "string",
-                        "value": o.title[0]
-                    },
-                    {
-                        "name": "testTitle",
-                        "type": "string",
-                        "value": titleParser(o.title[0])
-                    },
-                    {
-                        "name": "description",
-                        "type": "string",
-                        "value": o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '')
-                    },
-                    {
-                        "name": "publish_date",
-                        "type": "string",
-                        "value": o.pubDate[0]
-                    },
-                    {
-                        "name": "coord_lat",
-                        "type": "string",
-                        "value": o['geo:lat']
-                    },
-                    {
-                        "name": "coord_lng",
-                        "type": "string",
-                        "value": o['geo:long']
-                    }
-                ]
-            }
-        ],
-        "updateAction": "APPEND"
-    };
-}
-
-var titleParser = function (title) {
-    
-    deleteOrionData();
-
-    if (title.split(" ") == "A1") {
-        return 'A1'
-    } else {
-        return 'Not A1'
-    }
+var p2000DataDeleter = function (id) {
+    deleteLocalData('P2000');
+    deleteOrionData("P2000",id);
 }
 
 var pushP2000ToOrion = function () {
     HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function (response) {
         xml2js.parseString(response.content, handleError(function (result) {
             for (item in result.rss.channel[0].item) {
-                postOrionData(createP2000Data(result.rss.channel[0].item[item]));
+
+               // p2000DataDeleter(result.rss.channel[0].item[item]._id)
+                //postOrionData(
+                    splitData(result.rss.channel[0].item[item]);
             }
         }));
     }));
@@ -91,4 +44,4 @@ var P2000Pull = {
 }
 
 //exports for tests
-export {createP2000Data, pushP2000ToOrion, P2000Pull}
+export {pushP2000ToOrion, P2000Pull}
