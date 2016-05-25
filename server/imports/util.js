@@ -38,9 +38,7 @@ var rewriteAttributes = function (obj, callback) {
 var handleError = function (c) {
     return function (error, result) {
         var thr = function (e) {
-            console.log("--- ERROR DETECTED ---");
             throw e;
-            console.log("--- ERROR DETECTED ---");
         };
         if (error) {
             if (error.statusCode) {
@@ -49,7 +47,7 @@ var handleError = function (c) {
                     return;
                 }
             }
-            thr(e);
+            thr(error);
         }
         c(result);
     }
@@ -74,7 +72,7 @@ var numToObj = function (o) {
     return o;
 }
 /**
- * 
+ *
  * @param obj
  * @returns {*}
  */

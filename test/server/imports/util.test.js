@@ -1,7 +1,5 @@
-import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
-import { Mongo } from 'meteor/mongo';
-import { collectionWrapper } from '/server/imports/collections.js';
+import { expect } from 'meteor/practicalmeteor:chai';
 
 //to be tested functions
 import {attributesToKeyValue, rewriteAttributes, handleError} from '/server/imports/util.js';
@@ -75,8 +73,20 @@ describe('rewriteAttributes()', function(done) {
         })
     });
 });
-describe('handleError()', function () {
-    //no tests yet
+describe('handleError()', function (done) {
+    it('Orion bug, no error', function(){
+        var simpleOrionBug = {statusCode: 200};
+        handleError(function(o){return;})(simpleOrionBug, {bogus: 'element'});
+
+    });
+    it('Throws error successfully', function(){
+        expect(function(){
+            handleError(function(){})(new Error(), {bogus: 'element'});
+        }).to.throw();
+    });
+    it('Normal behavior, no error', function(done){
+        var res = handleError(function(o){assert.equal(o.bogus, 'element'); done();})(null, {bogus: 'element'});
+    });
 });
 describe('numToObj()', function () {
     //no tests yet
