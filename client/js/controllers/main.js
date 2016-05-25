@@ -1,6 +1,6 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
-MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope, WeatherService) {
+MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
@@ -22,16 +22,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         };
         return WeatherStations.findOne(selector);
     }
-    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
-    var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits
-        var clean = lodash.replace(dirty, '/', '');
-        var cleaner = lodash.replace(clean, '.', '');
-        return cleaner;
-    }
-    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
-    var retIconURL = function (str) {	//returns an image for a certain image id
-        return '/img/weather/' + sanitizeStr(str) + '.png';
-    }
 
     var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
         if (arg) {
@@ -40,8 +30,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 
             $scope.loc = arg;
             WeatherService.weatherLocation = { //Set a global variable with current location
-                'attributes.coord_lat': ''+lodash.round(arg.lat(), 2),
-                'attributes.coord_lon': ''+lodash.round(arg.lng(), 2)
+                'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
+                'attributes.coord_lon': '' + lodash.round(arg.lng(), 2)
             };
             $scope.date = loc.attributes.date;
             $scope.name = loc.attributes.name;
@@ -51,13 +41,13 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             $scope.min = lodash.round(loc.attributes.temp_min, 2);
             $scope.max = lodash.round(loc.attributes.temp_max, 2);
             $scope.windDegrees = loc.attributes.wind_deg;
-                $scope.windDirection = getWindDir(loc.attributes.wind_deg);
-             $scope.Airpressure = lodash.round(loc.attributes.pressure);
-             $scope.Humidity = lodash.round(loc.attributes.humidity);
-             $scope.sunrise = loc.attributes.sunrise;
-             $scope.sunset = loc.attributes.sunset;
-             $scope.iconURL = retIconURL(loc.attributes.weather_icon);
-             $scope.$apply();
+            $scope.windDirection = getWindDir(loc.attributes.wind_deg);
+            $scope.Airpressure = lodash.round(loc.attributes.pressure);
+            $scope.Humidity = lodash.round(loc.attributes.humidity);
+            $scope.sunrise = loc.attributes.sunrise;
+            $scope.sunset = loc.attributes.sunset;
+            $scope.iconURL = IconService.retIconUrl(loc.attributes.weather_icon, 'weather');
+            $scope.$apply();
 
         }
     };
@@ -69,7 +59,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             }
         })
     }
-
 
 
     $scope.$on('setInfo', setInfo);
@@ -114,7 +103,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
                     options: {
                         draggable: false,
                         icon: {
-                            url: retIconURL(stations[i].attributes.weather_icon),
+                            url: IconService.retIconUrl(stations[i].attributes.weather_icon, 'weather'),
                             size: {
                                 height: 600,
                                 width: 600
@@ -169,21 +158,9 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     };
 }).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
-
-    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
-    var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits
-        var clean = lodash.replace(dirty, '/', '');
-        var cleaner = lodash.replace(clean, '.', '');
-        return cleaner;
-    }
-    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
-    var retIconURL = function (str) {	//returns an image for a certain image id
-        return '/img/weather/' + sanitizeStr(str) + '.png';
-    }
-
     $meteor.subscribe('weatherPub');
     //If no location selected, use Eindhoven
-    if(WeatherService.weatherLocation == null){
+    if (WeatherService.weatherLocation == null) {
         WeatherService.weatherLocation = {'attributes.coord_lat': '51.44', 'attributes.coord_lon': '5.48'};
     }
 
@@ -197,8 +174,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     //Get the forecast info
     $scope.forecastInfo = loc.attributes.forecast;
     $scope.retIconUrl = IconService.retIconUrl;
-}).filter('toFixed', function(){ //Turns string into float and removes decimals
-    return function(string){
+}).filter('toFixed', function () { //Turns string into float and removes decimals
+    return function (string) {
         return parseFloat(string).toFixed();
     }
 });
