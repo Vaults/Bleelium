@@ -23,13 +23,21 @@ var rewriteAttributes = function (obj, callback) {
 
 var handleError = function(c){
 	return function(error, result){
+		var thr = function(e){
+			console.log("--- ERROR DETECTED ---");
+			throw e;
+			console.log("--- ERROR DETECTED ---");
+		};
 		if(error){
-			console.log("--- ERROR DETECTED ---");
-			console.log(error);
-			console.log("--- ERROR DETECTED ---");
-		}else{
-			c(result);
+			if(error.statusCode) {
+				if (error.statusCode == 200) { //workaround for vague bug
+					c(error);
+					return;
+				}
+			}
+			thr(e);
 		}
+		c(result);
 	}
 }
 

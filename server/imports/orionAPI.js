@@ -1,5 +1,4 @@
 import {HTTP} from 'meteor/http';
-import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
 
 var postOrionData = function(data, callback){ //sends data to Orion
@@ -7,10 +6,8 @@ var postOrionData = function(data, callback){ //sends data to Orion
 }
 
 var pull= function(coll, args, callback) { //grabs data from Orion
-	var collection = collectionWrapper[coll];
 	//console.log(query.data.entities[0]);
     HTTP.call('GET', 'http://131.155.70.152:1026/v1/contextEntityTypes/'+coll+args, handleError(function(response) {
-		collection.remove({});
         rewriteAttributes(response, callback);
     }));
 };
