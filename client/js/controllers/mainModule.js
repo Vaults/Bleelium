@@ -36,6 +36,14 @@ if (!MAIN_MODULE) {
             .state('parking.sub', {
                 url: '/parking',
                 templateUrl: 'client/js/directives/infoParking.html'
+            })
+            .state('security', {
+                templateUrl: 'client/ui-view.html',
+                controller: 'securityCtrl'
+            })
+            .state('security.sub', {
+                url: '/security',
+                templateUrl: 'client/js/directives/infoLegend.html'
             });
     }).directive('navBar', function () {
         return {
@@ -47,7 +55,7 @@ if (!MAIN_MODULE) {
             return (($location.path().substr(1, path.length) === path) ? 'active' : '');
         };
         $scope.categories = [
-            {link: "parking", text: 'PARKING', color: '#ea5959'},
+            {link: 'parking', text: 'PARKING', color: '#ea5959'},
             {link: 'weather', text: 'WEATHER', color: '#eb9860'},
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},

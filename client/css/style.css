@@ -246,6 +246,11 @@ html, body {
   text-align: right;
 }
 
+.security-icon {
+  width: 25%;
+  display: block;
+}
+
 .footer {
   height: 3px;
   background-color: #ea5959;

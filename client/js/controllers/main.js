@@ -197,7 +197,19 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     //Get the forecast info
     $scope.forecastInfo = loc.attributes.forecast;
     $scope.retIconUrl = IconService.retIconUrl;
-}).filter('toFixed', function(){ //Turns string into float and removes decimals
+}).controller('securityCtrl', function ($scope, $meteor, $reactive) {
+    $scope.map = {
+        center: {
+            longitude: 5.4500238,
+            latitude: 51.4523127,
+        },
+        zoom: 15,
+        options: {
+            disableDefaultUI: true
+        }
+    };
+})
+    .filter('toFixed', function(){ //Turns string into float and removes decimals
     return function(string){
         return parseFloat(string).toFixed();
     }
