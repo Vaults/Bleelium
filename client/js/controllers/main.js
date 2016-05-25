@@ -271,6 +271,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         popUp.style.display = "none";
     }
 
+    // Display the amount of unchecked events in the button
     $scope.uncheckedEvents = unchecked;
 });
 

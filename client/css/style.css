@@ -354,6 +354,10 @@ html, body {
   margin-top: 10px;
 }
 
+.body p{
+  margin-left: 50px;
+}
+
 .options {
   padding: 2px 16px;
   text-align:center;
