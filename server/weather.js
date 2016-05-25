@@ -171,7 +171,9 @@ var createForecastData = function(o, i, id){
 		"updateAction": "APPEND"
 	};
 }
-
+/**
+ *
+ */
 var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherMap to Orion
 	var locations = '';
 	for (key in dataWeatherMap) {
