@@ -58,18 +58,19 @@ var handleError = function (c) {
  * @returns {*}
  */
 var numToObj = function (o) {
-    o.forecast = {};
-    for (key in o) {
-        var fc = key.charAt(0);
-        if (fc >= 0 && fc <= 9) {
-            if (!o.forecast['day' + fc]) {
-                o.forecast['day' + fc] = {}
+    var tempobj = {forecast: {}};
+    for(key in o){
+        var fc = key.split('-')[0];
+        if (fc >= 0 && fc <= 99) {
+            if (!tempobj.forecast['day' + fc]) {
+                tempobj.forecast['day' + fc] = {}
             }
-            o.forecast['day' + fc][key.substr(2, key.length)] = o[key];
-            delete o[key];
+            tempobj.forecast['day' + fc][key.split('-')[1]] = o[key];
+        }else{
+            tempobj[key] = o[key];
         }
     }
-    return o;
+    return tempobj;
 }
 /**
  *
