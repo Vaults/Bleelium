@@ -1,12 +1,11 @@
-import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
-import { collectionWrapper } from '/server/imports/collections.js';
+
 
 //to be tested functions
 import {postOrionData, pull, reloadPull} from '/server/imports/orionAPI.js';
 
 describe('postOrionData()', function(done){
-	it('No errors from pulling openweathermap properly', function(done){
+	it('No errors from pushing openweathermap properly', function(done){
 		var postWeatherTest =  { 
 			contextElements:	[
 				{ 
@@ -52,7 +51,6 @@ describe('postOrionData()', function(done){
 			done();
 		});
 	});
-		
 });
 describe('pull()', function(){
 	//no tests yet

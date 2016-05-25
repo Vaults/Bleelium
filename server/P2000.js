@@ -2,7 +2,11 @@ import {HTTP} from 'meteor/http';
 import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
-
+/**
+ *
+ * @param o
+ * @returns {{contextElements: *[], updateAction: string}}
+ */
 var createP2000Data = function(o){ //Creates orion-compliant objects for Orion storage
 	return {
 		"contextElements": [
@@ -32,7 +36,9 @@ var createP2000Data = function(o){ //Creates orion-compliant objects for Orion s
 		"updateAction": "APPEND"
 	};
 }
-
+/**
+ *
+ */
 var pushP2000ToOrion = function() {
 	HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function(response){
 		xml2js.parseString(response.content, handleError(function(result){
@@ -50,7 +56,10 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     },
     job: pushP2000ToOrion
 });
-
+/**
+ * 
+ * @type {{name: string, args: string, f: P2000Pull.f}}
+ */
 var P2000Pull = {
 	name: 'P2000',
 	args: '?orderBy=!publish_date&limit=1000',
