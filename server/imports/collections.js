@@ -13,7 +13,7 @@ Meteor.publish('P2000Pub', function P2000Publication() {
 
 
 var collectionWrapper = {
-	"WeatherStations" : WeatherStations,
+	"WeatherStation" : WeatherStations,
   "P2000" : P2000
 };
 export {collectionWrapper};
