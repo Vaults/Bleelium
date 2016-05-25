@@ -6,7 +6,24 @@ import { collectionWrapper } from '/server/imports/collections.js';
 //to be tested functions
 import {attributesToKeyValue, rewriteAttributes, handleError} from '/server/imports/util.js';
 describe('attributesToKeyValue()', function(){
-	//no tests yet
+	it('Simple Orion Object', function(){
+        var orObj = [
+            {
+                "name": "a",
+                "type": "string",
+                "value": "b"
+            },
+            {
+                "name": "illuminati",
+                "type": "string",
+                "value": "confirmed"
+            }
+        ];
+        var converted = attributesToKeyValue(orObj);
+        assert.equal(converted.a, 'b');
+        assert.equal(converted.illuminati, 'confirmed');
+        assert.equal(Object.keys(converted).length, 2);
+    });
 });
 describe('rewriteAttributes()', function(){
 	//no tests yet
