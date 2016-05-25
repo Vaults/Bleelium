@@ -1,9 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
 import { collectionWrapper } from '/server/imports/collections.js';
-
+import {P2000Pull} from '/server/P2000.js';
+import {pull} from '/server/imports/orionAPI.js'
+import {handleError} from '/server/imports/util.js'
 //to be tested functions
 import {initPulls} from '/server/main.js';
+
 import {dataWeatherMap} from '/server/weather.js';
 
 
@@ -15,7 +18,6 @@ describe('initPulls()', function(done) {
 		initPulls();
 	});
 	it('adds all weatherstations to the database and not any more', function(done){
-		initPulls();
 		//var len = Object.keys(dataWeatherMap).length;
 		var WeatherStations = collectionWrapper['WeatherStation'];
 		var c = 0;
@@ -25,18 +27,17 @@ describe('initPulls()', function(done) {
 				c++;
 			}
 			assert.isUndefined(WeatherStations.findOne({"_id": -1})); //checks if it doesn't always return true for non-existing values
-			assert.equal(WeatherStations.find().count(), c);
+			assert.equal(WeatherS   tations.find().count(), c);
 			done();
 		}, 1000);
 	});
-	it('all weatherstations are valid', function(){
-
-	});
-	it('adds all P2000 items to the database', function(){
-		
-	});
-	it('all P2000 are valid', function(){
-
+	it('adds all P2000 items to the database', function(done){
+        Meteor.setTimeout(function(){
+            pull(P2000Pull.name, P2000Pull.args, handleError(function(response){
+                assert.equal(collectionWrapper['P2000'].find().count(), response.data.contextResponses.length);
+                done();
+            }));
+        }, 1000);
 	});
 	after(function(){
 		collectionWrapper["P2000"].remove({});

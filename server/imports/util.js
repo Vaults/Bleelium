@@ -22,13 +22,13 @@ var rewriteAttributes = function (obj, callback) {
 }
 
 var handleError = function(c){
-	return function(error, response){
+	return function(error, result){
 		if(error){
 			console.log("--- ERROR DETECTED ---");
 			console.log(error);
 			console.log("--- ERROR DETECTED ---");
 		}else{
-			c(response);
+			c(result);
 		}
 	}
 }
