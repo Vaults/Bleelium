@@ -204,6 +204,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 }).controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
     var popUp = document.getElementById('pop-up');
 
+    var checked = 0;
+
     // Get the <span> element that closes the pop-up
     var span = document.getElementsByClassName("close")[0];
 
@@ -212,6 +214,60 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         popUp.style.display = "none";
     }
 
-    $scope.data = {};
+    $scope.events = [
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Woenselse Watermolen",
+            description: {
+                name: "Bomb Threat",
+                sensor: "bomb detector",
+                level: 10
+            },
+            time: 1530,
+            date: 24052016,
+            view: true
+        },
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Woenselse Watermolen",
+            description: {
+                name: "Gas Leak",
+                sensor: "gas detector",
+                level: 10
+            },
+            time: 1530,
+            date: 24052016,
+            view: true
+        },
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Woenselse Watermolen",
+            description: {
+                name: "car accident",
+                sensor: "sound sensor",
+                level: 10
+            },
+            time: 1530,
+            date: 24052016,
+            view: true
+        }
+    ]
+
+    // When the event has level higher than 6, the warning window will pop up
+    for (i = 1; i< $scope.events.length; i++) {
+        if ($scope.events[i].description.level > 6) {
+            popUp.style.display = "block";
+        }
+    }
+
 });
 

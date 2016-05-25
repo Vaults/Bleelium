@@ -4,11 +4,11 @@
         <div class="header">
             <span class="close">×</span>
             <img src="/img/security/warninggeneral.png" class="warning-icon" />
-            <h2>Warning! Fire Alarm</h2>
+            <h2>Warning! {{events[1].description.name}}</h2>
         </div>
         <div class="body">
             <img src="/img/security/warningfire.png" class="event-icon" />
-            <p>Your house is on fire</p>
+            <p> There is a {{events[1].description.name}} around {{events[1].street}}!</p>
         </div>
         <div class="options">
             <button class="optionButton">Info</button> <button class="optionButton">View more(3)</button>
