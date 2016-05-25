@@ -204,15 +204,11 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 }).controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
     var popUp = document.getElementById('pop-up');
 
-    var checked = 0;
+    // This counts the amount of uncheccked events
+    var unchecked = 0;
 
     // Get the <span> element that closes the pop-up
     var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        popUp.style.display = "none";
-    }
 
     $scope.events = [
         {
@@ -252,7 +248,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             },
             street: "Woenselse Watermolen",
             description: {
-                name: "car accident",
+                name: "Car Accident",
                 sensor: "sound sensor",
                 level: 10
             },
@@ -263,11 +259,18 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     ]
 
     // When the event has level higher than 6, the warning window will pop up
-    for (i = 1; i< $scope.events.length; i++) {
+    for (i = 0; i< $scope.events.length; i++) {
         if ($scope.events[i].description.level > 6) {
             popUp.style.display = "block";
+            unchecked = $scope.events.length;
         }
     }
 
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        popUp.style.display = "none";
+    }
+
+    $scope.uncheckedEvents = unchecked;
 });
 
