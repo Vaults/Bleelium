@@ -11,6 +11,8 @@ var rewriteAttributes = function (obj, callback) {
 			for (var i = 0; i < obj.data.contextResponses.length; i++) {
 					var tempobj = obj.data.contextResponses[i].contextElement;
 					tempobj.attributes = attributesToKeyValue(tempobj.attributes);
+					tempobj._id = tempobj.id;
+					delete tempobj.id;
 			}
 		}
 		else{
@@ -19,7 +21,42 @@ var rewriteAttributes = function (obj, callback) {
 		return obj;
 }
 
-export{attributesToKeyValue, rewriteAttributes}
+var handleError = function(c){
+	return function(error, response){
+		if(error){
+			console.log("--- ERROR DETECTED ---");
+			console.log(error);
+			console.log("--- ERROR DETECTED ---");
+		}else{
+			c(response);
+		}
+	}
+}
+
+var numToObj = function(o){
+	o.forecast = {};
+	for(key in o){
+		var fc = key.charAt(0);
+        if(fc >= 0 && fc <= 9){
+			if(!o.forecast['day' + fc]){
+				o.forecast['day' + fc] = {}
+			}
+			o.forecast['day' + fc][key.substr(2,key.length)] = o[key];
+ 			delete o[key];
+		}
+    }
+    return o;
+}
+
+var rewriteNumbersToObjects = function(obj){
+	for (var i = 0; i < obj.data.contextResponses.length; i++) {
+		var tempobj = obj.data.contextResponses[i].contextElement;
+		tempobj.attributes = numToObj(tempobj.attributes);
+	}
+	return obj;
+}
+
+export{attributesToKeyValue, rewriteAttributes, handleError, numToObj, rewriteNumbersToObjects}
 /*
 var Future = Npm.require('fibers/future');
 
