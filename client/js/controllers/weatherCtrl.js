@@ -1,4 +1,4 @@
-import { HTTP } from 'meteor/http';
+import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
 WeatherStations = new Mongo.Collection('weatherStations');
@@ -7,22 +7,18 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
 
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
-
     $scope.helpers({	//Scope helpers to get from Meteor collections
-        weatherStationDebug(){
-            return WeatherStations.findOne({"_id": "2756253"});
-        },
         weatherStations(){
             return WeatherStations.find({});
         }
     });
-
     /**
      * @summary Find a weatherstation based on geolocation
      * @param loc object with attributes 'attributes.coord_lat' and 'attributes.coord_lon'
      * @returns WeatherStation
      */
     $scope.findWeatherStationInfo = function (loc) { //Finds a weather station from coordinates
+        console.log(loc.lat());
         var selector = {
             'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
             'attributes.coord_lon': String(lodash.round(loc.lng(), 2))
@@ -36,9 +32,10 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
      * @param arg WeatherStation information
      */
     var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
+        console.log(arg);
         if (arg) {
             var loc = $scope.findWeatherStationInfo(arg);
-
+            console.log(loc);
             $scope.loc = arg;
             WeatherService.weatherLocation = { //Set a global variable with current location
                 'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
@@ -52,13 +49,13 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.min = lodash.round(loc.attributes.temp_min, 2);
             $scope.max = lodash.round(loc.attributes.temp_max, 2);
             $scope.windDegrees = loc.attributes.wind_deg;
-            $scope.windDirection = getWindDir(loc.attributes.wind_deg);
+            //$scope.windDirection = getWindDir(loc.attributes.wind_deg);
             $scope.Airpressure = lodash.round(loc.attributes.pressure);
             $scope.Humidity = lodash.round(loc.attributes.humidity);
             $scope.sunrise = loc.attributes.sunrise;
             $scope.sunset = loc.attributes.sunset;
             $scope.iconURL = IconService.retIconUrl(loc.attributes.weather_icon, 'weather');
-            $scope.$apply();
+            //$scope.$apply();
         }
     };
 
@@ -97,12 +94,22 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
      */
     var reload = function () {
         $reactive(this).attach($scope);
-        var selStation = $scope.getReactively('weatherStationDebug');
         var stations = $scope.getReactively('weatherStations');
-        setInfo(null, $scope.loc);
         //Create map and center on Eindhoven
+        var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation) {
             if (!$scope.map) {
+                var temp = {
+                    lat: function(){
+                        return '51.44';
+
+                    },
+                    lng: function(){
+                        return '5.48';
+                    }
+                };
+                setInfo(null, temp);
+
                 $scope.map = {
                     center: {
                         longitude: selStation.attributes.coord_lon,
@@ -111,14 +118,14 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                     zoom: 11,
                     events: {
                         click: (mapModel, eventName, originalEventArgs) => {
-                $scope.$apply();
-            }
-            },
-                options: {
-                    disableDefaultUI: true
-                }
+                            //$scope.$apply();
+                        }
+                    },
+                    options: {
+                        disableDefaultUI: true
+                    }
 
-            };
+                };
             }
         }
         //Create map markers for each weatherstation
@@ -133,100 +140,17 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                     events: {
                         click: (marker, eventName, args) => {
                             //Set global variable to current weatherstation for use from other controllers
-                        $rootScope.$broadcast('setInfo', marker.getPosition());
-                }
-            },
-                location: {
-                    longitude: stations[i].attributes.coord_lon,
+                            $rootScope.$broadcast('setInfo', marker.getPosition());
+                        }
+                    },
+                    location: {
+                        longitude: stations[i].attributes.coord_lon,
                         latitude: stations[i].attributes.coord_lat,
-                },
-            });
+                    },
+                });
             }
         }
     }
     $scope.autorun(reload)
 
-}).controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
-
-    var popUpMulti = document.getElementById('pop-upMulti');
-
-    $scope.events = [
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Woenselse Watermolen",
-            description: {
-                name: "Bomb Threat",
-                sensor: "bomb detector",
-                level: 9
-            },
-            time: 1530,
-            date: 24052016,
-            view: true,
-            icon: "warningbombthreat"
-        },
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Gildebuurt",
-            description: {
-                name: "Gas Leak",
-                sensor: "gas detector",
-                level: 10
-            },
-            time: 1630,
-            date: 24052016,
-            view: true,
-            icon: "warninggasleak"
-        },
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Witte Dame",
-            description: {
-                name: "Car Accident",
-                sensor: "sound sensor",
-                level: 7
-            },
-            time: 1730,
-            date: 24052016,
-            view: true,
-            icon: "warninggeneral"
-        }
-    ]
-
-    //fina the event with maximum level
-    function getMaxLevel(events) {
-        var maxLevel = 0;
-        for (i = 0; i < events.length; i++) {
-            if (events[i].description.level >= events[maxLevel].description.level) {
-                maxLevel = i;
-            }
-        }
-        return events[maxLevel];
-    }
-
-    //Set the default event as the one with the maximum
-    if ($scope.events.length == 1) {
-        $scope.selectedEvent = $scope.events[0];
-    }
-    else {
-        $scope.selectedEvent = getMaxLevel($scope.events);
-    }
-
-    // When the event array is not empty, the warning window will pop up
-    if ($scope.events.length != 0) {
-        popUpMulti.style.display = "block";
-    }
-
-    //Close the pop-up windows when click on the x
-    $scope.close = function () {
-        popUpMulti.style.display = "none";
-    }
 });

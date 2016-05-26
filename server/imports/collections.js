@@ -8,12 +8,12 @@ Meteor.publish('weatherPub', function weatherPublication() {
 
 var P2000 = new Mongo.Collection('P2000');
 Meteor.publish('P2000Pub', function P2000Publication() {
-    return P2000.find({});
+    return P2000.find({'attributes.info': 'true'}, {limit: 25});
 });
 
 
 var collectionWrapper = {
-    "WeatherStation": WeatherStations,
-    "P2000": P2000
+	"WeatherStation" : WeatherStations,
+    "P2000" : P2000
 };
 export {collectionWrapper};
