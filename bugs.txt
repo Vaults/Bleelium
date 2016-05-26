@@ -1,0 +1,3 @@
+-Weather icons stutter
+-A weatherstation is not selected when the weather page is loaded
+-Sometimes, the weather page doesn't load until the page is switched
