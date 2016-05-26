@@ -204,12 +204,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 }).controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
     var popUp = document.getElementById('pop-up');
 
-    // This counts the amount of uncheccked events
-    var unchecked = 0;
-
-    // Get the <span> element that closes the pop-up
-    var span = document.getElementsByClassName("close")[0];
-
     $scope.events = [
         {
             coord: {
@@ -220,58 +214,68 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             description: {
                 name: "Bomb Threat",
                 sensor: "bomb detector",
-                level: 10
+                level: 9
             },
             time: 1530,
             date: 24052016,
-            view: true
+            view: true,
+            icon: "warningbombthreat"
         },
         {
             coord: {
                 lot: 5.487589,
                 lat: 51.447835
             },
-            street: "Woenselse Watermolen",
+            street: "Gildebuurt",
             description: {
                 name: "Gas Leak",
                 sensor: "gas detector",
                 level: 10
             },
-            time: 1530,
+            time: 1630,
             date: 24052016,
-            view: true
+            view: true,
+            icon: "warninggasleak"
         },
         {
             coord: {
                 lot: 5.487589,
                 lat: 51.447835
             },
-            street: "Woenselse Watermolen",
+            street: "Witte Dame",
             description: {
                 name: "Car Accident",
                 sensor: "sound sensor",
-                level: 10
+                level: 7
             },
-            time: 1530,
+            time: 1730,
             date: 24052016,
-            view: true
+            view: true,
+            icon: "warninggeneral"
         }
     ]
 
-    // When the event has level higher than 6, the warning window will pop up
-    for (i = 0; i< $scope.events.length; i++) {
-        if ($scope.events[i].description.level > 6) {
-            popUp.style.display = "block";
-            unchecked = $scope.events.length;
+    //fina the event with maximum level
+    function getMaxLevel(events) {
+        var maxLevel = 0;
+        for (i = 0; i<events.length; i++) {
+            if (events[i].description.level >= events[maxLevel].description.level) {
+                maxLevel = i;
+            }
         }
+        return events[maxLevel];
     }
 
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    //Set the default event as the one with the maximum
+    $scope.selectedEvent = getMaxLevel($scope.events);
+
+    // When the event array is not empty, the warning window will pop up
+    if ($scope.events != null) {
+        popUp.style.display = "block";
+    }
+
+    $scope.close = function(){
         popUp.style.display = "none";
     }
-
-    // Display the amount of unchecked events in the button
-    $scope.uncheckedEvents = unchecked;
 });
 

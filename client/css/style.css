@@ -337,25 +337,52 @@ html, body {
 
 .header {
   padding: 2px 16px;
-  background-color: red;
+  background-color: #ea5959;
   color: white;
   font-size: 10px;
 }
 
 .body {
-  padding: 2px 16px;
+  padding-right: 30px;
+  padding-left: 30px;
+  padding-top: 30px;
+  padding-bottom: 5px;
 }
 
 .body .event-icon {
   float: left;
-  width: 8%;
-  height: 8%;
-  margin-right: 50px;
-  margin-top: 10px;
+  display: inline;
+  height: 35px;
+  margin-right: 10px;
 }
 
-.body p{
-  margin-left: 50px;
+.body .selection{
+  display: inline;
+  position: relative;
+  text-align: left;
+  background: #fff;
+  width: 75%;
+  z-index: 100;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: transparent;
+  font-size: 2em;
+  font-weight: 700;
+  max-width: 600px;
+}
+
+.body select#events option {
+
+}
+
+.information {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 0;
 }
 
 .options {
@@ -371,10 +398,10 @@ html, body {
    border: 0px solid;
    width: auto;
    text-align: center;
-   dispaly: inline;
    background-color: #ea5959;
  }
 
 .optionButton:hover {
   background-color: #D45A5A;
 }
+

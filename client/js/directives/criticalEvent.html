@@ -2,16 +2,21 @@
 
     <div class="content">
         <div class="header">
-            <span class="close">×</span>
+            <span class="close" ng-click="close()">×</span>
             <img src="/img/security/warninggeneral.png" class="warning-icon" />
-            <h2>Warning! {{events[events.length - 1].description.name}}</h2>
+            <h2>Warning! </h2>
         </div>
         <div class="body">
-            <img src="/img/security/warningfire.png" class="event-icon" />
-            <p> There is a {{events[events.length - 1].description.name}} around {{events[events.length - 1].street}}!</p>
+            <img src="/img/security/{{selectedEvent.icon}}.png" class="event-icon" />
+            <select id="events" class="selection" ng-model="selectedEvent" ng-options="event.description.name for event in events" >
+            </select>
+        </div>
+        <div class="information">
+            <p>Address: {{selectedEvent.street}} </p>
+            <p>Time: {{selectedEvent.time}}</p>
         </div>
         <div class="options">
-            <button id="more" class="optionButton">View more({{uncheckedEvents}})</button>
+            <button id="view" class="optionButton">info</button>
         </div>
     </div>
 
