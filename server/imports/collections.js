@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
+import {Meteor} from 'meteor/meteor';
+import {Mongo} from 'meteor/mongo';
 
 var WeatherStations = new Mongo.Collection('weatherStations');
 Meteor.publish('weatherPub', function weatherPublication() {

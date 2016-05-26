@@ -115,7 +115,7 @@ var createWeatherData = function(o){ //Creates orion-compliant objects for Orion
 	};
 }
 /**
- * 
+ *
  * @param o
  * @param i
  * @param id
@@ -200,7 +200,6 @@ var pushForecastToOrion = function(){
 		}));
 	}
 }
-
 
 /* https://github.com/percolatestudio/meteor-synced-cron */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
