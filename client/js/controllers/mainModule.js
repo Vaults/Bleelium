@@ -39,9 +39,14 @@ if (!MAIN_MODULE) {
             })
             .state('criticalEvent', {
                 url:'/event',
-                templateUrl: 'client/js/directives/criticalEvent.html',
+                templateUrl: 'client/js/directives/critical-event.html',
                 controller: 'eventCtrl'
             });
+    }).directive('criticalEvents', function () {
+        return {
+            templateUrl: 'client/js/directives/critical-event.html',
+            scope: '=',
+        };
     }).directive('navBar', function () {
         return {
             templateUrl: 'client/js/directives/nav-bar.html',

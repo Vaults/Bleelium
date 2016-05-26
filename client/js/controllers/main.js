@@ -195,7 +195,8 @@ MAIN_MODULE.filter('toFixed', function () { //Turns string into float and remove
         return parseFloat(string).toFixed();
     }
 }).controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
-    var popUp = document.getElementById('pop-up');
+
+    var popUpMulti = document.getElementById('pop-upMulti');
 
     $scope.events = [
         {
@@ -260,15 +261,21 @@ MAIN_MODULE.filter('toFixed', function () { //Turns string into float and remove
     }
 
     //Set the default event as the one with the maximum
-    $scope.selectedEvent = getMaxLevel($scope.events);
-
-    // When the event array is not empty, the warning window will pop up
-    if ($scope.events != null) {
-        popUp.style.display = "block";
+    if ($scope.events.length == 1) {
+        $scope.selectedEvent = $scope.events[0];
+    }
+    else {
+        $scope.selectedEvent = getMaxLevel($scope.events);
     }
 
+    // When the event array is not empty, the warning window will pop up
+    if ($scope.events.length != 0) {
+        popUpMulti.style.display = "block";
+    }
+
+    //Close the pop-up windows when click on the x
     $scope.close = function(){
-        popUp.style.display = "none";
+        popUpMulti.style.display = "none";
     }
 });
 
