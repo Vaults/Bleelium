@@ -43,7 +43,7 @@ if (!MAIN_MODULE) {
             })
             .state('security.sub', {
                 url: '/security',
-                templateUrl: 'client/js/directives/infoLegend.html'
+                templateUrl: 'client/js/directives/infoSoundEvent.html'
             });
     }).directive('navBar', function () {
         return {
