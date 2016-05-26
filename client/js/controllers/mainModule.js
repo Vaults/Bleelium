@@ -25,7 +25,7 @@ if (!MAIN_MODULE) {
                 templateUrl: 'client/js/directives/infoWeather.html'
             })
             .state('forecast', {
-                url: '/forecast',
+                url: '/weather/forecast',
                 templateUrl: 'client/js/directives/infoForecast.html',
                 controller: 'forecastCtrl'
             })
@@ -76,6 +76,20 @@ if (!MAIN_MODULE) {
          */
         IconService.retIconUrl = function(icon, folder) {
             return '/img/' + IconService.sanitizeStr(folder) +'/' + IconService.sanitizeStr(icon) + '.png';
+        }
+        
+        IconService.createMarkerIcon = function(icon, folder) {
+            return {
+                url: IconService.retIconUrl(icon, folder),
+                anchor: {
+                    x: 24,
+                    y: 24
+                },
+                scaledSize: {
+                    height: 48,
+                    width: 48
+                }
+            };
         }
         return IconService;
     })

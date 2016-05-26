@@ -62,7 +62,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
 
 
     $scope.$on('setInfo', setInfo);
-    $scope.setLocation = function (latitude, longitude) {
+    $scope.makeLocation = function (latitude, longitude) {
         return {
             latitude,
             longitude
@@ -85,8 +85,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                     zoom: 11,
                     events: {
                         click: (mapModel, eventName, originalEventArgs) => {
-                            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                            $scope.$apply();
+                            $scope.$apply(); //Arjan: What does this do?
                         }
                     },
                     options: {
@@ -102,29 +101,11 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                 $scope.markers.push({
                     options: {
                         draggable: false,
-                        icon: {
-                            url: IconService.retIconUrl(stations[i].attributes.weather_icon, 'weather'),
-                            size: {
-                                height: 600,
-                                width: 600
-                            },
-                            anchor: {
-                                x: 24,
-                                y: 24
-                            },
-                            scaledSize: {
-                                height: 48,
-                                width: 48
-                            }
-                        },
+                        icon: IconService.createMarkerIcon(stations[i].attributes.weather_icon, 'weather')
                     },
                     events: {
                         click: (marker, eventName, args) => {
                             $rootScope.$broadcast('setInfo', marker.getPosition());
-                        },
-                        dragend: (marker, eventName, args) => {
-                            this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
-                            $scope.$apply();
                         }
                     },
                     location: {
@@ -148,7 +129,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
         zoom: 15,
         events: {
             click: (mapModel, eventName, originalEventArgs) => {
-                this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
                 $scope.$apply();
             }
         },

@@ -52,9 +52,19 @@ describe('postOrionData()', function(done){
 		});
 	});
 });
-describe('pull()', function(){
-	//no tests yet
+describe('pull()', function(done){
+	it('simple pull call', function(done){
+		pull('WeatherStation', '', function(response){
+			assert.isDefined(response.data.contextResponses);
+			done();
+		});
+	})
 });
-describe('reloadPull()', function(){
-	//no tests yet
+describe('reloadPull()', function(done){
+	it('simple reloadPull call', function(done){
+		reloadPull('WeatherStation', '', function(response){
+			assert.isDefined(response.data.contextResponses);
+			done();
+		});
+	});
 });
