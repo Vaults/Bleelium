@@ -124,8 +124,8 @@ var geoLoc = function(o){
 var generateFakeCoords = function(o){
     //51.31N, 5.31E topright
     //51°23′N 5°20′E bottom left
-    o.coord_lat = lodash.random(5.2, 5.31);
-    o.coord_lng = lodash.random(51.23, 51.31);
+    o.coord_lng = lodash.random(5.2, 5.31);
+    o.coord_lat = lodash.random(51.23, 51.31);
 }
 
 /**
