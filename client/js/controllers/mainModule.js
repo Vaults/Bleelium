@@ -37,10 +37,21 @@ if (!MAIN_MODULE) {
                 url: '/parking',
                 templateUrl: 'client/js/directives/infoParking.html'
             })
-            .state('criticalEvent', {
-                url:'/event',
-                templateUrl: 'client/js/directives/critical-event.html',
-                controller: 'eventCtrl'
+            .state('security', {
+                templateUrl: 'client/ui-view.html',
+                controller: 'securityCtrl'
+            })
+            .state('security.sub', {
+                url: '/security',
+                templateUrl: 'client/js/directives/infoSecurity.html'
+            })
+            .state('security.subemergency', {
+                url: '/securityEmergencyEvent',
+                templateUrl: 'client/js/directives/infoEmergencyEvent.html'
+            })
+            .state('security.subsound', {
+                url: '/securitySoundEvent',
+                templateUrl: 'client/js/directives/infoSoundEvent.html'
             });
     }).directive('criticalEvents', function () {
         return {
@@ -57,7 +68,7 @@ if (!MAIN_MODULE) {
             return (($location.path().substr(1, path.length) === path) ? 'active' : '');
         };
         $scope.categories = [
-            {link: "parking", text: 'PARKING', color: '#ea5959'},
+            {link: 'parking', text: 'PARKING', color: '#ea5959'},
             {link: 'weather', text: 'WEATHER', color: '#eb9860'},
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},

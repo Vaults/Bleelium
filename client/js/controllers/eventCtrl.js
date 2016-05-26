@@ -1,5 +1,7 @@
+/**
+ * Created by Marcel on 26-5-2016.
+ */
 import {MAIN_MODULE} from  './mainModule.js';
-
 MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
 
     var popUpMulti = document.getElementById('pop-upMulti');
@@ -58,7 +60,7 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
     //fina the event with maximum level
     function getMaxLevel(events) {
         var maxLevel = 0;
-        for (i = 0; i<events.length; i++) {
+        for (i = 0; i < events.length; i++) {
             if (events[i].description.level >= events[maxLevel].description.level) {
                 maxLevel = i;
             }
@@ -80,8 +82,7 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
     }
 
     //Close the pop-up windows when click on the x
-    $scope.close = function(){
+    $scope.close = function () {
         popUpMulti.style.display = "none";
     }
 });
-

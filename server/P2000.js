@@ -1,13 +1,9 @@
 import {HTTP} from 'meteor/http';
-import {postOrionData, deleteOrionData, deleteLocalData} from '/server/imports/orionAPI.js';
+import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
 import {splitData,createP2000Data} from './P2000DataSplitter.js';
 
-var p2000DataDeleter = function (id) {
-    deleteLocalData('P2000');
-    deleteOrionData("P2000",id);
-}
 
 var pushP2000ToOrion = function () {
     HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function (response) {
