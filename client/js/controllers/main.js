@@ -149,7 +149,7 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     $scope.autorun(reload)
 
 
-}).controller('parkingCtrl', function ($scope, $meteor, $reactive) {
+}).controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope) {
 
     $scope.map = {
         center: {
@@ -167,8 +167,107 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
-}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
+}).controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope) {
 
+    $scope.map = {
+        center: {
+            longitude: 5.4500238,
+            latitude: 51.4523127,
+        },
+        zoom: 15,
+        options: {
+            disableDefaultUI: true
+        }
+    };
+    
+    $meteor.subscribe('P2000Pub');
+    $scope.markers = [];
+    
+    $scope.helpers({	//Scope helpers to get from Meteor collections
+        p2000Debug(){
+            return P2000.findOne();
+        },
+        p2000Events(){
+            return P2000.find();
+        }
+    });
+
+    $scope.$on('setInfo', setInfo);
+    var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
+        if (arg) {
+            
+            $scope.$apply();
+        }
+    };
+
+    var reload = function () { //Runs whenever the p2000 collection is updated. Pulls all p2000 events and updates all UI elements
+        $reactive(this).attach($scope);
+        var events = $scope.getReactively('p2000Events');
+        var selEvent = $scope.getReactively('p2000Debug');
+        setInfo(null, $scope.loc);
+        if (selEvent) {
+            if (!$scope.map) {
+                $scope.map = {
+                    center: {
+                        longitude: '5.48',
+                        latitude: '51.44',
+                    },
+                    zoom: 11,
+                    events: {
+                        click: (mapModel, eventName, originalEventArgs) => {
+                            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
+                            $scope.$apply();
+                        }
+                    },
+                    options: {
+                        disableDefaultUI: true
+                    }
+
+                };
+            }
+        }
+        $scope.markers = [];
+        for (var i = 0; i < events.length; i++) {
+            if (events[i].attributes) {
+                console.log($scope.markers);
+                $scope.markers.push({
+                    options: {
+                        draggable: false,
+                        icon: {
+                            size: {
+                                height: 600,
+                                width: 600
+                            },
+                            anchor: {
+                                x: 24,
+                                y: 24
+                            },
+                            scaledSize: {
+                                height: 48,
+                                width: 48
+                            }
+                        },
+                    },
+                    events: {
+                        click: (marker, eventName, args) => {
+                            $rootScope.$broadcast('setInfo', marker.getPosition());
+                        },
+                        dragend: (marker, eventName, args) => {
+                            this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                            $scope.$apply();
+                        }
+                    },
+                    location: {
+                        longitude: '5.48',
+                        latitude: '51.44',
+                    },
+                });
+            }
+        }
+    }
+    $scope.autorun(reload)
+    
+}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
     //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
     var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits

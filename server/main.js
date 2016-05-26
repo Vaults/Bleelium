@@ -215,16 +215,16 @@ var createP2000Data = function(o){ //Creates orion-compliant objects for Orion s
 				"isPattern": "false",
 				"id": o.guid[0]._,
 				"attributes": [
-          {
-            "name": "title",
-            "type": "string",
-            "value": o.title[0]
-          },
-          {
-            "name": "description",
-            "type": "string",
-            "value": o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '')
-          },
+                    {
+                        "name": "title",
+                        "type": "string",
+                        "value": o.title[0]
+                    },
+                    {
+                        "name": "description",
+                        "type": "string",
+                        "value": o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '')
+                    },
 					{
 						"name": "publish_date",
 						"type": "string",

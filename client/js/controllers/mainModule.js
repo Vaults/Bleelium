@@ -24,11 +24,11 @@ if (!MAIN_MODULE) {
 					url:'/weather',
 					templateUrl: 'client/js/directives/infoWeather.html'
 				})
-        .state('forecast', {
-                url: '/forecast',
-                templateUrl: 'client/js/directives/infoForecast.html',
-                controller: 'forecastCtrl'
-        })
+                .state('forecast', {
+                    url: '/forecast',
+                    templateUrl: 'client/js/directives/infoForecast.html',
+                    controller: 'forecastCtrl'
+                })
 				.state('parking',	{
 					templateUrl: 'client/ui-view.html',
 					controller: 'parkingCtrl'
@@ -37,12 +37,12 @@ if (!MAIN_MODULE) {
 					url:'/parking',
 					templateUrl: 'client/js/directives/infoParking.html'
 				})
-        .state('security',	{
+                .state('security',	{
 					templateUrl:'client/ui-view.html',
 					controller: 'securityCtrl'
 				})
-        .state('security.sub',	{
-          url:'/security',
+                .state('security.sub',	{
+                    url:'/security',
 					templateUrl: 'client/js/directives/infoSecurity.html'
 				});
     }).directive('navBar', function () {
