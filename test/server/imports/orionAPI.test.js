@@ -55,7 +55,6 @@ describe('postOrionData()', function(done){
 describe('pull()', function(done){
 	it('simple pull call', function(done){
 		pull('WeatherStation', '', function(response){
-			console.log(response);
 			assert.isDefined(response.data.contextResponses);
 			done();
 		});
