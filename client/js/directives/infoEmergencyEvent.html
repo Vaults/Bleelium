@@ -1,11 +1,17 @@
 <div class="emergency-item">
     <!-- TODO: Currently reloads security page. Should instead reload legend in sidebar -->
-    <a ui-sref="security.sub"  id="closebutton1" class="closebutton">x</a>
-    <h2>{{city}}</h2>
+    <div class="pull-right">
+        <a ui-sref="security.sub"  id="closebutton1" class="closebutton">X</a>
+        <h2>{{city}}</h2>
+    </div>
     <!-- TODO: Name image files so that they correspond to Orion data -->
-    <img ng-src="'img/security/' + {{department}} + '.png'" class="weather-icon"/>
-    <h2>{{address}}</h2>
-    <h2>{{department}}</h2>
-    <h2>{{time}}</h2>
-    <p>{{description}}</p>
+
+    <div style="text-align:center">
+        <img ng-src="/img/security/paramedics.png" class="security-icon" height="150px"/>
+        <br>
+        <br>
+        {{title}}
+        <br>
+        {{publish_date}}
+    </div>
 </div>
