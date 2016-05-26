@@ -2,7 +2,7 @@ import {HTTP} from 'meteor/http';
 import {postOrionData, deleteOrionData, deleteLocalData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
-import {splitData} from './P2000DataSplitter.js';
+import {splitData,createP2000Data} from './P2000DataSplitter.js';
 
 var p2000DataDeleter = function (id) {
     deleteLocalData('P2000');
@@ -15,7 +15,6 @@ var pushP2000ToOrion = function () {
             for (item in result.rss.channel[0].item) {
 
                 //p2000DataDeleter(result.rss.channel[0].item[item]._id)
-                //postOrionData(
                 splitData(result.rss.channel[0].item[item]);
             }
         }));
