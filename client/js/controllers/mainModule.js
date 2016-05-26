@@ -45,20 +45,13 @@ if (!MAIN_MODULE) {
                 url: '/security',
                 templateUrl: 'client/js/directives/infoSecurity.html'
             })
-            .state('security.suboptions', {
-                url: '/securityOptions',
-                templateUrl: 'client/js/directives/infoSecurityOptions.html',
-                controller: 'securityOptionsCtrl'
-            })
             .state('security.subemergency', {
                 url: '/securityEmergencyEvent',
-                templateUrl: 'client/js/directives/infoEmergencyEvent.html',
-                controller: 'emergencyCtrl'
+                templateUrl: 'client/js/directives/infoEmergencyEvent.html'
             })
             .state('security.subsound', {
                 url: '/securitySoundEvent',
-                templateUrl: 'client/js/directives/infoSoundEvent.html',
-                controller: 'soundCtrl'
+                templateUrl: 'client/js/directives/infoSoundEvent.html'
             });
     }).directive('navBar', function () {
         return {

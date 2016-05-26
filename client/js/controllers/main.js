@@ -2,6 +2,17 @@ import {MAIN_MODULE} from  './mainModule.js';
 
 MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope, WeatherService) {
 
+    $scope.map = {
+        center: {
+            longitude: 5.48,
+            latitude: 51.44,
+        },
+        zoom: 13,
+        options: {
+            disableDefaultUI: true
+        }
+    };
+
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
 
@@ -167,14 +178,14 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
-}).controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope) {
+}).controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state) {
 
     $scope.map = {
         center: {
             longitude: 5.48,
             latitude: 51.44,
         },
-        zoom: 15,
+        zoom: 13,
         options: {
             disableDefaultUI: true
         }
@@ -182,6 +193,14 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     
     $meteor.subscribe('P2000Pub');
     $scope.markers = [];
+    
+    $scope.findEventInfo = function (loc) { //Finds an event from coordinates
+        var selector = {
+            'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
+            'attributes.coord_lng': String(lodash.round(loc.lng(), 2))
+        };
+        return P2000.findOne(selector);
+    }
     
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Debug(){
@@ -192,13 +211,17 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         }
     });
 
-    $scope.$on('setInfo', setInfo);
+    
     var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
         if (arg) {
-            
+            var loc = $scope.findEventInfo(arg);
+            console.log('Initial setinfo loc: ' + loc);
+            $state.go('security.subemergency');
+            //TODO: fill in parameters
             $scope.$apply();
         }
     };
+    $scope.$on('setInfo', setInfo);
 
     var reload = function () { //Runs whenever the p2000 collection is updated. Pulls all p2000 events and updates all UI elements
         $reactive(this).attach($scope);
@@ -209,10 +232,10 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             if (!$scope.map) {
                 $scope.map = {
                     center: {
-                        longitude: '5.48',
-                        latitude: '51.44',
+                        latitude: events[i].attributes.coord_lat,
+                        longitude: events[i].attributes.coord_lng
                     },
-                    zoom: 11,
+                    zoom: 13,
                     events: {
                         click: (mapModel, eventName, originalEventArgs) => {
                             this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
@@ -229,11 +252,12 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         $scope.markers = [];
         for (var i = 0; i < events.length; i++) {
             if (events[i].attributes) {
-                console.log($scope.markers);
+                //console.log($scope.markers);
                 $scope.markers.push({
                     options: {
                         draggable: false,
                         icon: {
+                            url: '/img/security/paramedics.png',
                             size: {
                                 height: 600,
                                 width: 600
@@ -258,17 +282,13 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
                         }
                     },
                     location: {
-                        longitude: '5.48',
-                        latitude: '51.44',
+                        latitude: events[i].attributes.coord_lat,
+                        longitude: events[i].attributes.coord_lng
                     },
                 });
             }
         }
     }
-    
-    $scope.autorun(reload);
-    
-}).controller('securityOptionsCtrl', function ($scope, $meteor, $reactive) {
     
     $scope.eventTypes = [
         {id: 'policedept',          icon: 'img/security/policedept.png',            text: 'Police Department',  checked: 'checked'},
@@ -285,6 +305,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         {id: 'warningbombthreat',   icon: 'img/security/warningbombthreat.png',     text: 'Bomb Threat',        checked: 'checked'},
         {id: 'warninggasleak',      icon: 'img/security/warninggasleak.png',        text: 'Gas Leak',           checked: 'checked'}
     ];
+    
+    $scope.autorun(reload);
     
 }).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
