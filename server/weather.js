@@ -10,7 +10,11 @@ var dataWeatherMap = {
 	"2754447": "Helmond",
 	"2759794": "Amsterdam"
 }
-
+/**
+ *
+ * @param o
+ * @returns {{contextElements: *[], updateAction: string}}
+ */
 var createWeatherData = function(o){ //Creates orion-compliant objects for Orion storage
 	return {
 		"contextElements": [
@@ -110,7 +114,13 @@ var createWeatherData = function(o){ //Creates orion-compliant objects for Orion
 		"updateAction": "APPEND"
 	};
 }
-
+/**
+ *
+ * @param o
+ * @param i
+ * @param id
+ * @returns {{contextElements: *[], updateAction: string}}
+ */
 var createForecastData = function(o, i, id){
 	return {
 		"contextElements": [
@@ -161,7 +171,9 @@ var createForecastData = function(o, i, id){
 		"updateAction": "APPEND"
 	};
 }
-
+/**
+ *
+ */
 var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherMap to Orion
 	var locations = '';
 	for (key in dataWeatherMap) {
@@ -172,10 +184,10 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
 			locationString = locationString + ',' + key
 		}
 	}
-    HTTP.call('GET', "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + locations + "&units=metric", {}, handleError(function(response){
+	HTTP.call('GET', "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + locations + "&units=metric", {}, handleError(function(response){
 		for (i = 0; i < response.data.cnt; i++) {
 			postOrionData(createWeatherData(response.data.list[i]));
-        }
+		}
 	}));
 }
 
@@ -191,18 +203,18 @@ var pushForecastToOrion = function(){
 
 /* https://github.com/percolatestudio/meteor-synced-cron */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
-    name: 'Pushing weather to Orion',
-    schedule: function (parser) {
-        return parser.text('every 30 minutes');
-    },
-    job: pushWeatherToOrion
+	name: 'Pushing weather to Orion',
+	schedule: function (parser) {
+		return parser.text('every 30 minutes');
+	},
+	job: pushWeatherToOrion
 });
 SyncedCron.add({	//calls pushForecastToOrion every 30 mins
-    name: 'Pushing forecast to Orion',
-    schedule: function (parser) {
-        return parser.text('every 6 hours');
-    },
-    job: pushWeatherToOrion
+	name: 'Pushing forecast to Orion',
+	schedule: function (parser) {
+		return parser.text('every 6 hours');
+	},
+	job: pushWeatherToOrion
 });
 
 var weatherPull = {
@@ -210,8 +222,8 @@ var weatherPull = {
 	args: '',
 	f: function(args){
 		collectionWrapper['WeatherStation'].remove({});
-	
-	//console.log(args);
+
+		//console.log(args);
 		var temp = rewriteAttributes(args);
 		rewriteNumbersToObjects(temp).data.contextResponses.forEach(function(o){
 			var obj = o.contextElement;
