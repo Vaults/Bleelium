@@ -6,7 +6,6 @@ import {pull} from '/server/imports/orionAPI.js'
 import {handleError} from '/server/imports/util.js'
 //to be tested functions
 import {initPulls} from '/server/main.js';
-
 import {dataWeatherMap} from '/server/weather.js';
 
 

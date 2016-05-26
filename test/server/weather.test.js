@@ -1,4 +1,5 @@
 import { assert } from 'meteor/practicalmeteor:chai';
+import { expect } from 'meteor/practicalmeteor:chai';
 
 
 //to be tested functions
@@ -27,9 +28,11 @@ describe('createForecastData()', function(){
         assert.equal(res.contextElements[0].attributes[6].value, data.temp.max);
     });
 });
-describe('pushWeatherToOrion()', function(){
-	//no tests yet
-});
-describe('pushForecastToOrion()', function(){
-	//no tests yet
+describe('pushWeatherToOrion & pushForecastToOrion()', function(){
+	it('correctly pushes', function(){
+        expect(function(){
+            pushWeatherToOrion();
+            pushForecastToOrion();
+        }).to.not.throw();
+    })
 });
