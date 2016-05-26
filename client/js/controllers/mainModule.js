@@ -43,7 +43,22 @@ if (!MAIN_MODULE) {
             })
             .state('security.sub', {
                 url: '/security',
-                templateUrl: 'client/js/directives/infoSoundEvent.html'
+                templateUrl: 'client/js/directives/infoSecurity.html'
+            })
+            .state('security.suboptions', {
+                url: '/securityOptions',
+                templateUrl: 'client/js/directives/infoSecurityOptions.html',
+                controller: 'securityOptionsCtrl'
+            })
+            .state('security.subemergency', {
+                url: '/securityEmergencyEvent',
+                templateUrl: 'client/js/directives/infoEmergencyEvent.html',
+                controller: 'emergencyCtrl'
+            })
+            .state('security.subsound', {
+                url: '/securitySoundEvent',
+                templateUrl: 'client/js/directives/infoSoundEvent.html',
+                controller: 'soundCtrl'
             });
     }).directive('navBar', function () {
         return {

@@ -171,8 +171,8 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
 
     $scope.map = {
         center: {
-            longitude: 5.4500238,
-            latitude: 51.4523127,
+            longitude: 5.48,
+            latitude: 51.44,
         },
         zoom: 15,
         options: {
@@ -265,17 +265,20 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             }
         }
     }
+    
     $scope.autorun(reload);
+    
+}).controller('securityOptionsCtrl', function ($scope, $meteor, $reactive) {
     
     $scope.eventTypes = [
         {id: 'policedept',          icon: 'img/security/policedept.png',            text: 'Police Department',  checked: 'checked'},
         {id: 'firedept',            icon: 'img/security/firedept.png',              text: 'Fire Department',    checked: 'checked'},
-        {id: 'paramedics',          icon: 'img/security/paramedics.png',            text: 'Paramedics',         checked: 'checked',     style: 'margin-bottom: 30px'},
+        {id: 'paramedics',          icon: 'img/security/paramedics.png',            text: 'Paramedics',         checked: 'checked',     style: 'margin-bottom: 20px'},
         {id: 'gunshot',             icon: 'img/security/gunshot.png',               text: 'Gunshot',            checked: 'checked'},
         {id: 'stressedvoice',       icon: 'img/security/stressedvoice.png',         text: 'Stressed Voice',     checked: 'checked'},
         {id: 'caralarm',            icon: 'img/security/caralarm.png',              text: 'Car Alarm',          checked: 'checked'},
         {id: 'brokenglass',         icon: 'img/security/brokenglass.png',           text: 'Broken Glass',       checked: 'checked'},
-        {id: 'caraccident',         icon: 'img/security/caraccident.png',           text: 'Car accident',       checked: 'checked',     style: 'margin-bottom: 30px'},
+        {id: 'caraccident',         icon: 'img/security/caraccident.png',           text: 'Car accident',       checked: 'checked',     style: 'margin-bottom: 20px'},
         {id: 'warninggeneral',      icon: 'img/security/warninggeneral.png',        text: 'Critical Event',     checked: 'checked'},
         {id: 'warningevacuation',   icon: 'img/security/warningfire2.png',          text: 'Evacuation Notice',  checked: 'checked'},
         {id: 'warningfire',         icon: 'img/security/warningfire.png',           text: 'Fire Alarm',         checked: 'checked'},
