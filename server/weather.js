@@ -115,7 +115,7 @@ var createWeatherData = function(o){ //Creates orion-compliant objects for Orion
 	};
 }
 /**
- *
+ * 
  * @param o
  * @param i
  * @param id
