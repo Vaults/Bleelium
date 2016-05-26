@@ -14,9 +14,8 @@ var pushP2000ToOrion = function () {
         xml2js.parseString(response.content, handleError(function (result) {
             for (item in result.rss.channel[0].item) {
 
-                //p2000DataDeleter(result.rss.channel[0].item[item]._id)
-                console.log(createP2000Data(result.rss.channel[0].item[item]).contextElements[0]);
-                console.log(createP2000Data(result.rss.channel[0].item[item]).contextElements[0]);
+                //p2000DataDeleter(result.rss.channel[0].item[item]._id);
+                postOrionData(createP2000Data(result.rss.channel[0].item[item]));
             }
         }));
     }));

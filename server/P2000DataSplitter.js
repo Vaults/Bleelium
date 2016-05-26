@@ -28,12 +28,10 @@ var ambulanceInfo = function(o){
         return (obj=='' || obj==":");
     });
     o.prio = titleArray[0];
-    o.postalCode = (titleArray[1].length !== undefined)?titleArray[1]:'';
     o.strLoc = o.title.substring(
         o.title.indexOf(':') + 2,
         o.title.indexOf('Obj:')
     );
-    o.number = titleArray[2];
     o.restTitle = descr;
 
     return o;
@@ -46,17 +44,21 @@ var ambulanceInfo = function(o){
  * @modifies o
  */
 var geoLoc = function(o){
-    if(o['geo:lat']){
-        o.coord_lat = o['geo:lat'];
-        o.coord_lng = o['geo:long']
-        o.fakeFlag = false;
-        return;
+    if(!o.coord_lat){
+        if(o['geo:lat']){
+            o.coord_lat = o['geo:lat'];
+            o.coord_lng = o['geo:long']
+            o.fakeFlag = false;
+            return;
+        }else if(o.fakeFlag === undefined){
+            o.fakeFlag = true;
+            generateFakeCoords(o);
+        }else{
+            //retrieve actual coords
+            //set fakeFlag to false
+        }
     }else if(o.fakeFlag === undefined){
-        o.fakeFlag = true;
-        generateFakeCoords(o);
-    }else{
-        //retrieve actual coords
-        //set fakeFlag to false
+        o.fakeFlag = false;
     }
 }
 /**
@@ -89,9 +91,7 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
     o.desc =  o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '');
     o.title = o.title[0].replace('(DIA: )','');
     parseData(o); //modifies o
-    if(!o.coord_lat) {
-        o.geoLocation = geoLoc(o);
-    }
+    geoLoc(o); //modifies o
     return {
         "contextElements": [
             {
@@ -128,16 +128,6 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
                         "name": "prio",
                         "type": "string",
                         "value": o.prio
-                    },
-                    {
-                        "name": "postalCode",
-                        "type": "string",
-                        "value": o.postalCode
-                    },
-                    {
-                        "name": "number",
-                        "type": "string",
-                        "value": o.number
                     },
                     {
                         "name": "restTitle",
