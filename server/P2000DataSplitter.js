@@ -1,6 +1,10 @@
 import {HTTP} from 'meteor/http';
 
-
+/**
+ * @summary Makes a distinction between Ambulance, police or firefighter data.
+ * @param o
+ * @returns TODO
+ */
 var parseData = function (o){
    if( o.desc.indexOf("Ambulance") > -1){
        return(ambulanceInfo(o));
@@ -12,10 +16,9 @@ var parseData = function (o){
 }
 
 /**
- * @summary Determines the type of P2000 info and breaks it into usable chunks.
- * @param title
- * @returns {Object}
- * @modifies o
+ * @summary Parses ambulance info from P2000
+ * @param o
+ * @returns {*}
  */
 var ambulanceInfo = function(o){
     var descr = "";
@@ -27,6 +30,31 @@ var ambulanceInfo = function(o){
     lodash.remove(titleArray,function(obj){
         return (obj=='' || obj==":");
     });
+    o.prio = titleArray[0];
+    o.strLoc = o.title.substring(
+        o.title.indexOf(':') + 2,
+        o.title.indexOf('Obj:')
+    );
+    o.restTitle = descr;
+
+    return o;
+}
+
+/**
+ * @summary Parses police info from P2000
+ * @param o
+ * @returns {*}
+ */
+var policeInfo = function(o){
+    var descr = "";
+    for(var i = 3; i < o.title.split(" ").length ; i++){
+        descr += (o.title.split(" ")[i] + ' ');
+    }
+    var titleArray = o.title.split(" ");
+    lodash.remove(titleArray,function(obj){
+        return (obj=='' || obj==":");
+    });
+
     o.prio = titleArray[0];
     o.strLoc = o.title.substring(
         o.title.indexOf(':') + 2,
@@ -72,20 +100,6 @@ var generateFakeCoords = function(o){
     o.coord_lng = lodash.random(5.2, 5.31);
     o.coord_lat = lodash.random(51.23, 51.31);
 }
-
-/**
- * @summary Uses the muriloventuroso:get-coordinates package to call the Google Geolocation API, to get coordinates.
- * @param address
- * @returns {boolean|location|{longitude, latitude}|*|Location|String|DOMLocator}
- */
-/*var newCoordinates = function(address) {
-    var key = 'AIzaSyDrFcrpzXJxVQm1-uMU1ovfnAON_55EO3c';
-    Coordinates.key = key;
-    var loc = Coordinates.getFromAdress(address);
-    console.log(loc);
-    return loc.location;
-}*/
-
 
 var createP2000Data = function (o) { //Creates orion-compliant objects for Orion storage
     o.desc =  o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '');
@@ -151,4 +165,4 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
     };
 }
 
-export {ambulanceInfo, createP2000Data}
+export {geoLoc,generateFakeCoords,policeInfo,ambulanceInfo, createP2000Data}
