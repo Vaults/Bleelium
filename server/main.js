@@ -11,7 +11,7 @@ var initPulls = function(){
 }	
 
 if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
-    SyncedCron.start();
+    //SyncedCron.start();
 	initPulls();
 }
 
