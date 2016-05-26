@@ -1,4 +1,7 @@
+import { HTTP } from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
+
+WeatherStations = new Mongo.Collection('weatherStations');
 
 MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
@@ -145,55 +148,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
 
 
 });
-/**
- * @summary Controller for the parking tab
- */
-MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
-    $scope.map = {
-        center: {
-            longitude: 5.4500238,
-            latitude: 51.4523127,
-        },
-        zoom: 15,
-        events: {
-            click: (mapModel, eventName, originalEventArgs) => {
-    $scope.$apply();
-}
-},
-    options: {
-        disableDefaultUI: true
-    }
-};
-});
-/**
- * @summary Controller for the forecast tab. Loads the current weatherstation and sets scope variables accordingly
- */
-MAIN_MODULE.controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
-
-    $meteor.subscribe('weatherPub');
-    //If no location selected, use Eindhoven
-    if (WeatherService.weatherLocation == null) {
-        WeatherService.weatherLocation = {'attributes.coord_lat': '51.44', 'attributes.coord_lon': '5.48'};
-    }
-
-    //Load the name and coordinates for this location
-    var loc = WeatherStations.findOne(WeatherService.weatherLocation);
-
-    $scope.name = loc.attributes.name;
-    $scope.longitude = WeatherService.weatherLocation["attributes.coord_lon"];
-    $scope.latitude = WeatherService.weatherLocation["attributes.coord_lat"];
-    console.log(loc.attributes.forecast);
-    //Get the forecast info
-    $scope.forecastInfo = loc.attributes.forecast;
-    $scope.retIconUrl = IconService.retIconUrl;
-});
-/**
- * Filter to round floats in a string format usable from HTML
- */
-MAIN_MODULE.filter('toFixed', function () { //Turns string into float and removes decimals
-    return function (string) {
-        return parseFloat(string).toFixed();
-    }
 }).controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
 
     var popUpMulti = document.getElementById('pop-upMulti');
@@ -277,5 +231,3 @@ MAIN_MODULE.filter('toFixed', function () { //Turns string into float and remove
     $scope.close = function(){
         popUpMulti.style.display = "none";
     }
-});
-

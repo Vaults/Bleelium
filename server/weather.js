@@ -201,7 +201,6 @@ var pushForecastToOrion = function(){
 	}
 }
 
-
 /* https://github.com/percolatestudio/meteor-synced-cron */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
 	name: 'Pushing weather to Orion',

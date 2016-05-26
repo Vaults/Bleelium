@@ -17,9 +17,9 @@ if (!MAIN_MODULE) {
         $urlRouterProvider.otherwise('/weather');
 
         $stateProvider.state('weather', {
-                templateUrl: 'client/ui-view.html',
-                controller: 'weatherCtrl'
-            })
+            templateUrl: 'client/ui-view.html',
+            controller: 'weatherCtrl'
+        })
             .state('weather.sub', {
                 url: '/weather',
                 templateUrl: 'client/js/directives/infoWeather.html'
@@ -67,28 +67,34 @@ if (!MAIN_MODULE) {
             templateUrl: 'client/js/directives/google-map.html',
             scope: '='
         }
-		}).factory('IconService', function(){
+    }).factory('IconService', function () {
         var IconService = {};
         /**
          * @summary Sanitize a string by removing '/' and '.' to prevent filepath exploits
          * @param {String} dirty An unsanitized string
          * @returns {String} not containing '/' and '.'
          */
-        IconService.sanitizeStr = function(dirty) {
+        IconService.sanitizeStr = function (dirty) {
             var clean = lodash.replace(dirty, '/', '');
             var cleaner = lodash.replace(clean, '.', '');
             return cleaner;
         }
         /**
-         * @summary 
+         * @summary
          * @param str
          * @returns {string}
          */
-        IconService.retIconUrl = function(icon, folder) {
-            return '/img/' + IconService.sanitizeStr(folder) +'/' + IconService.sanitizeStr(icon) + '.png';
+        IconService.retIconUrl = function (icon, folder) {
+            return '/img/' + IconService.sanitizeStr(folder) + '/' + IconService.sanitizeStr(icon) + '.png';
         }
-        
-        IconService.createMarkerIcon = function(icon, folder) {
+
+        /**
+         * @summary Create the marker icon for google maps
+         * @param icon string with icon name without extension
+         * @param folder string of public image folder in which icon resides, for '/public/img/weather/01d.png' enter 'weather'
+         * @returns {{url: '/public/img/' + folder + '/' + icon + '.png', anchor: {x: 24, y: 24}, scaledSize: {height: 48, width: 48}}}
+         */
+        IconService.createMarkerIcon = function (icon, folder) {
             return {
                 url: IconService.retIconUrl(icon, folder),
                 anchor: {
@@ -102,14 +108,19 @@ if (!MAIN_MODULE) {
             };
         }
         return IconService;
-    })
-        .factory('WeatherService', function(){
-			return weatherLocation = {
-				'attributes.coord_lat': '5.48',
-				'attributes.coord_lon': '51.44'
-			};
-
-
+    }).factory('WeatherService', function () {
+        return weatherLocation = {
+            'attributes.coord_lat': '5.48',
+            'attributes.coord_lon': '51.44'
+        };
+    });
+    /**
+     * Filter to round floats in a string format usable from HTML
+     */
+    MAIN_MODULE.filter('toFixed', function () { //Turns string into float and removes decimals
+        return function (string) {
+            return parseFloat(string).toFixed();
+        }
     });
 }
 
