@@ -1,181 +1,18 @@
 <div class="legend-list">
-    <div class="legend-item">
+    <div class="legend-item" ng-repeat="type in eventTypes" style="{{type.style}}">
         <div class="legend-img">
-            <img ng-src="img/security/policedept.png" class="security-icon" height="50px"/>
+            <img ng-src="{{type.icon}}" class="security-icon" height="50px"/>
         </div>
         <div class="legend-title">
             <div class="legend-title-sub">
-                <p>Police Department</p>
+                <p>{{type.text}}</p>
             </div>
         </div>
         <div class="legend-button">
-            <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-                <label class="onoffswitch-label" for="myonoffswitch"></label>
-            </div>
-        </div>
-    </div>
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/firedept.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Fire Department</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item" style="margin-bottom: 20px;">
-        <div class="legend-img">
-            <img ng-src="img/security/paramedics.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Paramedics</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-
-
-
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/gunshot.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Gunshot</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/stressedvoice.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Stressed Voice</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/caralarm.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Car Alarm</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/brokenglass.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Broken Glass</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item" style="margin-bottom: 25px;">
-        <div class="legend-img">
-            <img ng-src="img/security/caraccident.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Car Accident</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-
-
-
-
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/warninggeneral.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Critical Event</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/warningfire2.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Evacuation Notice</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/warningfire.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Fire Alarm</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/warningbombthreat.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Bomb Threat</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
-        </div>
-    </div>
-    <div class="legend-item">
-        <div class="legend-img">
-            <img ng-src="img/security/warninggasleak.png" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>Gas Leak</p>
-            </div>
-        </div>
-        <div class="legend-button">
-
+            <label class="switch">
+                <input type="checkbox" id = "{{type.id}}" checked="{{type.checked}}">
+                <div class="slider"></div>
+            </label>
         </div>
     </div>
 </div>

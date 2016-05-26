@@ -275,15 +275,16 @@ html, body {
   position: absolute;
   left: 60px;
   top: 0px;
-  right: 60px;
+  right: 50px;
   height: 50px;
+  margin-top: 4px;
   align-items: center;
 }
 
 .legend-title p {
   font-family: "Lato";
   font-size: 20px;
-  color: darkgrey;
+  color: #666666;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
@@ -293,7 +294,7 @@ html, body {
   position: absolute;
   right: 0px;
   top: 0px;
-  width: 50px;
+  width: 40px;
   height: 50px;
 }
 
@@ -306,58 +307,53 @@ html, body {
   float: bottom;
 }
 
-.onoffswitch {
-  position: relative;
-  width: 50px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+.switch {
+  position: absolute;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  top: 15px;
+  right: 0px;
 }
 
-.onoffswitch-checkbox {
+.switch input {
   display: none;
 }
 
-.onoffswitch-label {
-  display: block;
-  overflow: hidden;
-  cursor: pointer;
-  height: 20px;
-  padding: 0;
-  line-height: 20px;
-  border: 0px solid #FFFFFF;
-  border-radius: 30px;
-  background-color: #A8A8A8;
-}
-
-.onoffswitch-label:before {
-  content: "";
-  display: block;
-  width: 30px;
-  margin: -5px;
-  background: #FFFFFF;
+.slider {
   position: absolute;
+  cursor: pointer;
   top: 0;
+  left: 0;
+  right: 0;
   bottom: 0;
-  right: 26px;
-  border-radius: 30px;
-  box-shadow: 0 6px 12px 0px #757575;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
-.onoffswitch-label:checked + .onoffswitch-label {
-  background-color: #52ACDB;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
-.onoffswitch-label:checked + .onoffswitch-label, .onoffswitch-label .onoffswitch-checkbox:checked + .onoffswitch-label:before {
-  border-color: #52ACDB;
+input:checked + .slider {
+  background-color: #52acdb;
 }
 
-.onoffswitch-label:checked + .onoffswitch-label .onoffswitch-inner {
-  margin-left: 0;
+input:focus + .slider {
+  box-shadow: 0;
 }
 
-.onoffswitch-label:checked + .onoffswitch-label:before {
-  right: 0px;
-  background-color: #52ACDB;
-  box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
 }

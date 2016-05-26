@@ -208,6 +208,21 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             disableDefaultUI: true
         }
     };
+    $scope.eventTypes = [
+        {id: 'policedept',          icon: 'img/security/policedept.png',            text: 'Police Department',  checked: 'checked'},
+        {id: 'firedept',            icon: 'img/security/firedept.png',              text: 'Fire Department',    checked: 'checked'},
+        {id: 'paramedics',          icon: 'img/security/paramedics.png',            text: 'Paramedics',         checked: 'checked',     style: 'margin-bottom: 30px'},
+        {id: 'gunshot',             icon: 'img/security/gunshot.png',               text: 'Gunshot',            checked: 'checked'},
+        {id: 'stressedvoice',       icon: 'img/security/stressedvoice.png',         text: 'Stressed Voice',     checked: 'checked'},
+        {id: 'caralarm',            icon: 'img/security/caralarm.png',              text: 'Car Alarm',          checked: 'checked'},
+        {id: 'brokenglass',         icon: 'img/security/brokenglass.png',           text: 'Broken Glass',       checked: 'checked'},
+        {id: 'caraccident',         icon: 'img/security/caraccident.png',           text: 'Car accident',       checked: 'checked',     style: 'margin-bottom: 30px'},
+        {id: 'warninggeneral',      icon: 'img/security/warninggeneral.png',        text: 'Critical Event',     checked: 'checked'},
+        {id: 'warningevacuation',   icon: 'img/security/warningfire2.png',          text: 'Evacuation Notice',  checked: 'checked'},
+        {id: 'warningfire',         icon: 'img/security/warningfire.png',           text: 'Fire Alarm',         checked: 'checked'},
+        {id: 'warningbombthreat',   icon: 'img/security/warningbombthreat.png',     text: 'Bomb Threat',        checked: 'checked'},
+        {id: 'warninggasleak',      icon: 'img/security/warninggasleak.png',        text: 'Gas Leak',           checked: 'checked'}
+    ];
 })
     .filter('toFixed', function(){ //Turns string into float and removes decimals
     return function(string){
