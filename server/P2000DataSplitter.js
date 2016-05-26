@@ -1,24 +1,13 @@
 import {HTTP} from 'meteor/http';
 
-var splitData = function(o){
 
-    var id = o.guid[0]._;
-
-    var description = o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '');
-    var title = o.title[0].replace('(DIA: )','');
-    var date = o.pubDate[0];
-    var coord_lat =  o['geo:lat'];
-    var coord_lng = o['geo:long'];
-    return createP2000Data(id, title, description, date, coord_lat, coord_lng)
-}
-
-var parseData = function (title, desc, coord_lat){
-   if( desc.indexOf("Ambulance") > -1){
-       return(ambulanceInfo(title,coord_lat));
-   }else if( desc.indexOf("Politie") > -1){
+var parseData = function (o){
+   if( o.desc.indexOf("Ambulance") > -1){
+       return(ambulanceInfo(o));
+   }else if( o.desc.indexOf("Politie") > -1){
       // return(policeInfo(title));
-   }else if( desc.indexOf("Brandweer") > -1){
-       
+   }else if(o. desc.indexOf("Brandweer") > -1){
+
    }
 }
 
@@ -26,85 +15,144 @@ var parseData = function (title, desc, coord_lat){
  * @summary Determines the type of P2000 info and breaks it into usable chunks.
  * @param title
  * @returns {Object}
+ * @modifies o
  */
-var ambulanceInfo = function(title,coord_lat){
+var ambulanceInfo = function(o){
     var descr = "";
 
-    for(var i = 3; i < title.split(" ").length ; i++){
-        descr += (title.split(" ")[i] + ' ');
+    for(var i = 3; i < o.title.split(" ").length ; i++){
+        descr += (o.title.split(" ")[i] + ' ');
     }
-
-    var titleArray = title.split(" ");
-    var cleanSplit = lodash.remove(titleArray,function(o){
-        return (o=='' || o==":");
+    var titleArray = o.title.split(" ");
+    lodash.remove(titleArray,function(obj){
+        return (obj=='' || obj==":");
     });
+    o.prio = titleArray[0];
+    o.postalCode = (titleArray[1].length !== undefined)?titleArray[1]:'';
+    o.strLoc = o.title.substring(
+        o.title.indexOf(':') + 2,
+        o.title.indexOf('Obj:')
+    );
+    o.number = titleArray[2];
+    o.restTitle = descr;
 
-    var obj = {
-        "prio" : titleArray[0],
-        "postalCode" : titleArray[1],
-        "number" : titleArray[2],
-        "restTitle": descr,
-        "geoLocation": ""
-    }
-    console.log(obj.postalCode);
-    if(!coord_lat) {
-        obj.geoLocation = newCoordinates(obj.postalCode);
-    }
-    return obj;
+    return o;
 }
 
 /**
- * Uses the muriloventuroso:get-coordinates package to call the Google Geolocation API, to get coordinates.
+ * @summary Modifies object to include (fake) location data
+ * @param obj
+ * @pre !obj.coord_lat
+ * @modifies o
+ */
+var geoLoc = function(o){
+    if(o['geo:lat']){
+        o.coord_lat = o['geo:lat'];
+        o.coord_lng = o['geo:long']
+        o.fakeFlag = false;
+        return;
+    }else if(o.fakeFlag === undefined){
+        o.fakeFlag = true;
+        generateFakeCoords(o);
+    }else{
+        //retrieve actual coords
+        //set fakeFlag to false
+    }
+}
+/**
+ * @summary Generates fake coords for p2000 obj
+ * @param o
+ * @modifies o
+ */
+var generateFakeCoords = function(o){
+    //51.31N, 5.31E topright
+    //51°23′N 5°20′E bottom left
+    o.coord_lat = lodash.random(5.2, 5.31);
+    o.coord_lng = lodash.random(51.23, 51.31);
+}
+
+/**
+ * @summary Uses the muriloventuroso:get-coordinates package to call the Google Geolocation API, to get coordinates.
  * @param address
  * @returns {boolean|location|{longitude, latitude}|*|Location|String|DOMLocator}
  */
-var newCoordinates = function(address) {
+/*var newCoordinates = function(address) {
     var key = 'AIzaSyDrFcrpzXJxVQm1-uMU1ovfnAON_55EO3c';
     Coordinates.key = key;
     var loc = Coordinates.getFromAdress(address);
     console.log(loc);
     return loc.location;
-}
+}*/
 
 
-var createP2000Data = function (id, title, description, date, coord_lat, coord_lng) { //Creates orion-compliant objects for Orion storage
-
+var createP2000Data = function (o) { //Creates orion-compliant objects for Orion storage
+    o.desc =  o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '');
+    o.title = o.title[0].replace('(DIA: )','');
+    parseData(o); //modifies o
+    if(!o.coord_lat) {
+        o.geoLocation = geoLoc(o);
+    }
     return {
         "contextElements": [
             {
                 "type": "P2000",
                 "isPattern": "false",
-                "id": id,
+                "id": o.guid[0]._,
                 "attributes": [
                     {
                         "name": "EST",
                         "type": "string",
-                        "value": title
+                        "value": o.title
                     },
                     {
                         "name": "description",
                         "type": "string",
-                        "value": description
+                        "value": o.desc
                     },
                     {
                         "name": "publish_date",
                         "type": "string",
-                        "value": date
+                        "value": o.pubDate[0]
                     },
                     {
                         "name": "coord_lat",
                         "type": "string",
-                        "value": coord_lat
+                        "value": o.coord_lat
                     },
                     {
                         "name": "coord_lng",
                         "type": "string",
-                        "value": coord_lng
+                        "value": o.coord_lng
+                    },
+                    {
+                        "name": "prio",
+                        "type": "string",
+                        "value": o.prio
+                    },
+                    {
+                        "name": "postalCode",
+                        "type": "string",
+                        "value": o.postalCode
+                    },
+                    {
+                        "name": "number",
+                        "type": "string",
+                        "value": o.number
+                    },
+                    {
+                        "name": "restTitle",
+                        "type": "string",
+                        "value": o.restTitle
+                    },
+                    {
+                        "name": "strLoc",
+                        "type": "string",
+                        "value": o.strLoc
                     },
                     {
                         "name": "info",
                         "type": "string",
-                        "value": parseData(title, description, coord_lat)
+                        "value": o.fakeFlag
                     }
                 ]
             }
@@ -113,4 +161,4 @@ var createP2000Data = function (id, title, description, date, coord_lat, coord_l
     };
 }
 
-export {splitData, ambulanceInfo, createP2000Data}
+export {ambulanceInfo, createP2000Data}
