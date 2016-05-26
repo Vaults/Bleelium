@@ -18,6 +18,7 @@ var parseData = function (o){
 /**
  * @summary Parses ambulance info from P2000
  * @param o
+ * @modifies o
  * @returns {*}
  */
 var ambulanceInfo = function(o){
@@ -43,9 +44,35 @@ var ambulanceInfo = function(o){
 /**
  * @summary Parses police info from P2000
  * @param o
+ * @modifies o
  * @returns {*}
  */
 var policeInfo = function(o){
+    var descr = "";
+    for(var i = 3; i < o.title.split(" ").length ; i++){
+        descr += (o.title.split(" ")[i] + ' ');
+    }
+    var titleArray = o.title.split(" ");
+    lodash.remove(titleArray,function(obj){
+        return (obj=='' || obj==":");
+    });
+
+    o.prio = titleArray[0];
+    o.strLoc = o.title.substring(
+        o.title.indexOf(':') + 2,
+        o.title.indexOf('Obj:')
+    );
+    o.restTitle = descr;
+
+    return o;
+}
+/**
+ * @summary Parses firefighter info from P2000
+ * @param o
+ * @modifies o
+ * @returns {*}
+ */
+var fireFighterInfo = function(o){
     var descr = "";
     for(var i = 3; i < o.title.split(" ").length ; i++){
         descr += (o.title.split(" ")[i] + ' ');
@@ -101,6 +128,12 @@ var generateFakeCoords = function(o){
     o.coord_lng = lodash.random(51.23, 51.31);
 }
 
+/**
+ * @summary Get and modifies all necessary P2000 data into 1 object.
+ * @param o
+ * @modifies o
+ * @returns {{contextElements: *[], updateAction: string}}
+ */
 var createP2000Data = function (o) { //Creates orion-compliant objects for Orion storage
     o.desc =  o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '');
     o.title = o.title[0].replace('(DIA: )','');

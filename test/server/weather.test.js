@@ -18,7 +18,8 @@ describe('createWeatherData()', function(){
     });
 });
 describe('createForecastData()', function(){
-	var data = {"dt":1464260400,"temp":{"day":21.39,"min":14.97,"max":21.39,"night":14.97,"eve":19.93,"morn":15.48},"pressure":1018.28,"humidity":82,"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],"speed":2.01,"deg":34,"clouds":0};
+    var data = {"dt":1464260400,"temp":{"day":21.39,"min":14.97,"max":21.39,"night":14.97,"eve":19.93,"morn":15.48},"pressure":1018.28,"humidity":82,"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],"speed":2.01,"deg":34,"clouds":0};
+    
     it('creates forecastData correctly', function(){
         var res = createForecastData(data, 1, 2754447);
         assert.equal(res.contextElements[0].type, "WeatherStation");
