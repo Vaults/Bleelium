@@ -25,7 +25,7 @@ if (!MAIN_MODULE) {
                 templateUrl: 'client/js/directives/infoWeather.html'
             })
             .state('forecast', {
-                url: '/forecast',
+                url: '/weather/forecast',
                 templateUrl: 'client/js/directives/infoForecast.html',
                 controller: 'forecastCtrl'
             })
@@ -64,13 +64,37 @@ if (!MAIN_MODULE) {
         }
 		}).factory('IconService', function(){
         var IconService = {};
-        IconService.sanitizeStr = function(dirty) { //Cleans a string to prevent filepath exploits
+        /**
+         * @summary Sanitize a string by removing '/' and '.' to prevent filepath exploits
+         * @param {String} dirty An unsanitized string
+         * @returns {String} not containing '/' and '.'
+         */
+        IconService.sanitizeStr = function(dirty) {
             var clean = lodash.replace(dirty, '/', '');
             var cleaner = lodash.replace(clean, '.', '');
             return cleaner;
         }
-        IconService.retIconUrl = function(str) {
-            return '/img/weather/' + IconService.sanitizeStr(str) + '.png';
+        /**
+         * @summary 
+         * @param str
+         * @returns {string}
+         */
+        IconService.retIconUrl = function(icon, folder) {
+            return '/img/' + IconService.sanitizeStr(folder) +'/' + IconService.sanitizeStr(icon) + '.png';
+        }
+        
+        IconService.createMarkerIcon = function(icon, folder) {
+            return {
+                url: IconService.retIconUrl(icon, folder),
+                anchor: {
+                    x: 24,
+                    y: 24
+                },
+                scaledSize: {
+                    height: 48,
+                    width: 48
+                }
+            };
         }
         return IconService;
     })

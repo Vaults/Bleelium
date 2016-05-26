@@ -1,6 +1,6 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
-MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $rootScope, WeatherService) {
+MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
@@ -14,7 +14,11 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         }
     });
 
-
+    /**
+     * @summary Find a weatherstation based on geolocation
+     * @param loc object with attributes 'attributes.coord_lat' and 'attributes.coord_lon'
+     * @returns WeatherStation
+     */
     $scope.findWeatherStationInfo = function (loc) { //Finds a weather station from coordinates
         var selector = {
             'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
@@ -22,26 +26,20 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         };
         return WeatherStations.findOne(selector);
     }
-    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
-    var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits
-        var clean = lodash.replace(dirty, '/', '');
-        var cleaner = lodash.replace(clean, '.', '');
-        return cleaner;
-    }
-    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
-    var retIconURL = function (str) {	//returns an image for a certain image id
-        return '/img/weather/' + sanitizeStr(str) + '.png';
-    }
 
+    /**
+     * @summary Updates the scope information when a marker is clicked
+     * @param event Marker click event
+     * @param arg WeatherStation information
+     */
     var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
         if (arg) {
             var loc = $scope.findWeatherStationInfo(arg);
-            console.log('Initial setinfo loc: ' + loc);
 
             $scope.loc = arg;
             WeatherService.weatherLocation = { //Set a global variable with current location
-                'attributes.coord_lat': ''+lodash.round(arg.lat(), 2),
-                'attributes.coord_lon': ''+lodash.round(arg.lng(), 2)
+                'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
+                'attributes.coord_lon': '' + lodash.round(arg.lng(), 2)
             };
             $scope.date = loc.attributes.date;
             $scope.name = loc.attributes.name;
@@ -56,12 +54,16 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             $scope.Humidity = lodash.round(loc.attributes.humidity);
             $scope.sunrise = loc.attributes.sunrise;
             $scope.sunset = loc.attributes.sunset;
-            $scope.iconURL = retIconURL(loc.attributes.weather_icon);
+            $scope.iconURL = IconService.retIconUrl(loc.attributes.weather_icon, 'weather');
             $scope.$apply();
-
         }
     };
 
+    /**
+     * @summary Add a textual description of the wind direction, e.g. NW
+     * @param degrees Wind Direction
+     * @deprecated unused
+     */
     var getWindDir = function (degrees) {	//gets Wind Direction from a degree
         Meteor.call('findWindDir', degrees, function (error, result) {
             if (!error) {
@@ -71,9 +73,15 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     }
 
 
-
+    //When setInfo is broadcasted, call setInfo function
     $scope.$on('setInfo', setInfo);
-    $scope.setLocation = function (latitude, longitude) {
+    /**
+     * @summary Make a location objects with latitude and longitude fields
+     * @param latitude
+     * @param longitude
+     * @returns Object with latitude and longitude
+     */
+    $scope.makeLocation = function (latitude, longitude) {
         return {
             latitude,
             longitude
@@ -81,11 +89,15 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     };
 
 
-    var reload = function () { //Runs whenever the weatherstation collection is updated. Pulls all weatherstations and updates all UI elements
+    /**
+     * @summary Runs whenever weatherstation collection is updated. Pulls weatherstations and updates UI elements accordingly
+     */
+    var reload = function () {
         $reactive(this).attach($scope);
         var selStation = $scope.getReactively('weatherStationDebug');
         var stations = $scope.getReactively('weatherStations');
         setInfo(null, $scope.loc);
+        //Create map and center on Eindhoven
         if (selStation) {
             if (!$scope.map) {
                 $scope.map = {
@@ -96,7 +108,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
                     zoom: 11,
                     events: {
                         click: (mapModel, eventName, originalEventArgs) => {
-                        this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
                 $scope.$apply();
             }
             },
@@ -107,35 +118,19 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
             };
             }
         }
+        //Create map markers for each weatherstation
         $scope.markers = [];
         for (var i = 0; i < stations.length; i++) {
             if (stations[i].attributes) {
                 $scope.markers.push({
                     options: {
                         draggable: false,
-                        icon: {
-                            url: retIconURL(stations[i].attributes.weather_icon),
-                            size: {
-                                height: 600,
-                                width: 600
-                            },
-                            anchor: {
-                                x: 24,
-                                y: 24
-                            },
-                            scaledSize: {
-                                height: 48,
-                                width: 48
-                            }
-                        },
+                        icon: IconService.createMarkerIcon(stations[i].attributes.weather_icon, 'weather')
                     },
                     events: {
                         click: (marker, eventName, args) => {
+                            //Set global variable to current weatherstation for use from other controllers
                         $rootScope.$broadcast('setInfo', marker.getPosition());
-            },
-                dragend: (marker, eventName, args) => {
-                    this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
-                    $scope.$apply();
                 }
             },
                 location: {
@@ -149,8 +144,11 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     $scope.autorun(reload)
 
 
-}).controller('parkingCtrl', function ($scope, $meteor, $reactive) {
-
+});
+/**
+ * @summary Controller for the parking tab
+ */
+MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
     $scope.map = {
         center: {
             longitude: 5.4500238,
@@ -159,7 +157,6 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         zoom: 15,
         events: {
             click: (mapModel, eventName, originalEventArgs) => {
-            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
     $scope.$apply();
 }
 },
@@ -167,23 +164,15 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
         disableDefaultUI: true
     }
 };
-}).controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
-
-
-    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
-    var sanitizeStr = function (dirty) {	//Cleans a string to prevent filepath exploits
-        var clean = lodash.replace(dirty, '/', '');
-        var cleaner = lodash.replace(clean, '.', '');
-        return cleaner;
-    }
-    //TODO: Move this function so it can be used by both forecastCtrl and weatherCtrl
-    var retIconURL = function (str) {	//returns an image for a certain image id
-        return '/img/weather/' + sanitizeStr(str) + '.png';
-    }
+});
+/**
+ * @summary Controller for the forecast tab. Loads the current weatherstation and sets scope variables accordingly
+ */
+MAIN_MODULE.controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
 
     $meteor.subscribe('weatherPub');
     //If no location selected, use Eindhoven
-    if(WeatherService.weatherLocation == null){
+    if (WeatherService.weatherLocation == null) {
         WeatherService.weatherLocation = {'attributes.coord_lat': '51.44', 'attributes.coord_lon': '5.48'};
     }
 
@@ -197,8 +186,12 @@ MAIN_MODULE.controller('weatherCtrl', function($scope, $meteor, $reactive, $root
     //Get the forecast info
     $scope.forecastInfo = loc.attributes.forecast;
     $scope.retIconUrl = IconService.retIconUrl;
-}).filter('toFixed', function(){ //Turns string into float and removes decimals
-    return function(string){
+});
+/**
+ * Filter to round floats in a string format usable from HTML
+ */
+MAIN_MODULE.filter('toFixed', function () { //Turns string into float and removes decimals
+    return function (string) {
         return parseFloat(string).toFixed();
     }
 }).controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
