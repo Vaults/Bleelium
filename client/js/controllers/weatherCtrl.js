@@ -113,8 +113,8 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
         var stations = $scope.getReactively('weatherStations');
         //Create map and center on Eindhoven
         var selStation = WeatherStations.findOne({"_id": "2756253"});
-        if (selStation) {
-            if (!$scope.map) {
+        if (selStation && !$scope.name) {
+        //    if (!$scope.map) {
                 var temp = {
                     lat: function(){
                         return '51.44';
@@ -125,7 +125,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                     }
                 };
                 setInfo(null, temp);
-            }
+          //  }
         }
         //Create map markers for each weatherstation
         $scope.markers = [];
