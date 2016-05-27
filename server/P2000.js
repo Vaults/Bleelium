@@ -4,7 +4,9 @@ import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
 import {splitData,createP2000Data} from './P2000DataSplitter.js';
 
-
+/**
+ * 
+ */
 var pushP2000ToOrion = function () {
     HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function (response) {
         xml2js.parseString(response.content, handleError(function (result) {
@@ -17,6 +19,9 @@ var pushP2000ToOrion = function () {
     }));
 }
 
+/**
+ * 
+ */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing P2000 to Orion',
     schedule: function (parser) {
@@ -25,6 +30,10 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     job: pushP2000ToOrion
 });
 
+/**
+ * 
+ * @type {{name: string, args: string, f: P2000Pull.f}}
+ */
 var P2000Pull = {
     name: 'P2000',
     args: '?orderBy=!publish_date&limit=1000',

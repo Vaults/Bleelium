@@ -11,7 +11,6 @@ var dataWeatherMap = {
 	"2759794": "Amsterdam"
 }
 /**
- *
  * @param o
  * @returns {{contextElements: *[], updateAction: string}}
  */

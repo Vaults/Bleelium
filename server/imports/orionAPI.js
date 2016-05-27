@@ -2,7 +2,7 @@ import {HTTP} from 'meteor/http';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
 import {ENDPOINT} from '/server/config.js';
 /**
- *
+ * @summary Creates a POST request to send to Orion, wherein data is send. 
  * @param data
  * @param callback
  */
@@ -10,7 +10,7 @@ var postOrionData = function(data, callback){ //sends data to Orion
 	HTTP.call('POST', ENDPOINT+':1026/v1/updateContext', {data: data}, callback);
 }
 /**
- *
+ * @summary Creates a GET request to send to Orion, where-after the response is handled 
  * @param coll
  * @param args
  * @param callback
@@ -22,7 +22,12 @@ var pull= function(coll, args, callback) { //grabs data from Orion
     }));
 };
 
-
+/**
+ * @summary Sets a meteor timeout for the pull requests on 5 seconds. 
+ * @param collection
+ * @param args
+ * @param callback
+ */
 var reloadPull = function (collection, args, callback) { //calls pull every 5 seconds until the program terminates
     pull(collection, args, callback); //http://131.155.70.152:1026/v1/contextEntityTypes/P2000?orderBy=!publish_date
     Meteor.setTimeout(function(){reloadPull(collection, args, callback)}, 5000);
