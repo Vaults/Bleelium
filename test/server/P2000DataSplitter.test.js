@@ -1,37 +1,75 @@
 import {Meteor} from 'meteor/meteor';
-import {assert} from 'meteor/practicalmeteor:chai';
+import {expect,assert} from 'meteor/practicalmeteor:chai';
 import {Mongo} from 'meteor/mongo';
 import {collectionWrapper} from '/server/imports/collections.js';
 
 //to be tested functions
-import {geoLoc, generateFakeCoords, policeInfo, ambulanceInfo, createP2000Data} from '/server/P2000DataSplitter.js';
+import {
+    parseData,
+    geoLoc,
+    generateFakeCoords,
+    policeInfo,
+    ambulanceInfo,
+    createP2000Data
+} from '/server/P2000DataSplitter.js';
 
 
 var inputData = function () {
-    return {
-        title: ['A2 (DIA: ) 5531AG 22 : Raambrug Bladel Obj: Rit: 41269~'],
-        link: ['http://monitor.livep2000.nl?SPI=1605261117520222'],
-        description: ['1123117 <i name=w21 class=wb>MKA</i> Brabant Zuid-Oost ( <i name=w3910 class=wb>Ambulance</i> <i name=w3794 class=wb>22-117</i> Eersel )<br/>'],
-        pubDate: ['Thu, 26 May 2016 11:17:52 +0200'],
-        guid: [{_: '1605261117520222', '$': [Object]}],
-        'geo:lat': ['51.3595589'],
-        'geo:long': ['5.2060685']
-    }
-}
+        return {
+            title: ['A2 (DIA: ) 5531AG 22 : Raambrug Bladel Obj: Rit: 41269~'],
+            link: ['http://monitor.livep2000.nl?SPI=1605261117520222'],
+            description: ['1123117 <i name=w21 class=wb>MKA</i> Brabant Zuid-Oost ( <i name=w3910 class=wb>Ambulance</i> <i name=w3794 class=wb>22-117</i> Eersel )<br/>'],
+            pubDate: ['Thu, 26 May 2016 11:17:52 +0200'],
+            guid: [{_: '1605261117520222', '$': [Object]}],
+            'geo:lat': ['51.3595589'],
+            'geo:long': ['5.2060685']
+        }
+    };
 
-describe('createP2000Data()', function () {
-    //no tests yet
+describe('Error', function(){
+    it('should throw err', function () {
+        expect(function(){
+            createP2000Data(0);
+        }).to.throw();
+    });
 });
-describe('pushP2000ToOrion()', function () {
-    //no tests yet
+describe('No Error', function(){
+    var res = inputData();
+    it('should not throw error', function () {
+        expect(function(){
+            createP2000Data(res);
+        }).to.not.throw();
+    });
 });
 describe('parseData()', function () {
-    //no tests yet
+    var testData = inputData();
+    var res = createP2000Data(testData);
+
+    it('Should divide correctly', function() {
+        assert.isTrue(res.contextElements[0].attributes[5].value == 'A2')
+    });
+
+    testData.description = 'Brandweer';
+
+    it('Should divide correctly', function() {
+        expect(function(){
+            createP2000Data(testData);
+        }).to.not.throw();
+    });
+
+    testData.description = 'Politie';
+
+    it('Should divide correctly', function() {
+        expect(function(){
+            createP2000Data(testData);
+        }).to.not.throw();
+    });
 });
 describe('ambulanceInfo()', function () {
     it('should return object with correct ambulance info', function () {
 
     });
+
 });
 describe('policeInfo()', function () {
     it('should return object with correct police info', function () {
@@ -87,13 +125,14 @@ describe('geoLoc()', function () {
     it('should set coordinates', function () {
         var testData = inputData();
         testData['geo:lat'][0] = null;
-        geoLoc(testData);
+        testData['geo:long'][0] = null;
+        var res = createP2000Data(testData);
         assert.isNotNull(testData['geo:lat']);
+        assert.isNotNull(testData['geo:long']);
         assert.isNotNull(testData.falseFlag);
     });
     it('should not change input coordinates', function () {
         var res = createP2000Data(inputData());
-        geoLoc(res);
         assert.equal(res.contextElements[0].attributes[3].value[0], inputData()['geo:lat'][0]);
         assert.equal(res.contextElements[0].attributes[4].value[0], inputData()['geo:long'][0]);
     });

@@ -7,9 +7,9 @@
 var parseData = function (o){
    if( o.desc.indexOf("Ambulance") > -1){
        return(ambulanceInfo(o));
-   }else if( o.desc.indexOf("Politie") > -1){
+   }else if( o.description.indexOf("Politie") > -1){
       // return(policeInfo(title));
-   }else if(o.desc.indexOf("BRW") > -1){
+   }else if(o.description.indexOf("BRW") > -1){
       // fireFighterInfo(o);
    }
 }
@@ -166,4 +166,4 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
     };
 }
 
-export {geoLoc,generateFakeCoords,policeInfo,ambulanceInfo, createP2000Data}
+export {parseData,geoLoc,generateFakeCoords,policeInfo,ambulanceInfo, createP2000Data}
