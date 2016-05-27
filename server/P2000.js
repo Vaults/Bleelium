@@ -9,7 +9,6 @@ var pushP2000ToOrion = function () {
     HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function (response) {
         xml2js.parseString(response.content, handleError(function (result) {
             for (item in result.rss.channel[0].item) {
-
                 
                 postOrionData(createP2000Data(result.rss.channel[0].item[item]));
 

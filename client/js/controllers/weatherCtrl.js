@@ -4,6 +4,22 @@ import {MAIN_MODULE} from  './mainModule.js';
 WeatherStations = new Mongo.Collection('weatherStations');
 
 MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
+    $scope.map = {
+        center: {
+            longitude: '5.48',
+            latitude: '51.44'
+        },
+        zoom: 11,
+        events: {
+            click: (mapModel, eventName, originalEventArgs) => {
+                //$scope.$apply();
+            }
+        },
+        options: {
+            disableDefaultUI: true
+        }
+
+    };
 
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
@@ -97,8 +113,8 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
         var stations = $scope.getReactively('weatherStations');
         //Create map and center on Eindhoven
         var selStation = WeatherStations.findOne({"_id": "2756253"});
-        if (selStation) {
-            if (!$scope.map) {
+        if (selStation && !$scope.name) {
+        //    if (!$scope.map) {
                 var temp = {
                     lat: function(){
                         return '51.44';
@@ -109,24 +125,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                     }
                 };
                 setInfo(null, temp);
-
-                $scope.map = {
-                    center: {
-                        longitude: selStation.attributes.coord_lon,
-                        latitude: selStation.attributes.coord_lat,
-                    },
-                    zoom: 11,
-                    events: {
-                        click: (mapModel, eventName, originalEventArgs) => {
-                            //$scope.$apply();
-                        }
-                    },
-                    options: {
-                        disableDefaultUI: true
-                    }
-
-                };
-            }
+          //  }
         }
         //Create map markers for each weatherstation
         $scope.markers = [];
