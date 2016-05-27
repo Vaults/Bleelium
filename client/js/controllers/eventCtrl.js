@@ -1,7 +1,8 @@
-/**
- * Created by Marcel on 26-5-2016.
- */
 import {MAIN_MODULE} from  './mainModule.js';
+
+/**
+ * @summary
+ */
 MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
 
     var popUpMulti = document.getElementById('pop-upMulti');
@@ -57,7 +58,11 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
         }
     ]
 
-    //fina the event with maximum level
+    /**
+     * @summary Function that finds the event with the maximum level
+     * @param events The events array that will be executed by this function
+     * @returns {the event with the maximum level}
+     */
     function getMaxLevel(events) {
         var maxLevel = 0;
         for (i = 0; i < events.length; i++) {
