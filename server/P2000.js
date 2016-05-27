@@ -3,9 +3,9 @@ import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
 /**
- *
- * @param o
- * @returns {{contextElements: *[], updateAction: string}}
+ * @summary Creates orion-compliant P2000 object for Orion storage
+ * @param {json} o - The JSON object of a P2000 entry from the p2000 rss feed
+ * @return The orion-compliant P2000 object
  */
 var createP2000Data = function(o){ //Creates orion-compliant objects for Orion storage
 	return {
@@ -37,7 +37,7 @@ var createP2000Data = function(o){ //Creates orion-compliant objects for Orion s
 	};
 }
 /**
- *
+ * @summary Sends all data pulled from P2000 to Orion
  */
 var pushP2000ToOrion = function() {
 	HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function(response){
@@ -49,6 +49,9 @@ var pushP2000ToOrion = function() {
 	}));
 }
 
+/**
+ * @summary Cronjob for pushing P2000 to orion, calls pushP2000ToOrion every 10 seconds
+ */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing P2000 to Orion',
     schedule: function (parser) {
@@ -57,7 +60,7 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     job: pushP2000ToOrion
 });
 /**
- * 
+ *
  * @type {{name: string, args: string, f: P2000Pull.f}}
  */
 var P2000Pull = {

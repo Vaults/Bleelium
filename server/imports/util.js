@@ -1,7 +1,7 @@
 /**
- *
- * @param attr
- * @returns {{}}
+ * @summary Rewrites the attribute format of Orion into key = value
+ * @param {array} attr - Atribute object from Orion
+ * @returns Rewritten attribute as key=value
  */
 var attributesToKeyValue = function (attr) {
     var temp = {}
@@ -11,10 +11,10 @@ var attributesToKeyValue = function (attr) {
     return temp;
 }
 /**
- *
- * @param obj
+ * @summary Loops through all the attributes and rewrites them to key = value
+ * @param {json} obj - The Orion object
  * @param callback
- * @returns {*}
+ * @returns the complete Orion object with the attributes rewritten as key = value
  */
 var rewriteAttributes = function (obj, callback) {
     if (!callback) {
@@ -31,9 +31,9 @@ var rewriteAttributes = function (obj, callback) {
     return obj;
 }
 /**
- *
- * @param c
- * @returns {Function}
+ * @summary Handles the error if there is one
+ * @param c- callback
+ * @returns If there is no error the result is returned
  */
 var handleError = function (c) {
     return function (error, result) {
@@ -53,9 +53,9 @@ var handleError = function (c) {
     }
 }
 /**
- *
- * @param o
- * @returns {*}
+ * @summary Adjust the Orion attribute for forecast data
+ * @param {json} 0 - An orion attribute
+ * @returns The adjusted Orion attribute for forecast
  */
 var numToObj = function (o) {
     var tempobj = {forecast: {}};
@@ -73,9 +73,9 @@ var numToObj = function (o) {
     return tempobj;
 }
 /**
- *
- * @param obj
- * @returns {*}
+ * @summary Adjust the Orion object so we are able to save forecast data
+ * @param {json} obj - The Orion object
+ * @returns The adjusted Orion object for forecast data
  */
 var rewriteNumbersToObjects = function (obj) {
     for (var i = 0; i < obj.data.contextResponses.length; i++) {
