@@ -10,8 +10,8 @@ var parseData = function (o){
        return(ambulanceInfo(o));
    }else if( o.desc.indexOf("Politie") > -1){
       // return(policeInfo(title));
-   }else if(o. desc.indexOf("Brandweer") > -1){
-
+   }else if(o.desc.indexOf("BRW") > -1){
+       fireFighterInfo(o);
    }
 }
 
@@ -66,6 +66,7 @@ var policeInfo = function(o){
 
     return o;
 }
+
 /**
  * @summary Parses firefighter info from P2000
  * @param o
@@ -73,23 +74,20 @@ var policeInfo = function(o){
  * @returns {*}
  */
 var fireFighterInfo = function(o){
-    var descr = "";
-    for(var i = 3; i < o.title.split(" ").length ; i++){
-        descr += (o.title.split(" ")[i] + ' ');
-    }
-    var titleArray = o.title.split(" ");
-    lodash.remove(titleArray,function(obj){
-        return (obj=='' || obj==":");
-    });
+    console.log(o);
 
-    o.prio = titleArray[0];
-    o.strLoc = o.title.substring(
-        o.title.indexOf(':') + 2,
-        o.title.indexOf('Obj:')
-    );
-    o.restTitle = descr;
 
-    return o;
+
+    // { title: 'PRIO 1 : Aanrijding letsel (Soort voertuig: personenauto) Bakker en Kok t Heike 5 a Reu : 4071 4041 22604 OVD~',
+    // link: [ 'http://monitor.livep2000.nl?SPI=1605261656450122' ],
+    // description: [ '1107998 BRW Reusel ( <i name=w3878 class=wb>Monitorcode</i> )<br/>1107960 BRW Reusel ( Vrijwilligers Dagdienst )<br/>1107946 BRW Reusel ( Bezetting <i name=w3873 class=wb>TS</i> )<br/>1107933 BRW Reusel ( BLS <i name=w3863 class=wb>First Responders</i> )<br/>1107923 BRW Reusel ' +
+    // '( Bemanning <i name=w3865 class=wb>HV</i> Ploeg B )<br/>1107920 BRW Reusel ( Bemanning <i name=w3865 class=wb>HV</i> Ploeg A )<br/>1104799 BRW Brabant-Zuidoost ( <i name=w3878 class=wb>Monitorcode</i> )<br/>1104764 BRW Brabant-Zuidoost ( <i name=w3853 class=wb>OvD</i> West )<br/>' ],
+    // pubDate: [ 'Thu, 26 May 2016 16:56:45 +0200' ],
+    // guid: [ { _: '1605261656450122', '$': [Object] } ],
+    // desc: '1107998 BRW Reusel  Monitorcode 1107960 BRW Reusel ' +
+    // '( Vrijwilligers Dagdienst )1107946 BRW Reusel ( Bezetting TS )1107933 BRW Reusel ' +
+    // '( BLS First Responders )1107923 BRW Reusel ( Bemanning HV Ploeg B )1107920 BRW Reusel ( Bemanning HV Ploeg A )1104799 BRW Brabant-Zuidoost ( Monitorcode )1104764 BRW Brabant-Zuidoost ( OvD West )' }
+    //
 }
 
 /**
