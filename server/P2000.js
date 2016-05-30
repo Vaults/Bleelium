@@ -17,6 +17,9 @@ var pushP2000ToOrion = function () {
     }));
 }
 
+/**
+ * @summary Cronjob for pushing P2000 to orion, calls pushP2000ToOrion every 10 seconds
+ */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing P2000 to Orion',
     schedule: function (parser) {
@@ -24,7 +27,10 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     },
     job: pushP2000ToOrion
 });
-
+/**
+ *
+ * @type {{name: string, args: string, f: P2000Pull.f}}
+ */
 var P2000Pull = {
     name: 'P2000',
     args: '?orderBy=!publish_date&limit=1000',
