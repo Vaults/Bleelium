@@ -59,7 +59,8 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Events(){
-            return P2000.find();
+            return P2000.find({'attributes.info': 'false', "attributes.description": {$not: {$regex : ".*Politie.*"}}});
+            //TEMP HACK TO REMOVE POLICE FROM PREMISES
         }
     });
 

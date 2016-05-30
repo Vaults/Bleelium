@@ -27,6 +27,7 @@ var pushP2000ToOrion = function () {
 
 /**
  *
+ * @summary Cronjob for pushing P2000 to orion, calls pushP2000ToOrion every 10 seconds
  */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing P2000 to Orion',
