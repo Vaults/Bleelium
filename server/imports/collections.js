@@ -8,7 +8,7 @@ Meteor.publish('weatherPub', function weatherPublication() {
 
 var P2000 = new Mongo.Collection('P2000');
 Meteor.publish('P2000Pub', function P2000Publication() {
-    return P2000.find({}, {limit:3 ,sort: {'attributes.publish_date' : -1}});
+    return P2000.find({}, {limit:25 ,sort: {'attributes.publish_date' : -1}});
 });
 
 var collectionWrapper = {
