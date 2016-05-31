@@ -16,6 +16,7 @@
         </div>
     </div>
     <div>
-        <input type="range" min="0" max="168">
+        <input type="range" min="0" max="168" ng-model="range">
+        <p>{{range | convertHours}}</p>
     </div>
 </div>
