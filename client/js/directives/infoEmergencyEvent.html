@@ -1,7 +1,7 @@
 <div class="emergency-item">
     <!-- TODO: Currently reloads security page. Should instead reload legend in sidebar -->
     <div class="pull-right">
-        <a ui-sref="security.sub"  id="closebutton1" class="closebutton">X</a>
+        <a ui-sref="security.sub" id="closebutton1" class="closebutton">X</a>
 
     </div>
 
@@ -12,8 +12,13 @@
         <img ng-src="/img/security/{{type}}.png" class="security-icon" height="150px"/>
         <br>
         <br>
-        {{title}}
+        {{type}}
+        <br>
+        {{strLoc}}
         <br>
         {{publish_date | date: 'medium'}}
+        <br>
+        <br>
+        {{description}}
     </div>
 </div>

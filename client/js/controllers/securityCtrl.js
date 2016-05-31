@@ -71,7 +71,9 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             $scope.city = "Eindhoven";
             $scope.type = loc.attributes.type;
             $scope.title = loc.attributes.description;
+            $scope.description = loc.attributes.description;
             $scope.publish_date = loc.attributes.publish_date;
+            $scope.strLoc = formatLocation(loc.attributes.strLoc);
             $scope.$apply();
         }
     };
@@ -146,6 +148,22 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
                 }
             }
     }
+
+    var formatLocation = function (loc) {
+        var streetCity = loc.split(" ");
+        var fullLocation = "";
+        for (var i = 0; i < streetCity.length - 1; i++) {
+            if (streetCity.length - 2 === i) {
+                fullLocation += ", " + streetCity[i];
+            } else if (i === 0) {
+                fullLocation += streetCity[i];
+            } else {
+                fullLocation += " " + streetCity[i];
+            }
+        }
+        return fullLocation;
+    }
+
     $scope.autorun(reload);
     $scope.$watch('eventTypes.paramedics.checked', reload);
     $scope.$watch('eventTypes.firedept.checked', reload);
