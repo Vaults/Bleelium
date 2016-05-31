@@ -77,8 +77,8 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Events(){
-            var query = $scope.returnFilteredEvents();
-            return  P2000.find(query);
+            console.log('im getting new data')
+            return  P2000.find($scope.returnFilteredEvents());
         }
     });
 
