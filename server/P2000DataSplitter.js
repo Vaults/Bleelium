@@ -142,9 +142,14 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
                         "value": o.description
                     },
                     {
-                        "name": "publish_date",
+                        "name": "dt", //unix timestamp
                         "type": "string",
                         "value": new Date('' +o.pubDate[0]).getTime() + ''
+                    },
+                    {
+                        "name": "publish_date",
+                        "type": "string",
+                        "value": o.pubDate[0] + ''
                     },
                     {
                         "name": "coord_lat",

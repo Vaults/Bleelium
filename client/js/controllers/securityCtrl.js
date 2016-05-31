@@ -58,8 +58,12 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     }
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
+        /**
+         * @summary Find all P2000 events within specified time span
+         * @returns {}
+         */
         p2000Events(){
-            return P2000.find({});
+            return P2000.find({'attributes.dt' : {$gte : (new Date().getTime() - 1000*60*60*1).toString()}});
         }
     });
 
