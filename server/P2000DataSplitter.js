@@ -72,6 +72,7 @@ var fireFighterInfo = function(o){
  * @param !!DEPRECATED!! o
  * @pre  !!DEPRECATED!! !o.coord_lat
  * @modifies !!DEPRECATED!!  o
+ * @deprecated
  */
 var geoLoc = function(o){
     if(!o.coord_lat){
@@ -95,6 +96,7 @@ var geoLoc = function(o){
  * @summary !!DEPRECATED!! Generates fake coords for p2000 obbject o.
  * @param  !!DEPRECATED!! o
  * @modifies !!DEPRECATED!! o
+ * @deprecated
  */
 var generateFakeCoords = function(o){
     //51.50N, 5.60E topright
