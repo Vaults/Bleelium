@@ -11,10 +11,11 @@ var dataWeatherMap = {
 	"2759794": "Amsterdam"
 }
 /**
- * @param o
- * @returns {{contextElements: *[], updateAction: string}}
+ * @summary Creates orion-compliant weatherstaion object for Orion storage
+ * @param {json} o - The JSON object of a weatherstation from OpenWeatherMap
+ * @return The orion-compliant weatherstation object
  */
-var createWeatherData = function(o){ //Creates orion-compliant objects for Orion storage
+var createWeatherData = function(o){
 	return {
 		"contextElements": [
 			{
@@ -114,11 +115,11 @@ var createWeatherData = function(o){ //Creates orion-compliant objects for Orion
 	};
 }
 /**
- *
- * @param o
- * @param i
- * @param id
- * @returns {{contextElements: *[], updateAction: string}}
+ * @summary Creates orion-compliant forecast object for Orion storage
+ * @param {json} o - The JSON object of a weatherstation from OpenWeatherMap
+ * @param {int} i - Represents the number of days between the current date and the forecast date
+ * @param {int} id - The id of the weatherstation in question
+ * @return The orion-compliant forecast object
  */
 var createForecastData = function(o, i, id){
 	return {
@@ -171,9 +172,9 @@ var createForecastData = function(o, i, id){
 	};
 }
 /**
- *
+ * @summary Sends all data pulled from OpenWeatherMap to Orion
  */
-var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherMap to Orion
+var pushWeatherToOrion = function () {
 	var locations = '';
 	for (key in dataWeatherMap) {
 		if (!locations) {
@@ -190,6 +191,9 @@ var pushWeatherToOrion = function () { //Sends all data pulled from OpenWeatherM
 	}));
 }
 
+/**
+ * @summary Sends all forecast data pulled from OpenWeatherMap to Orion
+ */
 var pushForecastToOrion = function(){
 	for(id in dataWeatherMap){
 		HTTP.call('GET', "http://api.openweathermap.org/data/2.5/forecast/daily?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + id + "&units=metric", {}, handleError(function(response){
@@ -200,14 +204,21 @@ var pushForecastToOrion = function(){
 	}
 }
 
+
 /* https://github.com/percolatestudio/meteor-synced-cron */
-SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
+/**
+ * @summary Cronjob for pushing weather to orion, calls pushWeatherToOrion every 30 minutes
+ */
+SyncedCron.add({
 	name: 'Pushing weather to Orion',
 	schedule: function (parser) {
 		return parser.text('every 30 minutes');
 	},
 	job: pushWeatherToOrion
 });
+/**
+ * @summary Cronjob for pushing weather forecast to orion, calls pushWeatherToOrion every 6 hours
+ */
 SyncedCron.add({	//calls pushForecastToOrion every 30 mins
 	name: 'Pushing forecast to Orion',
 	schedule: function (parser) {

@@ -9,11 +9,11 @@
     <!-- TODO: Name image files so that they correspond to Orion data -->
 
     <div style="text-align:center">
-        <img ng-src="/img/security/paramedics.png" class="security-icon" height="150px"/>
+        <img ng-src="/img/security/{{type}}.png" class="security-icon" height="150px"/>
         <br>
         <br>
         {{title}}
         <br>
-        {{publish_date}}
+        {{publish_date | date: 'medium'}}
     </div>
 </div>

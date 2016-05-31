@@ -5,12 +5,17 @@
  * @returns Object with parsed data.
  */
 var parseData = function (o){
-   if( o.desc.indexOf("Ambulance") > -1){
+   if( o.description.indexOf("Ambulance") > -1){
+       o.type = 'Ambulance';
        return(ambulanceInfo(o));
    }else if( o.description.indexOf("Politie") > -1){
-      // return(policeInfo(title));
+       o.type = 'Politie';
+       return(policeInfo(o));
    }else if(o.description.indexOf("BRW") > -1){
-      // fireFighterInfo(o);
+      o.type = 'Brandweer';
+      return(o);
+   }else{
+       return false;
    }
 }
 
@@ -21,10 +26,10 @@ var parseData = function (o){
  * @returns o
  */
 var ambulanceInfo = function(o){
-    var descr = "";
+    var description = "";
 
     for(var i = 3; i < o.title.split(" ").length ; i++){
-        descr += (o.title.split(" ")[i] + ' ');
+        description += (o.title.split(" ")[i] + ' ');
     }
     var titleArray = o.title.split(" ");
     lodash.remove(titleArray,function(obj){
@@ -35,7 +40,7 @@ var ambulanceInfo = function(o){
         o.title.indexOf(':') + 2,
         o.title.indexOf('Obj:')
     );
-    o.restTitle = descr;
+    o.restTitle = description;
 
     return o;
 }
@@ -47,8 +52,9 @@ var ambulanceInfo = function(o){
  * @returns Object 'o'
  */
 var policeInfo = function(o){
-    //TODO
+    return o;
 }
+
 
 /**
  * @summary Parses firefighter info from P2000 into a usable format.
@@ -58,13 +64,14 @@ var policeInfo = function(o){
  */
 var fireFighterInfo = function(o){
     //TODO
-}
+};
+
 
 /**
- * @summary Modifies object to include (fake) location data, and sets fakeFlag accordingly .
- * @param o
- * @pre !o.coord_lat
- * @modifies o
+ * @summary !!DEPRECATED!! Modifies object to include (fake) location data, and sets fakeFlag accordingly .
+ * @param !!DEPRECATED!! o
+ * @pre  !!DEPRECATED!! !o.coord_lat
+ * @modifies !!DEPRECATED!!  o
  */
 var geoLoc = function(o){
     if(!o.coord_lat){
@@ -85,9 +92,9 @@ var geoLoc = function(o){
     }
 }
 /**
- * @summary Generates fake coords for p2000 obbject o.
- * @param o
- * @modifies o
+ * @summary !!DEPRECATED!! Generates fake coords for p2000 obbject o.
+ * @param  !!DEPRECATED!! o
+ * @modifies !!DEPRECATED!! o
  */
 var generateFakeCoords = function(o){
     //51.50N, 5.60E topright
@@ -103,10 +110,13 @@ var generateFakeCoords = function(o){
  * @returns Object 'contextElements'
  */
 var createP2000Data = function (o) { //Creates orion-compliant objects for Orion storage
-    o.desc =  o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '');
+    o.description =  o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '').replace('<br/>','');
     o.title = o.title[0].replace('(DIA: )','');
+    o.coord_lat = o['geo:lat'];
+    o.coord_lng = o['geo:long'];
+    delete o['geo:lat'];
+    delete o['geo:long'];
     parseData(o); //modifies o
-    geoLoc(o); //modifies o
     return {
         "contextElements": [
             {
@@ -115,6 +125,11 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
                 "id": o.guid[0]._,
                 "attributes": [
                     {
+                        "name": "type",
+                        "type": "string",
+                        "value": o.type
+                    },
+                    {
                         "name": "EST",
                         "type": "string",
                         "value": o.title
@@ -122,12 +137,12 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
                     {
                         "name": "description",
                         "type": "string",
-                        "value": o.desc
+                        "value": o.description
                     },
                     {
                         "name": "publish_date",
                         "type": "string",
-                        "value": o.pubDate[0]
+                        "value": new Date('' +o.pubDate[0]).getTime() + ''
                     },
                     {
                         "name": "coord_lat",
@@ -154,11 +169,6 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
                         "type": "string",
                         "value": o.strLoc
                     },
-                    {
-                        "name": "info",
-                        "type": "string",
-                        "value": o.fakeFlag
-                    }
                 ]
             }
         ],

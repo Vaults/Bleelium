@@ -4,10 +4,16 @@ import {MAIN_MODULE} from  './mainModule.js';
 MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state) {
     $reactive(this).attach($scope);
     $scope.eventTypes = {
-        'policedept': {icon: 'img/security/policedept.png', text: 'Police Department', checked: false},
-        'firedept': {icon: 'img/security/firedept.png', text: 'Fire Department', checked: false},
+        'policedept': {
+            icon: 'img/security/Politie.png',
+            text: 'Police Department',
+            checked: true},
+        'firedept': {
+            icon: 'img/security/brandweer.png',
+            text: 'Fire Department',
+            checked: true},
         'paramedics': {
-            icon: 'img/security/paramedics.png',
+            icon: 'img/security/Ambulance.png',
             text: 'Paramedics',
             checked: true,
             style: 'margin-bottom: 20px'
@@ -46,7 +52,6 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.findEventInfo = function (loc) { //Finds an event from coordinates
         var selector = {
             'attributes.coord_lat': String(loc.lat()),
-            //'attributes.coord_lng': loc.lng()
         };
 
         return P2000.findOne(selector);
@@ -54,8 +59,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Events(){
-            return P2000.find({'attributes.info': 'false', "attributes.description": {$not: {$regex : ".*Politie.*"}}});
-            //TEMP HACK TO REMOVE POLICE FROM PREMISES
+            return P2000.find({});
         }
     });
 
@@ -63,9 +67,9 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
         if (arg) {
             var loc = $scope.findEventInfo(arg);
-            console.log(loc);
             $state.go('security.subemergency');
             $scope.city = "Eindhoven";
+            $scope.type = loc.attributes.type;
             $scope.title = loc.attributes.description;
             $scope.publish_date = loc.attributes.publish_date;
             $scope.$apply();
@@ -99,17 +103,16 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             }
         }
 
-        console.log($scope.eventTypes.paramedics.checked);
         $scope.markers = [];
-        if($scope.eventTypes.paramedics.checked) {
             for (var i = 0; i < events.length; i++) {
                 if (events[i].attributes) {
-                    //console.log($scope.markers);
+                    if((!$scope.eventTypes.policedept.checked && (events[i].attributes.type == 'Politie')) || (!$scope.eventTypes.firedept.checked && (events[i].attributes.type == 'brandweer')) || (!$scope.eventTypes.paramedics.checked && (events[i].attributes.type == 'Ambulance')) ){
+                    }else{
                     $scope.markers.push({
                         options: {
                             draggable: false,
                             icon: {
-                                url: '/img/security/paramedics.png',
+                                url: '/img/security/'+events[i].attributes.type+'.png',
                                 size: {
                                     height: 600,
                                     width: 600
@@ -137,14 +140,15 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
                             latitude: events[i].attributes.coord_lat,
                             longitude: events[i].attributes.coord_lng
                         },
-                    });
+                    })};
                 } else {
                     $scope.markers[i].setMap(null);
                 }
             }
-        }
     }
     $scope.autorun(reload);
     $scope.$watch('eventTypes.paramedics.checked', reload);
+    $scope.$watch('eventTypes.firedept.checked', reload);
+    $scope.$watch('eventTypes.policedept.checked', reload);
 
 })
