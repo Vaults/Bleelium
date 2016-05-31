@@ -10,7 +10,7 @@ var parseData = function (o){
        return(ambulanceInfo(o));
    }else if( o.description.indexOf("Politie") > -1){
        o.type = 'Politie';
-       return(policeInfo(o));
+       return(o);
    }else if(o.description.indexOf("BRW") > -1){
       o.type = 'Brandweer';
       return(o);
@@ -44,28 +44,6 @@ var ambulanceInfo = function(o){
 
     return o;
 }
-
-/**
- * @summary Parses police info from P2000 into a usable format.
- * @param o
- * @modifies o
- * @returns Object 'o'
- */
-var policeInfo = function(o){
-    return o;
-}
-
-
-/**
- * @summary Parses firefighter info from P2000 into a usable format.
- * @param o
- * @modifies o
- * @returns {*}
- */
-var fireFighterInfo = function(o){
-    //TODO
-};
-
 
 /**
  * @summary !!DEPRECATED!! Modifies object to include (fake) location data, and sets fakeFlag accordingly .
@@ -176,4 +154,4 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
     };
 }
 
-export {parseData,geoLoc,generateFakeCoords,policeInfo,ambulanceInfo, createP2000Data}
+export {parseData,geoLoc,generateFakeCoords,ambulanceInfo, createP2000Data}

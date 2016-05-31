@@ -8,7 +8,6 @@ import {
     parseData,
     geoLoc,
     generateFakeCoords,
-    policeInfo,
     ambulanceInfo,
     createP2000Data
 } from '/server/P2000DataSplitter.js';
@@ -46,7 +45,7 @@ describe('parseData()', function () {
     var res = createP2000Data(testData);
 
     it('Should divide correctly', function() {
-        assert.isTrue(res.contextElements[0].attributes[5].value == 'A2')
+        assert.isTrue(res.contextElements[0].attributes[6].value == 'A2')
     });
 
     testData.description = 'Brandweer';
@@ -66,14 +65,12 @@ describe('parseData()', function () {
     });
 });
 describe('ambulanceInfo()', function () {
+    var res = createP2000Data(inputData());
+
     it('should return object with correct ambulance info', function () {
-
-    });
-
-});
-describe('policeInfo()', function () {
-    it('should return object with correct police info', function () {
-
+        assert.equal(res.contextElements[0].attributes[6].value, 'A2' );
+        assert.equal(res.contextElements[0].attributes[7].value, '22 : Raambrug Bladel Obj: Rit: 41269~ ' );
+        assert.equal(res.contextElements[0].attributes[8].value, 'Raambrug Bladel ' );
     });
 });
 describe('createP2000Data()', function () {
@@ -83,6 +80,10 @@ describe('createP2000Data()', function () {
             isPattern: 'false',
             id: '1605261117520222',
             attributes: [{
+                name: 'type',
+                type: 'string',
+                value: 'Ambulance'
+            }, {
                 name: 'EST',
                 type: 'string',
                 value: 'A2  5531AG 22 : Raambrug Bladel Obj: Rit: 41269~'
@@ -118,7 +119,7 @@ describe('createP2000Data()', function () {
         assert.equal(res.contextElements[0].attributes[0].value, outputData.contextElements[0].attributes[0].value);
         assert.equal(res.contextElements[0].attributes[1].value, outputData.contextElements[0].attributes[1].value);
         assert.equal(res.contextElements[0].attributes[2].value, outputData.contextElements[0].attributes[2].value);
-        assert.equal(res.contextElements[0].attributes[3].value[0], outputData.contextElements[0].attributes[3].value[0]);
+        assert.equal(res.contextElements[0].attributes[4].value[0], outputData.contextElements[0].attributes[4].value[0]);
     });
 });
 describe('geoLoc()', function () {
@@ -133,8 +134,8 @@ describe('geoLoc()', function () {
     });
     it('should not change input coordinates', function () {
         var res = createP2000Data(inputData());
-        assert.equal(res.contextElements[0].attributes[3].value[0], inputData()['geo:lat'][0]);
-        assert.equal(res.contextElements[0].attributes[4].value[0], inputData()['geo:long'][0]);
+        assert.equal(res.contextElements[0].attributes[4].value[0], inputData()['geo:lat'][0]);
+        assert.equal(res.contextElements[0].attributes[5].value[0], inputData()['geo:long'][0]);
     });
 
 });
@@ -145,8 +146,8 @@ describe('generateFakeCoords()', function () {
             inputData()['geo:long'][0] = null;
             var res = createP2000Data(inputData());
             generateFakeCoords(res);
-            assert.isTrue(res.contextElements[0].attributes[3].value[0] > 51.23 && res.contextElements[0].attributes[3].value[0] < 51.50);
-            assert.isTrue(res.contextElements[0].attributes[4].value[0] > 5.2 && res.contextElements[0].attributes[4].value[0] < 5.60);
+            assert.isTrue(res.contextElements[0].attributes[4].value[0] > 51.23 && res.contextElements[0].attributes[4].value[0] < 51.50);
+            assert.isTrue(res.contextElements[0].attributes[5].value[0] > 5.2 && res.contextElements[0].attributes[5].value[0] < 5.60);
         }
     });
 });

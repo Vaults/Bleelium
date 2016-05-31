@@ -7,14 +7,19 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         'policedept': {
             icon: 'img/security/Politie.png',
             text: 'Police Department',
-            checked: true},
+            name: 'Politie',
+            checked: true
+        },
         'firedept': {
             icon: 'img/security/brandweer.png',
             text: 'Fire Department',
-            checked: true},
+            name: 'brandweer',
+            checked: true
+        },
         'paramedics': {
             icon: 'img/security/Ambulance.png',
             text: 'Paramedics',
+            name: 'Ambulance',
             checked: true,
             style: 'margin-bottom: 20px'
         },
@@ -57,12 +62,25 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         return P2000.findOne(selector);
     }
 
+    $scope.returnFilteredEvents = function () {
+        var selector = {};
+        var eT = $scope.eventTypes;
+        selector['attributes.type'] = {$in: []};
+
+        angular.forEach(eT,function (o) {
+            if (o.checked) {
+                selector['attributes.type']['$in'].push(o.name);
+            }});
+        console.log(selector);
+        return(selector);
+    };
+
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Events(){
-            return P2000.find({});
+            var query = $scope.returnFilteredEvents();
+            return  P2000.find(query);
         }
     });
-
 
     var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
         if (arg) {
@@ -103,48 +121,47 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             }
         }
 
+
         $scope.markers = [];
-            for (var i = 0; i < events.length; i++) {
-                if (events[i].attributes) {
-                    if((!$scope.eventTypes.policedept.checked && (events[i].attributes.type == 'Politie')) || (!$scope.eventTypes.firedept.checked && (events[i].attributes.type == 'brandweer')) || (!$scope.eventTypes.paramedics.checked && (events[i].attributes.type == 'Ambulance')) ){
-                    }else{
-                    $scope.markers.push({
-                        options: {
-                            draggable: false,
-                            icon: {
-                                url: '/img/security/'+events[i].attributes.type+'.png',
-                                size: {
-                                    height: 600,
-                                    width: 600
-                                },
-                                anchor: {
-                                    x: 24,
-                                    y: 24
-                                },
-                                scaledSize: {
-                                    height: 48,
-                                    width: 48
-                                }
+        for (var i = 0; i < events.length; i++) {
+            if (events[i].attributes) {
+                $scope.markers.push({
+                    options: {
+                        draggable: false,
+                        icon: {
+                            url: '/img/security/' + events[i].attributes.type + '.png',
+                            size: {
+                                height: 600,
+                                width: 600
                             },
-                        },
-                        events: {
-                            click: (marker, eventName, args) => {
-                                $rootScope.$broadcast('setInfo', marker.getPosition());
+                            anchor: {
+                                x: 24,
+                                y: 24
                             },
-                            dragend: (marker, eventName, args) => {
-                                this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
-                                $scope.$apply();
+                            scaledSize: {
+                                height: 48,
+                                width: 48
                             }
                         },
-                        location: {
-                            latitude: events[i].attributes.coord_lat,
-                            longitude: events[i].attributes.coord_lng
+                    },
+                    events: {
+                        click: (marker, eventName, args) => {
+                            $rootScope.$broadcast('setInfo', marker.getPosition());
                         },
-                    })};
-                } else {
-                    $scope.markers[i].setMap(null);
-                }
+                        dragend: (marker, eventName, args) => {
+                            this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                            $scope.$apply();
+                        }
+                    },
+                    location: {
+                        latitude: events[i].attributes.coord_lat,
+                        longitude: events[i].attributes.coord_lng
+                    },
+                });
+            } else {
+                $scope.markers[i].setMap(null);
             }
+        }
     }
     $scope.autorun(reload);
     $scope.$watch('eventTypes.paramedics.checked', reload);
