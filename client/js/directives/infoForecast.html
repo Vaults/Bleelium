@@ -1,45 +1,47 @@
 <div class="forecast-top">
-  <div class="forecast-top-station">
-    <h1 align="right">{{name}}</h1> <!-- "Eindhoven" should still be removed-->
-  </div>
-  <div class="forecast-top-location">
-    <h4 align="left" style="display: table-cell;vertical-align: bottom; height:38px;">{{'Long: '+ longitude + ' &deg;'}}</h4>
-    <h4 align="left" style="height:32px;">{{'Lat: ' + latitude + ' &deg;'}}</h4>
-  </div>
-</div>
-<span class="forecast-main" ng-controller="forecastCtrl"  ng-repeat="fi in forecastInfo" ng-if="$index < 5">
-    <div class="row-fluid">
-      <div class="col-md-2">
-        <div  class="weather-item">
-          <h2>{{fi.timestamp * 1000 | date: 'EEEE'}}</h2><!--Calculate from Unix timestamp-->
-        	<h4>{{fi.timestamp * 1000| date: 'MMM d'}}</h4><!-- Calc from Unix timestamp-->
-        	<img src="{{retIconUrl(fi.icon, 'weather')}}" class="weather-icon" />
-        	<br>
-        	<div class="clearfix">
-        	    <div class="pull-left">
-                    <h3>{{fi.min | toFixed}} &deg;C</h3>
-                    <p>
-                        min
-                    </p>
-                    <p>
-        	            Wind direction: <br>
-        	            Air pressure: <br>
-        	            Humidity: <br>
-                    </p>
-        	    </div>
-        	    <div class="pull-right">
-                    <h3>{{fi.max | toFixed}} &deg;C</h3>
-                    <p>
-                        max
-                    </p>
-        	        <p>
-                        <img src="img/weather/windDir.png" class="wind-direction" style="-ms-transform: rotate({{fi.deg | toFixed}}deg);-webkit-transform: rotate({{fi.deg | toFixed}}deg);transform: rotate({{fi.deg | toFixed}}deg);-webkit-backface-visibility: hidden;"/><br>
-        		        {{fi.pressure | toFixed}} hPa<br>
-        		        {{fi.humidity}} %<br>
-                    </p>
-        	    </div>
-        	</div>
-        </div>
-      </div>
+    <div class="station">
+        <h1>{{name}}</h1>
     </div>
-</span>
+    <div class="location">
+        <h4 style="display: table-cell;vertical-align: bottom; height:38px;">{{'Long: '+ longitude + ' &deg;'}}</h4>
+        <h4 style="height:32px;">{{'Lat: ' + latitude + ' &deg;'}}</h4>
+    </div>
+</div>
+<div class="forecast-main">
+    <div class="row-fluid">
+        <div class="col-md-2" ng-controller="forecastCtrl"  ng-repeat="fi in forecastInfo" ng-if="$index < 5">
+            <div  class="weather-item">
+                <h2>{{fi.timestamp * 1000 | date: 'EEEE'}}</h2><!--Calculate from Unix timestamp-->
+                <h4>{{fi.timestamp * 1000| date: 'MMM d'}}</h4><!-- Calc from Unix timestamp-->
+                <img src="{{retIconUrl(fi.icon, 'weather')}}" class="icon"/>
+                <br>
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h3>{{fi.min | toFixed}} &deg;C</h3>
+                        <p>
+                            min
+                        </p>
+                        <p>
+                            Wind direction: <br>
+                            Air pressure: <br>
+                            Humidity: <br>
+                        </p>
+                    </div>
+                    <div class="pull-right">
+                        <h3>{{fi.max | toFixed}} &deg;C</h3>
+                        <p>
+                            max
+                        </p>
+                        <p>
+                            <img src="img/weather/windDir.png" class="winddirection" style="-ms-transform: rotate({{fi.deg | toFixed}}deg);-webkit-transform: rotate({{fi.deg | toFixed}}deg);transform: rotate({{fi.deg | toFixed}}deg);-webkit-backface-visibility: hidden;"/><br>
+                            {{fi.pressure | toFixed}} hPa<br>
+                            {{fi.humidity}} %<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
