@@ -8,7 +8,7 @@
 
 .security-container .list-overflow {
   top: 0px;
-  bottom: 75px;
+  bottom: 120px;
   left: 0px;
   right: 0px;
   position: absolute;
@@ -121,7 +121,7 @@
 }
 
 .security-container .range {
-  height: 75px;
+  height: 120px;
   bottom: 0px;
   right: 0px;
   left: 0px;
@@ -190,4 +190,52 @@
   margin: 2px;
   background-color: white;
   cursor: pointer;
+}
+
+.security-container .range .top {
+  left: 20px;
+  right: 20px;
+  bottom: 50px;
+  top: 20px;
+  margin: 0px;
+  position: absolute;
+  background-color: white;
+}
+
+.security-container .range .top .align-left {
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 75px;
+  position: absolute;
+  margin: 0px;
+}
+
+.security-container .range .top .align-left p {
+  font-family: "Lato";
+  font-size: 20px;
+  line-height: 25px;
+  margin-top: 0px;
+  color: #666666;
+  text-align: left;
+  position: relative;
+}
+
+.security-container .range .top .align-right {
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  width: 75px;
+  position: absolute;
+  margin: 0px;
+}
+
+.security-container .range .top .align-right p {
+  font-family: "Lato";
+  font-size: 20px;
+  line-height: 50px;
+  margin-top: 0px;
+  color: #666666;
+  text-align: right;
+  position: relative;
 }

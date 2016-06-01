@@ -21,11 +21,15 @@
     </div>
     <div class = "range">
         <div class="top">
-            <p>{{range | convertHours}}</p>
+            <div class="align-left">
+                <p>Show events <br> from the last:</p>
+            </div>
+            <div class="align-right">
+                <p>{{range | convertHours}}</p>
+            </div>
         </div>
         <div class="bottom">
             <input type="range" min="0" max="168" ng-model="range">
-
         </div>
     </div>
 </div>
