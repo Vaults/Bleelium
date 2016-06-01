@@ -1,18 +1,35 @@
-<div class="legend-list">
-    <div class="legend-item" ng-repeat="type in eventTypes" style="{{type.style}}">
-        <div class="legend-img">
-            <img ng-src="{{type.icon}}" class="security-icon" height="50px"/>
-        </div>
-        <div class="legend-title">
-            <div class="legend-title-sub">
-                <p>{{type.text}}</p>
+<div class="security-container">
+    <div class="list-overflow">
+        <div class="list">
+            <div class="item" ng-repeat="type in eventTypes" style="{{type.style}}">
+                <div class="image">
+                    <img ng-src="{{type.icon}}" class="security-icon" height="50px"/>
+                </div>
+                <div class="title">
+                    <div class="legend-title-sub">
+                        <p>{{type.text}}</p>
+                    </div>
+                </div>
+                <div class="button">
+                    <label class="switch">
+                        <input type="checkbox" id = "{{type.id}}" ng-checked="{{type.checked}}" ng-model="type.checked">
+                        <div class="slider"></div>
+                    </label>
+                </div>
             </div>
         </div>
-        <div class="legend-button">
-            <label class="switch">
-                <input type="checkbox" id = "{{type.id}}" ng-checked="{{type.checked}}" ng-model="type.checked">
-                <div class="slider"></div>
-            </label>
+    </div>
+    <div class = "range">
+        <div class="top">
+            <div class="align-left">
+                <p>Show events <br> from the last:</p>
+            </div>
+            <div class="align-right">
+                <p>{{range.value | convertHours}}</p>
+            </div>
+        </div>
+        <div class="bottom">
+            <input type="range" min="0" max="168" ng-model="range.value">
         </div>
     </div>
 </div>

@@ -10,7 +10,7 @@ var parseData = function (o){
        return(ambulanceInfo(o));
    }else if( o.description.indexOf("Politie") > -1){
        o.type = 'Politie';
-       return(policeInfo(o));
+       return(o);
    }else if(o.description.indexOf("BRW") > -1){
       o.type = 'Brandweer';
       return(o);
@@ -46,32 +46,11 @@ var ambulanceInfo = function(o){
 }
 
 /**
- * @summary Parses police info from P2000 into a usable format.
- * @param o
- * @modifies o
- * @returns Object 'o'
- */
-var policeInfo = function(o){
-    return o;
-}
-
-
-/**
- * @summary Parses firefighter info from P2000 into a usable format.
- * @param o
- * @modifies o
- * @returns {*}
- */
-var fireFighterInfo = function(o){
-    //TODO
-};
-
-
-/**
  * @summary !!DEPRECATED!! Modifies object to include (fake) location data, and sets fakeFlag accordingly .
  * @param !!DEPRECATED!! o
  * @pre  !!DEPRECATED!! !o.coord_lat
  * @modifies !!DEPRECATED!!  o
+ * @deprecated
  */
 var geoLoc = function(o){
     if(!o.coord_lat){
@@ -95,6 +74,7 @@ var geoLoc = function(o){
  * @summary !!DEPRECATED!! Generates fake coords for p2000 obbject o.
  * @param  !!DEPRECATED!! o
  * @modifies !!DEPRECATED!! o
+ * @deprecated
  */
 var generateFakeCoords = function(o){
     //51.50N, 5.60E topright
@@ -140,9 +120,14 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
                         "value": o.description
                     },
                     {
-                        "name": "publish_date",
+                        "name": "dt", //unix timestamp
                         "type": "string",
                         "value": new Date('' +o.pubDate[0]).getTime() + ''
+                    },
+                    {
+                        "name": "publish_date",
+                        "type": "string",
+                        "value": o.pubDate[0] + ''
                     },
                     {
                         "name": "coord_lat",
@@ -176,4 +161,4 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
     };
 }
 
-export {parseData,geoLoc,generateFakeCoords,policeInfo,ambulanceInfo, createP2000Data}
+export {parseData,geoLoc,generateFakeCoords,ambulanceInfo, createP2000Data}

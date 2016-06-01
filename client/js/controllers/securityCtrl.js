@@ -1,20 +1,25 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
 
-MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state) {
+MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService) {
     $reactive(this).attach($scope);
     $scope.eventTypes = {
         'policedept': {
             icon: 'img/security/Politie.png',
             text: 'Police Department',
-            checked: true},
+            name: 'Politie',
+            checked: true
+        },
         'firedept': {
             icon: 'img/security/brandweer.png',
             text: 'Fire Department',
-            checked: true},
+            name: 'brandweer',
+            checked: true
+        },
         'paramedics': {
             icon: 'img/security/Ambulance.png',
             text: 'Paramedics',
+            name: 'Ambulance',
             checked: true,
             style: 'margin-bottom: 20px'
         },
@@ -48,7 +53,15 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $meteor.subscribe('P2000Pub');
     $scope.markers = [];
+    $scope.range = { //Initial range slider value
+        value : 24
+    }
 
+    /**
+     * @summary find one specific event based on location
+     * @param loc
+     * @returns P2000 event
+     */
     $scope.findEventInfo = function (loc) { //Finds an event from coordinates
         var selector = {
             'attributes.coord_lat': String(loc.lat()),
@@ -57,36 +70,70 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         return P2000.findOne(selector);
     }
 
+    /**
+     * @summary generates a selector for the P2000 search query
+     * @returns selector with types of events to get and date constraint
+     */
+    $scope.returnFilteredEvents = function () {
+        var selector = {};
+        var eT = $scope.eventTypes;
+        var dt = (new Date().getTime() - 1000*60*60*$scope.range.value).toString();
+
+
+        selector['attributes.dt'] = {$gte: dt};
+        selector['attributes.type'] = {$in: []};
+        angular.forEach(eT,function (o) {
+            if (o.checked) {
+                selector['attributes.type']['$in'].push(o.name);
+            }});
+        if(selector['attributes.type']['$in'].length == 0){
+            selector = {"falseValue" : "Do not show"};
+        }
+        return(selector);
+    };
+
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Events(){
-            return P2000.find({});
+            return  P2000.find();
         }
     });
 
+    $scope.getIcon = function(arg2){
 
+    }
+
+    /**
+     * @summary update scope to the currently selected event
+     * @param event
+     * @param arg
+     */
     var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
         if (arg) {
-            var loc = $scope.findEventInfo(arg);
+
             $state.go('security.subemergency');
             $scope.city = "Eindhoven";
-            $scope.type = loc.attributes.type;
-            $scope.title = loc.attributes.description;
-            $scope.publish_date = loc.attributes.publish_date;
+            $scope.type = arg.type;
+            $scope.title = arg.title;
+            $scope.description = arg.description;
+            $scope.publish_date = arg.publish_date;
             $scope.$apply();
         }
     };
     $scope.$on('setInfo', setInfo);
 
-    var reload = function () { //Runs whenever the p2000 collection is updated. Pulls all p2000 events and updates all UI elements
-        var events = $scope.getReactively('p2000Events');
+    /**
+     * @summary Runs whenever the P2000 or any of the settings are updated. Pulls p2000 events and updates all UI elements
+     */
+    var reload = function () {
+        var hack = $scope.getReactively('p2000Events');
         var selEvent = $scope.getReactively('p2000Debug');
         setInfo(null, $scope.loc);
         if (selEvent) {
             if (!$scope.map) {
                 $scope.map = {
                     center: {
-                        latitude: events[i].attributes.coord_lat,
-                        longitude: events[i].attributes.coord_lng
+                        latitude: hack[0].attributes.coord_lat,
+                        longitude: hack[0].attributes.coord_lng
                     },
                     zoom: 13,
                     events: {
@@ -103,52 +150,54 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             }
         }
 
+        var events = P2000.find($scope.returnFilteredEvents()).fetch();
         $scope.markers = [];
-            for (var i = 0; i < events.length; i++) {
-                if (events[i].attributes) {
-                    if((!$scope.eventTypes.policedept.checked && (events[i].attributes.type == 'Politie')) || (!$scope.eventTypes.firedept.checked && (events[i].attributes.type == 'brandweer')) || (!$scope.eventTypes.paramedics.checked && (events[i].attributes.type == 'Ambulance')) ){
-                    }else{
-                    $scope.markers.push({
-                        options: {
-                            draggable: false,
-                            icon: {
-                                url: '/img/security/'+events[i].attributes.type+'.png',
-                                size: {
-                                    height: 600,
-                                    width: 600
-                                },
-                                anchor: {
-                                    x: 24,
-                                    y: 24
-                                },
-                                scaledSize: {
-                                    height: 48,
-                                    width: 48
-                                }
-                            },
+        for (var i = 0; i < events.length; i++) {
+            if (events[i].attributes) {
+                var currentMarker = events[i].attributes;
+                $scope.markers.push({
+                    options: {
+                        draggable: false,
+                        icon: IconService.createMarkerIcon(events[i].attributes.type, 'security'),
+                        type: currentMarker.type,
+                        title: currentMarker.restTitle,
+                        description: currentMarker.description,
+                        publish_date: currentMarker.publish_date
+                    },
+                    events: {
+                        click: (marker, eventName, args) => {
+                            $rootScope.$broadcast('setInfo',marker);
                         },
-                        events: {
-                            click: (marker, eventName, args) => {
-                                $rootScope.$broadcast('setInfo', marker.getPosition());
-                            },
-                            dragend: (marker, eventName, args) => {
-                                this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
-                                $scope.$apply();
-                            }
-                        },
-                        location: {
-                            latitude: events[i].attributes.coord_lat,
-                            longitude: events[i].attributes.coord_lng
-                        },
-                    })};
-                } else {
-                    $scope.markers[i].setMap(null);
-                }
+                        dragend: (marker, eventName, args) => {
+                            this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
+                            $scope.$apply();
+                        }
+                    },
+                    location: {
+                        latitude: events[i].attributes.coord_lat,
+                        longitude: events[i].attributes.coord_lng
+                    },
+                });
+            } else {
+                $scope.markers[i].setMap(null);
             }
+        }
     }
     $scope.autorun(reload);
     $scope.$watch('eventTypes.paramedics.checked', reload);
     $scope.$watch('eventTypes.firedept.checked', reload);
     $scope.$watch('eventTypes.policedept.checked', reload);
+    $scope.$watch('range.value', reload);
 
+}).filter('convertHours', function(){
+    /**
+     * @summary convert integer amount of hours into a string with amount of days and hours
+     * @return string hours/24+'d'+hours%24+'h'
+     */
+    return function(hours){
+        if (Math.floor(hours/24) > 0){
+            return Math.floor(hours/24)+'d'+hours%24+'h';
+        }
+        return hours%24 + 'h';
+    }
 })

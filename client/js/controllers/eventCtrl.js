@@ -68,14 +68,6 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
         return events[maxLevel];
     }
 
-    //Set the default event as the one with the maximum
-    if ($scope.events.length == 1) {
-        $scope.selectedEvent = $scope.events[0];
-    }
-    else {
-        $scope.selectedEvent = getMaxLevel($scope.events);
-    }
-
     // When the event array is not empty, the warning window will pop up
     if ($scope.events.length != 0) {
         popUpMulti.style.display = "block";
