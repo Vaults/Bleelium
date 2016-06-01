@@ -1,99 +1,178 @@
 @import "variables.scss"
 
-.security-list
-  top: 0px;
+$sliderheight: 75px;
+
+.security-container
+  top: 0px
+  right: 0px
+  left: 0px
   bottom: 0px;
-  left: 0px;
-  right: 0px;
   position: absolute;
-  margin: 20px;
 
-  .item
-    position: relative;
-    width: 100%;
-    height: 50px;
-    margin: 0px;
-    margin-bottom: 10px;
-    float: bottom;
+  .list-overflow
+    top: 0px;
+    bottom: $sliderheight;
+    left: 0px;
+    right: 0px;
+    position: absolute;
+    margin: 00px;
+    overflow-y: auto;
 
-    .image
-      position: absolute;
+    .list
+      top: 0px;
+      bottom: 0px;
       left: 0px;
-      top: 0px;
-      width: 50px;
-      height: 50px;
-
-    .title
-      position: absolute;
-      left: 60px;
-      top: 0px;
-      right: 50px;
-      height: 50px;
-      margin-top: 4px;
-      align-items: center;
-
-      p
-        font-family: "Lato";
-        font-size: 20px;
-        color: $darkgrey;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-
-    .button
-      position: absolute;
       right: 0px;
-      top: 0px;
-      width: 40px;
-      height: 50px;
+      position: absolute;
+      margin: 20px;
 
-      .switch
-        position: absolute;
-        display: inline-block;
-        width: 40px;
-        height: 20px;
-        top: 15px;
-        right: 0px;
+      .item
+        position: relative;
+        width: 100%;
+        height: 50px;
+        margin: 0px;
+        margin-bottom: 10px;
+        float: bottom;
 
-        input
-          display: none;
-
-      .slider
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: $lightgrey;
-        -webkit-transition: .4s;
-        transition: .4s;
-
-        &:before
+        .image
           position: absolute;
+          left: 0px;
+          top: 0px;
+          width: 50px;
+          height: 50px;
+
+        .title
+          position: absolute;
+          left: 60px;
+          top: 0px;
+          right: 50px;
+          height: 50px;
+          margin-top: 4px;
+          align-items: center;
+
+          p
+            font-family: "Lato";
+            font-size: 20px;
+            color: $darkgrey;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+
+        .button
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          width: 40px;
+          height: 50px;
+
+          .switch
+            position: absolute;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+            top: 15px;
+            right: 0px;
+
+            input
+              display: none;
+
+          .slider
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: $lightgrey;
+            -webkit-transition: .4s;
+            transition: .4s;
+
+            &:before
+              position: absolute;
+              content: "";
+              height: 16px;
+              width: 16px;
+              left: 2px;
+              bottom: 2px;
+              background-color: white;
+              -webkit-transition: .4s;
+              transition: .4s;
+
+          input:checked + .slider
+            background-color: #52acdb;
+
+          input:focus + .slider
+            box-shadow: 0;
+
+          input:checked + .slider:before
+            -webkit-transform: translateX(20px);
+            -ms-transform: translateX(20px);
+            transform: translateX(20px);
+
+
+  .range
+    height: $sliderheight;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    position: absolute;
+    background-color: white;
+
+    .bottom
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      height: 20px;
+      margin: 0px;
+      position: absolute;
+      background-color: $lightgrey;
+
+      input[type=range]
+        -webkit-appearance: none;
+        width: 276px;
+        background: transparent;
+
+        &::-webkit-slider-thumb
+          -webkit-appearance: none;
+          height: 20px;
+          color: $lightgrey;
+
+        &:focus
+          outline: none;
+
+        &::-ms-track
+          width: 100%;
+          cursor: pointer;
+          background: transparent;
+          border-color: transparent;
+          color: $lightgrey;
+          height: 20px;
+
+        &::-webkit-slider-thumb
+          -webkit-appearance: none;
           content: "";
           height: 16px;
           width: 16px;
-          left: 2px;
-          bottom: 2px;
+          margin: 2px;
           background-color: white;
-          -webkit-transition: .4s;
-          transition: .4s;
+          cursor: pointer;
 
-      input:checked + .slider
-        background-color: #52acdb;
+        &::-moz-range-thumb
+          content: "";
+          height: 16px;
+          width: 16px;
+          margin: 2px;
+          background-color: white;
+          cursor: pointer;
 
-      input:focus + .slider
-        box-shadow: 0;
+        &::-ms-thumb
+          content: "";
+          height: 16px;
+          width: 16px;
+          margin: 2px;
+          background-color: white;
+          cursor: pointer;
 
-      input:checked + .slider:before
-        -webkit-transform: translateX(20px);
-        -ms-transform: translateX(20px);
-        transform: translateX(20px);
-
-
-
-
-
+    .top
 
 
