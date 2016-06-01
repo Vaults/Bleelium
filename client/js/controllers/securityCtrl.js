@@ -35,6 +35,8 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         'warninggasleak': {icon: 'img/security/warninggasleak.png', text: 'Gas Leak', checked: false}
     };
 
+    $scope.range = 20;
+
     $scope.map = {
         center: {
             longitude: 5.48,
@@ -63,7 +65,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
          * @returns {}
          */
         p2000Events(){
-            return P2000.find({'attributes.dt' : {$gte : (new Date().getTime() - 1000*60*60*1).toString()}});
+            return P2000.find({'attributes.dt' : {$gte : (new Date().getTime() - 1000*60*60*$scope.range).toString()}});
         }
     });
 
@@ -155,4 +157,11 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.$watch('eventTypes.firedept.checked', reload);
     $scope.$watch('eventTypes.policedept.checked', reload);
 
-})
+}).filter('convertHours', function(){
+    return function(hours){
+        if (Math.floor(hours/24) > 0){
+            return Math.floor(hours/24)+'d'+ hours%24 + ' h';
+        }
+        return hours%24 + 'h';
+    }
+});
