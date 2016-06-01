@@ -53,7 +53,9 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $meteor.subscribe('P2000Pub');
     $scope.markers = [];
-    $scope.range = 10;
+    $scope.range = {
+        value : 100
+    }
 
     $scope.findEventInfo = function (loc) { //Finds an event from coordinates
         var selector = {
@@ -66,9 +68,11 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.returnFilteredEvents = function () {
         var selector = {};
         var eT = $scope.eventTypes;
-        var dt = (new Date().getTime() - 1000*60*60*$scope.range).toString();
+        var dt = (new Date().getTime() - 1000*60*60*$scope.range.value).toString();
+        console.log($scope.range.value);
+        console.log(dt);
         selector['attributes.type'] = {$in: []};
-       // selector['attributes.dt'] = {$gte: dt};
+        selector['attributes.publish_date'] = {$gte: dt};
         angular.forEach(eT,function (o) {
             if (o.checked) {
                 selector['attributes.type']['$in'].push(o.name);
@@ -167,7 +171,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.$watch('eventTypes.paramedics.checked', reload);
     $scope.$watch('eventTypes.firedept.checked', reload);
     $scope.$watch('eventTypes.policedept.checked', reload);
-    $scope.$watch('range', reload);
+    $scope.$watch('range.value', reload);
 
 }).filter('convertHours', function(){
     return function(hours){
