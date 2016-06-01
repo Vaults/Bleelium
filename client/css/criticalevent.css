@@ -12,7 +12,7 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.pop-up .content {
+.content {
   position: relative;
   background-color: #fefefe;
   margin: auto;
@@ -26,96 +26,82 @@
   animation-duration: 2s;
 }
 
-.pop-up .content .header {
-  padding: 2px 16px;
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.header {
+  padding: 10px 20px;
   background-color: #ea5959;
   color: white;
-  font-size: 10px;
+  font-size: 17px;
+  font-weight: 900;
 }
 
-.pop-up .content .header .close {
+.header img {
+  height: 21px;
+  margin-top: -2px;
+  margin-right: 15px;
+}
+
+.header span {
   color: white;
   float: right;
-  font-size: 20px;
-  font-weight: bold;
+  font-weight: normal;
 }
 
-.pop-up .content .header .close:hover, .pop-up .content .header .close:focus {
-  color: #000;
+.header span:hover, .header span:focus {
+  color: lightgrey;
   text-decoration: none;
   cursor: pointer;
 }
 
-.pop-up .content .header .warning-icon {
-  float: left;
-  display: block;
-  -webkit-margin-before: 0.83em;
-  -webkit-margin-after: 0.83em;
-  -webkit-margin-start: 0px;
-  -webkit-margin-end: 0px;
-  height: 21px;
-  margin-right: 10px;
-}
-
-.pop-up .content .body {
-  padding-right: 30px;
-  padding-left: 30px;
-  padding-top: 30px;
-  padding-bottom: 5px;
-}
-
-.pop-up .content .body .event-icon {
-  float: left;
-  display: inline;
-  height: 70px;
-  margin-right: 10px;
-}
-
-.pop-up .content .body .selection {
-  display: inline;
-  vertical-align: middle;
-  position: relative;
-  text-align: left;
-  background: #fff;
-  z-index: 100;
+.table-events {
+  margin: 0;
+  padding: 0;
   width: 100%;
-  max-width: 500px;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background: transparent;
-  font-size: 2em;
-  font-weight: 700;
-  max-width: 600px;
-  margin-top: 25px;
 }
 
-.pop-up .content .informarion {
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 0;
+.table-events tr td:first-child {
+  padding: 10px 5px 10px 20px;
 }
 
-.pop-up .content .options {
-  padding: 2px 16px;
-  text-align: center;
-  margin: auto;
+.table-events tr td:last-child {
+  padding: 10px 20px 10px 5px;
 }
 
-.pop-up .content .options .optionButton {
-  padding: 7px 17px;
-  color: #fff;
+.table-events tr td {
+  padding: 10px 5px;
+}
+
+.table-events tr td .information {
+  line-height: 28px;
   font-size: 17px;
-  border: 0px solid;
-  width: auto;
-  text-align: center;
-  dispaly: inline;
-  background-color: #ea5959;
+  font-weight: normal;
 }
 
-.pop-up .content .options .optionButton:hover {
-  background-color: #D45A5A;
+.table-events tr td img {
+  height: 70px;
+}
+
+.table-events tr:nth-child(odd) {
+  background-color: lightgrey;
 }
