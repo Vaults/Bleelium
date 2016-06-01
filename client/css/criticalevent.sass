@@ -1,0 +1,112 @@
+@import "variables.scss"
+
+.pop-up
+  display: none
+  position: fixed
+  z-index: 1
+  padding-top: 100px
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  background-color: rgb(0,0,0)
+  background-color: rgba(0,0,0,0.4)
+
+  .content
+    position: relative
+    background-color: #fefefe
+    margin: auto
+    padding: 0
+    border: 1px solid #888
+    width: 25%
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+    -webkit-animation-name: animatetop
+    -webkit-animation-duration: 0.4s
+    animation-name: animatetop
+    animation-duration: 2s
+
+    .header
+      padding: 2px 16px
+      background-color: #ea5959
+      color: white
+      font-size: 10px
+
+      .close
+        color: white
+        float: right
+        font-size: 20px
+        font-weight: bold
+
+        &:hover,
+        &:focus
+          color: #000
+          text-decoration: none
+          cursor: pointer
+
+
+      .warning-icon
+        float: left
+        display: block
+        -webkit-margin-before: 0.83em
+        -webkit-margin-after: 0.83em
+        -webkit-margin-start: 0px
+        -webkit-margin-end: 0px
+        height: 21px
+        margin-right: 10px
+
+    .body
+      padding-right: 30px
+      padding-left: 30px
+      padding-top: 30px
+      padding-bottom: 5px
+
+      .event-icon
+        float: left
+        display: inline
+        height: 70px
+        margin-right: 10px
+
+      .selection
+        display: inline
+        vertical-align: middle
+        position: relative
+        text-align: left
+        background: #fff
+        z-index: 100
+        width: 100%
+        max-width: 500px
+        -webkit-touch-callout: none
+        -webkit-user-select: none
+        -khtml-user-select: none
+        -moz-user-select: none
+        -ms-user-select: none
+        user-select: none
+        background: transparent
+        font-size: 2em
+        font-weight: 700
+        max-width: 600px
+        margin-top: 25px
+
+    .informarion
+      padding-left: 30px
+      padding-right: 30px
+      padding-top: 0
+
+    .options
+      padding: 2px 16px
+      text-align: center
+      margin: auto
+
+      .optionButton
+        padding: 7px 17px
+        color: #fff
+        font-size: 17px
+        border: 0px solid
+        width: auto
+        text-align: center
+        dispaly: inline
+        background-color: #ea5959
+
+        &:hover
+          background-color: #D45A5A

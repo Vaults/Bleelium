@@ -50,6 +50,7 @@ var ambulanceInfo = function(o){
  * @param !!DEPRECATED!! o
  * @pre  !!DEPRECATED!! !o.coord_lat
  * @modifies !!DEPRECATED!!  o
+ * @deprecated
  */
 var geoLoc = function(o){
     if(!o.coord_lat){
@@ -73,6 +74,7 @@ var geoLoc = function(o){
  * @summary !!DEPRECATED!! Generates fake coords for p2000 obbject o.
  * @param  !!DEPRECATED!! o
  * @modifies !!DEPRECATED!! o
+ * @deprecated
  */
 var generateFakeCoords = function(o){
     //51.50N, 5.60E topright
@@ -118,9 +120,14 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
                         "value": o.description
                     },
                     {
-                        "name": "publish_date",
+                        "name": "dt", //unix timestamp
                         "type": "string",
                         "value": new Date('' +o.pubDate[0]).getTime() + ''
+                    },
+                    {
+                        "name": "publish_date",
+                        "type": "string",
+                        "value": o.pubDate[0] + ''
                     },
                     {
                         "name": "coord_lat",
