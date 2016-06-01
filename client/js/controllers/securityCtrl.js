@@ -107,14 +107,15 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
      * @param event
      * @param arg
      */
-    var setInfo = function (event, arg, arg2) { //Updates scope to the current selected p2000 event
+    var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
         if (arg) {
-            var loc = $scope.findEventInfo(arg);
+
             $state.go('security.subemergency');
             $scope.city = "Eindhoven";
-            $scope.type = arg2;
-            $scope.title = loc.attributes.description;
-            $scope.publish_date = loc.attributes.publish_date;
+            $scope.type = arg.type;
+            $scope.title = arg.title;
+            $scope.description = arg.description;
+            $scope.publish_date = arg.publish_date;
             $scope.$apply();
         }
     };
@@ -153,15 +154,19 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         $scope.markers = [];
         for (var i = 0; i < events.length; i++) {
             if (events[i].attributes) {
+                var currentMarker = events[i].attributes;
                 $scope.markers.push({
                     options: {
                         draggable: false,
                         icon: IconService.createMarkerIcon(events[i].attributes.type, 'security'),
-                        type: events[i].attributes.type
+                        type: currentMarker.type,
+                        title: currentMarker.restTitle,
+                        description: currentMarker.description,
+                        publish_date: currentMarker.publish_date
                     },
                     events: {
                         click: (marker, eventName, args) => {
-                            $rootScope.$broadcast('setInfo', marker.getPosition(),marker.type);
+                            $rootScope.$broadcast('setInfo',marker);
                         },
                         dragend: (marker, eventName, args) => {
                             this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
