@@ -1,25 +1,33 @@
+
 <div id="pop-upMulti" class="pop-up" ng-controller="eventCtrl">
+    <span ng-click="close()">
+        <div class="transparent">
+
+        </div>
+    </span>
     <div class="content">
         <div class="header">
-            <img src="/img/security/warninggeneral.png" />
+            <img src="/img/event/warninggeneral.png" />
             WARNING!
             <span ng-click="close()"><i class="fa fa-times" aria-hidden="true"></i></span>
         </div>
-				<table class="table-events">
-					<tr ng-repeat="event in events">
-						<td>
-	            <img src="/img/security/{{event.icon}}.png" class="event-icon" />
-            </td>
-            <td>
-              <div class="information">
-  			        Location: {{event.street}} <br>
-  			        Time: {{event.time}}
-              </div>
-            </td>
-            <td>
-			        <button id="view" class="button button-red">Info</button>
-            </td>
-					</tr>
-				</table>
+        <div class="table">
+            <table class="table-events">
+                <tr ng-repeat="event in events">
+                    <td>
+                        <img src="/img/security/{{event.icon}}.png" class="event-icon" />
+                    </td>
+                    <td>
+                        <div class="information">
+                            Location: {{event.street}} <br>
+                            Time: {{event.time}}
+                        </div>
+                    </td>
+                    <td>
+                        <button id="view" class="button button-red">Info</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

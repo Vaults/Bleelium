@@ -54,6 +54,102 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
             date: 24052016,
             view: true,
             icon: "warninggeneral"
+        },
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Witte Dame",
+            description: {
+                name: "Car Accident",
+                sensor: "sound sensor",
+                level: 7
+            },
+            time: 1730,
+            date: 24052016,
+            view: true,
+            icon: "warninggeneral"
+        },
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Witte Dame",
+            description: {
+                name: "Car Accident",
+                sensor: "sound sensor",
+                level: 7
+            },
+            time: 1730,
+            date: 24052016,
+            view: true,
+            icon: "warninggeneral"
+        },
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Witte Dame",
+            description: {
+                name: "Car Accident",
+                sensor: "sound sensor",
+                level: 7
+            },
+            time: 1730,
+            date: 24052016,
+            view: true,
+            icon: "warninggeneral"
+        },
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Witte Dame",
+            description: {
+                name: "Car Accident",
+                sensor: "sound sensor",
+                level: 7
+            },
+            time: 1730,
+            date: 24052016,
+            view: true,
+            icon: "warninggeneral"
+        },
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Witte Dame",
+            description: {
+                name: "Car Accident",
+                sensor: "sound sensor",
+                level: 7
+            },
+            time: 1730,
+            date: 24052016,
+            view: true,
+            icon: "warninggeneral"
+        },
+        {
+            coord: {
+                lot: 5.487589,
+                lat: 51.447835
+            },
+            street: "Witte Dame",
+            description: {
+                name: "Car Accident",
+                sensor: "sound sensor",
+                level: 7
+            },
+            time: 1730,
+            date: 24052016,
+            view: true,
+            icon: "warninggeneral"
         }
     ]
 
