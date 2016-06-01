@@ -1,7 +1,7 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
 
-MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state) {
+MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService) {
     $reactive(this).attach($scope);
     $scope.eventTypes = {
         'policedept': {
@@ -53,10 +53,15 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $meteor.subscribe('P2000Pub');
     $scope.markers = [];
-    $scope.range = {
+    $scope.range = { //Initial range slider value
         value : 100
     }
 
+    /**
+     * @summary find one specific event based on location
+     * @param loc
+     * @returns P2000 event
+     */
     $scope.findEventInfo = function (loc) { //Finds an event from coordinates
         var selector = {
             'attributes.coord_lat': String(loc.lat()),
@@ -65,14 +70,16 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         return P2000.findOne(selector);
     }
 
+    /**
+     * @summary generates a selector for the P2000 search query
+     * @returns selector with types of events to get and date constraint
+     */
     $scope.returnFilteredEvents = function () {
         var selector = {};
         var eT = $scope.eventTypes;
         var dt = (new Date().getTime() - 1000*60*60*$scope.range.value).toString();
-        console.log($scope.range.value);
-        console.log(dt);
         selector['attributes.type'] = {$in: []};
-        selector['attributes.publish_date'] = {$gte: dt};
+        selector['attributes.dt'] = {$gte: dt};
         angular.forEach(eT,function (o) {
             if (o.checked) {
                 selector['attributes.type']['$in'].push(o.name);
@@ -86,6 +93,11 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         }
     });
 
+    /**
+     * @summary update scope to the currently selected event
+     * @param event
+     * @param arg
+     */
     var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
         if (arg) {
             var loc = $scope.findEventInfo(arg);
@@ -99,7 +111,10 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     };
     $scope.$on('setInfo', setInfo);
 
-    var reload = function () { //Runs whenever the p2000 collection is updated. Pulls all p2000 events and updates all UI elements
+    /**
+     * @summary Runs whenever the P2000 or any of the settings are updated. Pulls p2000 events and updates all UI elements
+     */
+    var reload = function () {
         var hack = $scope.getReactively('p2000Events');
         var selEvent = $scope.getReactively('p2000Debug');
         setInfo(null, $scope.loc);
@@ -132,21 +147,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
                 $scope.markers.push({
                     options: {
                         draggable: false,
-                        icon: {
-                            url: '/img/security/' + events[i].attributes.type + '.png',
-                            size: {
-                                height: 600,
-                                width: 600
-                            },
-                            anchor: {
-                                x: 24,
-                                y: 24
-                            },
-                            scaledSize: {
-                                height: 48,
-                                width: 48
-                            }
-                        },
+                        icon: IconService.createMarkerIcon(events[i].attributes.type, 'security')
                     },
                     events: {
                         click: (marker, eventName, args) => {
@@ -174,6 +175,10 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.$watch('range.value', reload);
 
 }).filter('convertHours', function(){
+    /**
+     * @summary convert integer amount of hours into a string with amount of days and hours
+     * @return string hours/24+'d'+hours%24+'h'
+     */
     return function(hours){
         if (Math.floor(hours/24) > 0){
             return Math.floor(hours/24)+'d'+hours%24+'h';
