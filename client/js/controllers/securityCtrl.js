@@ -77,8 +77,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Events(){
-            console.log('im getting new data')
-            return  P2000.find($scope.returnFilteredEvents());
+            return  P2000.find();
         }
     });
 
@@ -96,15 +95,15 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.$on('setInfo', setInfo);
 
     var reload = function () { //Runs whenever the p2000 collection is updated. Pulls all p2000 events and updates all UI elements
-        var events = $scope.getReactively('p2000Events');
+        var hack = $scope.getReactively('p2000Events');
         var selEvent = $scope.getReactively('p2000Debug');
         setInfo(null, $scope.loc);
         if (selEvent) {
             if (!$scope.map) {
                 $scope.map = {
                     center: {
-                        latitude: events[i].attributes.coord_lat,
-                        longitude: events[i].attributes.coord_lng
+                        latitude: hack[0].attributes.coord_lat,
+                        longitude: hack[0].attributes.coord_lng
                     },
                     zoom: 13,
                     events: {
@@ -121,7 +120,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             }
         }
 
-
+        var events = P2000.find($scope.returnFilteredEvents()).fetch();
         $scope.markers = [];
         for (var i = 0; i < events.length; i++) {
             if (events[i].attributes) {
