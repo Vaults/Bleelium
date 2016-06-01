@@ -2,7 +2,19 @@
  * Created by Marcel on 26-5-2016.
  */
 import {MAIN_MODULE} from  './mainModule.js';
+
+CriticalEvents = new Mongo.Collection('criticalEvents');
+
 MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
+
+    $meteor.subscribe('criticalEventsPub');
+    $scope.helpers({	//Scope helpers to get from Meteor collections
+        criticalEvents(){
+            return CriticalEvents.find({});
+        }
+    });
+
+    console.log($scope.criticalEvents);
 
     var popUpMulti = document.getElementById('pop-upMulti');
 
@@ -55,7 +67,7 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
             view: true,
             icon: "warninggeneral"
         }
-    ]
+    ];
 
     //fina the event with maximum level
     function getMaxLevel(events) {
@@ -76,5 +88,13 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
     //Close the pop-up windows when click on the x
     $scope.close = function () {
         popUpMulti.style.display = "none";
-    }
+    };
+
+    var reload = function () {
+        $reactive(this).attach($scope);
+        var events = $scope.getReactively('criticalEvents');
+    };
+    $scope.autorun(reload)
+
+
 });
