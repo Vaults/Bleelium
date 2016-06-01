@@ -53,6 +53,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $meteor.subscribe('P2000Pub');
     $scope.markers = [];
+    $scope.range = 10;
 
     $scope.findEventInfo = function (loc) { //Finds an event from coordinates
         var selector = {
@@ -65,13 +66,13 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.returnFilteredEvents = function () {
         var selector = {};
         var eT = $scope.eventTypes;
+        var dt = (new Date().getTime() - 1000*60*60*$scope.range).toString();
         selector['attributes.type'] = {$in: []};
-
+       // selector['attributes.dt'] = {$gte: dt};
         angular.forEach(eT,function (o) {
             if (o.checked) {
                 selector['attributes.type']['$in'].push(o.name);
             }});
-        console.log(selector);
         return(selector);
     };
 
@@ -166,5 +167,13 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.$watch('eventTypes.paramedics.checked', reload);
     $scope.$watch('eventTypes.firedept.checked', reload);
     $scope.$watch('eventTypes.policedept.checked', reload);
+    $scope.$watch('range', reload);
 
+}).filter('convertHours', function(){
+    return function(hours){
+        if (Math.floor(hours/24) > 0){
+            return Math.floor(hours/24)+'d'+hours%24+'h';
+        }
+        return hours%24 + 'h';
+    }
 })
