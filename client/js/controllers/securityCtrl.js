@@ -78,12 +78,17 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         var selector = {};
         var eT = $scope.eventTypes;
         var dt = (new Date().getTime() - 1000*60*60*$scope.range.value).toString();
-        selector['attributes.type'] = {$in: []};
+
+
         selector['attributes.dt'] = {$gte: dt};
+        selector['attributes.type'] = {$in: []};
         angular.forEach(eT,function (o) {
             if (o.checked) {
                 selector['attributes.type']['$in'].push(o.name);
             }});
+        if(selector['attributes.type']['$in'].length == 0){
+            selector = {"falseValue" : "Do not show"};
+        }
         return(selector);
     };
 
@@ -93,6 +98,10 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         }
     });
 
+    $scope.getIcon = function(arg2){
+
+    }
+
     /**
      * @summary update scope to the currently selected event
      * @param event
@@ -100,12 +109,13 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
      */
     var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
         if (arg) {
-            var loc = $scope.findEventInfo(arg);
+
             $state.go('security.subemergency');
             $scope.city = "Eindhoven";
-            $scope.type = loc.attributes.type;
-            $scope.title = loc.attributes.description;
-            $scope.publish_date = loc.attributes.publish_date;
+            $scope.type = arg.type;
+            $scope.title = arg.title;
+            $scope.description = arg.description;
+            $scope.publish_date = arg.publish_date;
             $scope.$apply();
         }
     };
@@ -144,14 +154,19 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         $scope.markers = [];
         for (var i = 0; i < events.length; i++) {
             if (events[i].attributes) {
+                var currentMarker = events[i].attributes;
                 $scope.markers.push({
                     options: {
                         draggable: false,
-                        icon: IconService.createMarkerIcon(events[i].attributes.type, 'security')
+                        icon: IconService.createMarkerIcon(events[i].attributes.type, 'security'),
+                        type: currentMarker.type,
+                        title: currentMarker.restTitle,
+                        description: currentMarker.description,
+                        publish_date: currentMarker.publish_date
                     },
                     events: {
                         click: (marker, eventName, args) => {
-                            $rootScope.$broadcast('setInfo', marker.getPosition());
+                            $rootScope.$broadcast('setInfo',marker);
                         },
                         dragend: (marker, eventName, args) => {
                             this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
