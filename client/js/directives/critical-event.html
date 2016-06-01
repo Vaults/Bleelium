@@ -1,21 +1,25 @@
 <div id="pop-upMulti" class="pop-up" ng-controller="eventCtrl">
     <div class="content">
         <div class="header">
-            <span class="close" ng-click="close()">×</span>
-            <img src="/img/security/warninggeneral.png" class="warning-icon" />
-            <h2>Warning! </h2>
+            <img src="/img/security/warninggeneral.png" />
+            WARNING!
+            <span ng-click="close()"><i class="fa fa-times" aria-hidden="true"></i></span>
         </div>
-        <div class="body">
-            <img src="/img/security/{{selectedEvent.icon}}.png" class="event-icon" />
-            <select id="events" class="selection" ng-model="selectedEvent" ng-options="event.description.name for event in events" >
-            </select>
-        </div>
-        <div class="information">
-            <p>Address: {{selectedEvent.street}} </p>
-            <p>Time: {{selectedEvent.time}}</p>
-        </div>
-        <div class="options">
-            <button id="view" class="optionButton">info</button>
-        </div>
+				<table class="table-events">
+					<tr ng-repeat="event in events">
+						<td>
+	            <img src="/img/security/{{event.icon}}.png" class="event-icon" />
+            </td>
+            <td>
+              <div class="information">
+  			        Location: {{event.street}} <br>
+  			        Time: {{event.time}}
+              </div>
+            </td>
+            <td>
+			        <button id="view" class="button button-red">Info</button>
+            </td>
+					</tr>
+				</table>
     </div>
 </div>

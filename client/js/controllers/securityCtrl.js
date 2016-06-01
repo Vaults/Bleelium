@@ -54,7 +54,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $meteor.subscribe('P2000Pub');
     $scope.markers = [];
     $scope.range = { //Initial range slider value
-        value : 100
+        value : 24
     }
 
     /**
