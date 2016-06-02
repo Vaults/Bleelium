@@ -23,6 +23,10 @@ var bounds = {
     "Toluene" : {lel: 1.2, uel: 7.0},
 };
 
+var criticalEventPush = function(o, ins) {
+    collectionWrapper['criticalEvents'].upsert({_id: (o.contextElement.type + o.contextElement._id)}, {$set: ins});
+}
+
 var gasSensorPull = {
 	name: 'GasSensor',
 	args: '',
@@ -39,11 +43,26 @@ var gasSensorPull = {
                 }
             }
             if(Object.keys(gases).length > 0) {
-                var ins = {type: "Gas", coord_lon: obj.coord_lon, coord_lat: obj.coord_lat, gases: gases};
-                collectionWrapper['criticalEvents'].upsert({_id: (o.contextElement.type + o.contextElement._id)}, {$set: ins});
+                var ins = {type: "Gas", coord_lon: obj.coord_lon, coord_lat: obj.coord_lat, updated_at: obj.updated_at, gases: gases};
+                criticalEventPush(o, ins);
             }
 		});
 	}
 }
 
-export {gasSensorPull}
+var smokeSensorPull = {
+	name: 'SmokeSensor',
+	args: '',
+	f: function(args){
+		var temp = rewriteAttributes(args);
+		temp.data.contextResponses.forEach(function(o){
+			var obj = o.contextElement.attributes;
+            if(obj.smoke > 0) {
+                    var ins = {type: "Gas", coord_lon: obj.coord_lon, coord_lat: obj.coord_lat, updated_at: obj.updated_at, smoke: obj.smoke};
+                    criticalEventPush(o, ins);
+            }
+		});
+	}
+}
+
+export {gasSensorPull, smokeSensorPull}
