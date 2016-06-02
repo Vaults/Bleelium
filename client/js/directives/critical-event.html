@@ -1,25 +1,28 @@
 <div id="pop-upMulti" class="pop-up" ng-controller="eventCtrl">
     <div class="content">
         <div class="header">
-            <img src="/img/security/warninggeneral.png" />
+            <img src="/img/security/warninggeneral.png"/>
             WARNING!
             <span ng-click="close()"><i class="fa fa-times" aria-hidden="true"></i></span>
         </div>
-				<table class="table-events">
-					<tr ng-repeat="event in events track by $index">
-						<td>
-	            <img src="/img/security/warninggasleak.png" class="event-icon" />
-            </td>
-            <td>
-              <div class="information">
-  			        Latitude: {{event.coord_lat}} <br>
-  			        Longtitude: {{event.coord_lng}}
-              </div>
-            </td>
-            <td>
-			        <button id="view" class="button button-red">Info</button>
-            </td>
-					</tr>
-				</table>
+        <table class="table-events">
+            <tr ng-repeat="event in events track by $index">
+                <td>
+                    <img src="/img/security/{{event.type}}.png" class="event-icon"/>
+                </td>
+                <td>
+                    <div class="information">
+                        Class: {{event.type}} <br>
+                        Type: {{event.TOG}} <br>
+                        Level: {{event.level}} <br>
+                        Latitude: {{event.coord_lat}} <br>
+                        Longitude: {{event.coord_lon}}
+                    </div>
+                </td>
+                <td>
+                    <button id="view" class="button button-red">Info</button>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

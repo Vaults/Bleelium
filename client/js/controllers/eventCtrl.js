@@ -6,12 +6,12 @@ import {MAIN_MODULE} from  './mainModule.js';
 
 CriticalEvents = new Mongo.Collection('criticalEvents');
 
-MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
+MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootScope) {
 
     $meteor.subscribe('criticalEventsPub');
     $scope.helpers({	//Scope helpers to get from Meteor collections
         criticalEvents(){
-            return CriticalEvents.find({});
+            return CriticalEvents.find({ seenFlag: { $exists: false}} );
         }
     });
 
@@ -19,7 +19,11 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
 
     $scope.events = {};
 
-    //finalize the event with maximum level
+    /**
+     *
+     * @param events
+     * @returns {*}
+     */
     function getMaxLevel(events) {
         var maxLevel = 0;
         for (i = 0; i < events.length; i++) {
@@ -30,27 +34,37 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
         return events[maxLevel];
     }
 
-    // When the event array is not empty, the warning window will pop up
-
     //Close the pop-up windows when click on the x
     $scope.close = function () {
         popUpMulti.style.display = "none";
+
+        for(k in $scope.events) {
+            console.log($scope.events[k]);
+            CriticalEvents.update({_id: $scope.events[k]._id }, {$set: {seenFlag: true}})
+        }
+
+        $scope.events = {};
+
     };
 
     var reload = function () {
         $reactive(this).attach($scope);
         var events = $scope.getReactively('criticalEvents');
 
-        angular.forEach($scope.criticalEvents,function(o){
-            $scope.events[o._id] = o;
-        })
-
-        if ($scope.events != null) {
-            popUpMulti.style.display = "block";
+        if ($scope.events) {
+            if (Object.keys($scope.criticalEvents).length > 0) {
+                popUpMulti.style.display = "block";
+            }
         }
-        console.log($scope.events[0])
 
+        angular.forEach($scope.criticalEvents, function (o) {
+                $scope.events[o._id] = o;
+                for (var prop in o.gases) {
+                    o.TOG = prop;
+                    o.level = o.gases[prop];
+                }
+        });
     };
     $scope.autorun(reload)
-    
+
 });
