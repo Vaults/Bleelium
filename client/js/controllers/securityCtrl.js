@@ -20,12 +20,12 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             icon: 'img/security/Ambulance.png',
             text: 'Paramedics',
             name: 'Ambulance',
-            checked: true,
+            checked: false,
             style: 'margin-bottom: 20px'
         },
         'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot',  checked: true},
-        'stressedvoice': {icon: 'img/security/stressedvoice.png', text: 'Stressed Voice', name: 'stressedvoice', checked: true},
-        'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name:'caralarm', checked: true},
+        'stressedvoice': {icon: 'img/security/stressedvoice.png', text: 'Stressed Voice', name: 'stressedvoice', checked: false},
+        'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name:'caralarm', checked: false},
         'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', name:'brokenglass', checked: true},
         'caraccident': {
             icon: 'img/security/caraccident.png',
@@ -91,6 +91,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         if(selector['attributes.type']['$in'].length == 0){
             selector = {"falseValue" : "Do not show"};
         }
+
         return(selector);
     };
 
