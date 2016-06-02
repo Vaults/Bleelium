@@ -8,7 +8,7 @@ import {rewriteAttributes} from '/server/imports/util.js';
  */
 var SoundDataPull = {
     name: 'SoundSensor',
-    args: '',
+    args: '?limit=1000',
     f: function (args) {
         response = rewriteAttributes(args);
         for (item in args.data.contextResponses) {

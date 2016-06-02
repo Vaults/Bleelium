@@ -23,14 +23,15 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             checked: true,
             style: 'margin-bottom: 20px'
         },
-        'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', checked: false},
-        'stressedvoice': {icon: 'img/security/stressedvoice.png', text: 'Stressed Voice', checked: false},
-        'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', checked: false},
-        'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', checked: false},
+        'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot',  checked: true},
+        'stressedvoice': {icon: 'img/security/stressedvoice.png', text: 'Stressed Voice', name: 'stressedvoice', checked: true},
+        'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name:'caralarm', checked: true},
+        'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', name:'brokenglass', checked: true},
         'caraccident': {
             icon: 'img/security/caraccident.png',
             text: 'Car accident',
-            checked: false,
+            checked: true,
+            name:'caraccident',
             style: 'margin-bottom: 20px'
         },
         'warninggeneral': {icon: 'img/security/warninggeneral.png', text: 'Critical Event', checked: false},
@@ -52,6 +53,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     };
 
     $meteor.subscribe('P2000Pub');
+    $meteor.subscribe('soundSensorPub');
     $scope.markers = [];
     $scope.range = { //Initial range slider value
         value : 24
@@ -95,6 +97,9 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Events(){
             return  P2000.find();
+        },
+        SoundEvents(){
+            return  SoundSensor.find({}, {limit: 25});
         }
     });
 
@@ -125,6 +130,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
      */
     var reload = function () {
         var hack = $scope.getReactively('p2000Events');
+        var hack2 = $scope.getReactively('SoundEvents');
         var selEvent = $scope.getReactively('p2000Debug');
         setInfo(null, $scope.loc);
         if (selEvent) {
@@ -150,6 +156,9 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         }
 
         var events = P2000.find($scope.returnFilteredEvents()).fetch();
+        events = events.concat(SoundSensor.find($scope.returnFilteredEvents()).fetch());
+
+
         $scope.markers = [];
         for (var i = 0; i < events.length; i++) {
             if (events[i].attributes) {
@@ -183,9 +192,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         }
     }
     $scope.autorun(reload);
-    $scope.$watch('eventTypes.paramedics.checked', reload);
-    $scope.$watch('eventTypes.firedept.checked', reload);
-    $scope.$watch('eventTypes.policedept.checked', reload);
+    $scope.$watch('eventTypes', reload, true);
     $scope.$watch('range.value', reload);
 
 }).filter('convertHours', function(){
