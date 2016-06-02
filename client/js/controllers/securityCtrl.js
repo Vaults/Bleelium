@@ -109,7 +109,6 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
      */
     var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
         if (arg) {
-
             $state.go('security.subemergency');
             $scope.city = "Eindhoven";
             $scope.type = arg.type;

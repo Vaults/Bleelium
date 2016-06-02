@@ -51,7 +51,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
         console.log(arg);
         if (arg) {
             var loc = $scope.findWeatherStationInfo(arg);
-            console.log(loc);
             $scope.loc = arg;
             WeatherService.weatherLocation = { //Set a global variable with current location
                 'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),

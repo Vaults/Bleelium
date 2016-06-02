@@ -43,11 +43,11 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
 
         if ($scope.events.length != 0) {
             for(i = 0; i < events.length ; i++){
-                $scope.type = $scope.criticalEvents[i]['data']['type']
-                $scope.gases = $scope.criticalEvents[i]['data']['gases']
-                $scope.time = $scope.criticalEvents[i]['data']['time']
-                $scope.coord_lat = $scope.criticalEvents[i]['data']['coord_lat']
-                $scope.coord_lng = $scope.criticalEvents[i]['data']['coord_lon']
+                $scope.events[i].type = $scope.criticalEvents[i]['data']['type']
+                $scope.events[i].gases = $scope.criticalEvents[i]['data']['gases']
+                $scope.events[i].time = $scope.criticalEvents[i]['data']['time']
+                $scope.events[i].coord_lat = $scope.criticalEvents[i]['data']['coord_lat']
+                $scope.events[i].coord_lng = $scope.criticalEvents[i]['data']['coord_lon']
             }
             popUpMulti.style.display = "block";
         }
