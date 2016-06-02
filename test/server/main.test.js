@@ -8,6 +8,7 @@ import {SoundDataPull} from "/server/soundSensor.js";
 //to be tested functions
 import {initPulls} from '/server/main.js';
 import {dataWeatherMap} from '/server/weather.js';
+import {bounds, gasSensorPull, smokeSensorPull} from '/server/criticalEvents.js';
 
 
 
@@ -40,17 +41,51 @@ describe('initPulls()', function(done) {
             }));
         }, 1000);
 	});
-	it('adds all SoundSensor items to the database', function(done){
+	it('adds all GasSensor items to the database', function(done){
 		Meteor.setTimeout(function(){
-			pull(SoundDataPull.name, SoundDataPull.args, handleError(function(response){
-				assert.equal(collectionWrapper['SoundSensor'].find().count(), response.data.contextResponses.length);
+			pull(gasSensorPull.name, gasSensorPull.args, handleError(function(response){
+                var count = 0;
+                response.data.contextResponses.forEach(function(o){
+                    var obj = o.contextElement;
+                    for (var i = 0; i < 17; i++) {
+                        if(obj.attributes[i].value >= bounds[obj.attributes[i].name].lel && obj.attributes[i].value <= bounds[obj.attributes[i].name].uel) {
+                            count++;
+                            break;
+                        }
+                    }
+        		});
+                assert.equal(collectionWrapper['criticalEvents'].find({type: 'Gas'}).count(), count);
 				done();
 			}));
 		}, 1000);
 	});
+    it('adds all SmokesSensor items to the database', function(done){
+        Meteor.setTimeout(function(){
+            pull(smokeSensorPull.name, smokeSensorPull.args, handleError(function(response){
+                var count = 0;
+                response.data.contextResponses.forEach(function(o){
+                    var obj = o.contextElement;
+                    if(obj.attributes[2].value > 0) {
+                        count++;
+                    }
+                });
+                assert.equal(collectionWrapper['criticalEvents'].find({type: 'Smoke'}).count(), count);
+                done();
+            }));
+        }, 1000);
+    });
+    it('adds all SoundSensor items to the database', function(done){
+        Meteor.setTimeout(function(){
+            pull(SoundDataPull.name, SoundDataPull.args, handleError(function(response){
+                assert.equal(collectionWrapper['SoundSensor'].find().count(), response.data.contextResponses.length);
+                done();
+            }));
+        }, 1000);
+    });
 	after(function(){
 		collectionWrapper["P2000"].remove({});
 		collectionWrapper["WeatherStation"].remove({});
+        collectionWrapper["criticalEvents"].remove({});
 		collectionWrapper["SoundSensor"].remove({});
 	});
 });
