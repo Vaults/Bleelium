@@ -19,8 +19,19 @@ Meteor.publish('P2000Pub', function P2000Publication() {
     return P2000.find({}, {sort: {'attributes.publish_date' : -1}});
 });
 
+/**
+ * @summary Creates a new mongo instance for CriticalEvents
+ * @return The collection for CriticalEvents
+ */
+var criticalEvents = new Mongo.Collection('criticalEvents');
+Meteor.publish('criticalEventsPub', function criticalEventsPub() {
+    return criticalEvents.find({});
+});
+
+
 var collectionWrapper = {
 	"WeatherStation" : WeatherStations,
-    "P2000" : P2000
+    "P2000" : P2000,
+    "criticalEvents" : criticalEvents
 };
 export {collectionWrapper};
