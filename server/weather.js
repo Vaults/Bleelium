@@ -178,10 +178,10 @@ var pushWeatherToOrion = function () {
 	var locations = '';
 	for (key in dataWeatherMap) {
 		if (!locations) {
-			var locationString = key;
+			var locations = key;
 		}
 		else {
-			locationString = locationString + ',' + key
+			locations = locations + ',' + key
 		}
 	}
 	HTTP.call('GET', "http://api.openweathermap.org/data/2.5/group?appid=ec57dc1b5b186be9c7900a63a3e34066&id=" + locations + "&units=metric", {}, handleError(function(response){
@@ -212,7 +212,7 @@ var pushForecastToOrion = function(){
 SyncedCron.add({
 	name: 'Pushing weather to Orion',
 	schedule: function (parser) {
-		return parser.text('every 30 minutes');
+		return parser.text('every 3 seconds');
 	},
 	job: pushWeatherToOrion
 });
@@ -222,9 +222,9 @@ SyncedCron.add({
 SyncedCron.add({	//calls pushForecastToOrion every 30 mins
 	name: 'Pushing forecast to Orion',
 	schedule: function (parser) {
-		return parser.text('every 6 hours');
+		return parser.text('every 3 seconds');
 	},
-	job: pushWeatherToOrion
+	job: pushForecastToOrion
 });
 
 var weatherPull = {
