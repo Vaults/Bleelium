@@ -6,14 +6,14 @@
             <span ng-click="close()"><i class="fa fa-times" aria-hidden="true"></i></span>
         </div>
 				<table class="table-events">
-					<tr ng-repeat="event in events">
+					<tr ng-repeat="event in events track by $index">
 						<td>
-	            <img src="/img/security/{{event.icon}}.png" class="event-icon" />
+	            <img src="/img/security/warninggasleak.png" class="event-icon" />
             </td>
             <td>
               <div class="information">
-  			        Location: {{event.street}} <br>
-  			        Time: {{event.time}}
+  			        Latitude: {{coord_lat}} <br>
+  			        Longtitude: {{coord_lng}}
               </div>
             </td>
             <td>

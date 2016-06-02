@@ -4,6 +4,7 @@ import { collectionWrapper } from '/server/imports/collections.js';
 import {P2000Pull} from '/server/P2000.js';
 import {pull} from '/server/imports/orionAPI.js'
 import {handleError} from '/server/imports/util.js'
+import {SoundDataPull} from "/server/soundSensor.js";
 //to be tested functions
 import {initPulls} from '/server/main.js';
 import {dataWeatherMap} from '/server/weather.js';
@@ -14,6 +15,7 @@ describe('initPulls()', function(done) {
 	before(function(){
 		collectionWrapper["P2000"].remove({});
 		collectionWrapper["WeatherStation"].remove({});
+		collectionWrapper["SoundSensor"].remove({});
 		initPulls();
 	});
 	it('adds all weatherstations to the database and not any more', function(done){
@@ -38,9 +40,18 @@ describe('initPulls()', function(done) {
             }));
         }, 1000);
 	});
+	it('adds all SoundSensor items to the database', function(done){
+		Meteor.setTimeout(function(){
+			pull(SoundDataPull.name, SoundDataPull.args, handleError(function(response){
+				assert.equal(collectionWrapper['SoundSensor'].find().count(), response.data.contextResponses.length);
+				done();
+			}));
+		}, 1000);
+	});
 	after(function(){
 		collectionWrapper["P2000"].remove({});
 		collectionWrapper["WeatherStation"].remove({});
+		collectionWrapper["SoundSensor"].remove({});
 	});
 });
 

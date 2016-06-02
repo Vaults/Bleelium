@@ -1,63 +1,25 @@
 /**
  * Created by Marcel on 26-5-2016.
  */
+import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
+
+CriticalEvents = new Mongo.Collection('criticalEvents');
+
 MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
+
+    $meteor.subscribe('criticalEventsPub');
+    $scope.helpers({	//Scope helpers to get from Meteor collections
+        criticalEvents(){
+            return CriticalEvents.find({});
+        }
+    });
 
     var popUpMulti = document.getElementById('pop-upMulti');
 
-    $scope.events = [
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Woenselse Watermolen",
-            description: {
-                name: "Bomb Threat",
-                sensor: "bomb detector",
-                level: 9
-            },
-            time: 1530,
-            date: 24052016,
-            view: true,
-            icon: "warningbombthreat"
-        },
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Gildebuurt",
-            description: {
-                name: "Gas Leak",
-                sensor: "gas detector",
-                level: 10
-            },
-            time: 1630,
-            date: 24052016,
-            view: true,
-            icon: "warninggasleak"
-        },
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Witte Dame",
-            description: {
-                name: "Car Accident",
-                sensor: "sound sensor",
-                level: 7
-            },
-            time: 1730,
-            date: 24052016,
-            view: true,
-            icon: "warninggeneral"
-        }
-    ]
+    $scope.events = [];
 
-    //fina the event with maximum level
+    //finalize the event with maximum level
     function getMaxLevel(events) {
         var maxLevel = 0;
         for (i = 0; i < events.length; i++) {
@@ -69,12 +31,31 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
     }
 
     // When the event array is not empty, the warning window will pop up
-    if ($scope.events.length != 0) {
-        popUpMulti.style.display = "block";
-    }
 
     //Close the pop-up windows when click on the x
     $scope.close = function () {
         popUpMulti.style.display = "none";
-    }
+    };
+
+    var reload = function () {
+        $reactive(this).attach($scope);
+        var events = $scope.getReactively('criticalEvents');
+
+        if ($scope.events.length != 0) {
+            for(i = 0; i < events.length ; i++){
+                $scope.events[i].type = $scope.criticalEvents[i]['data']['type']
+                $scope.events[i].gases = $scope.criticalEvents[i]['data']['gases']
+                $scope.events[i].time = $scope.criticalEvents[i]['data']['time']
+                $scope.events[i].coord_lat = $scope.criticalEvents[i]['data']['coord_lat']
+                $scope.events[i].coord_lng = $scope.criticalEvents[i]['data']['coord_lon']
+            }
+            popUpMulti.style.display = "block";
+        }
+
+        $scope.events.push($scope.criticalEvents);
+        console.log($scope.events)
+
+    };
+    $scope.autorun(reload)
+    
 });
