@@ -11,7 +11,7 @@ MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootS
     $meteor.subscribe('criticalEventsPub');
     $scope.helpers({	//Scope helpers to get from Meteor collections
         criticalEvents(){
-            return CriticalEvents.find({ seenFlag: { $exists: false}} );
+            return CriticalEvents.find({seenFlag: {$exists: false}});
         }
     });
 
@@ -38,9 +38,9 @@ MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootS
     $scope.close = function () {
         popUpMulti.style.display = "none";
 
-        for(k in $scope.events) {
+        for (k in $scope.events) {
             console.log($scope.events[k]);
-            CriticalEvents.update({_id: $scope.events[k]._id }, {$set: {seenFlag: true}})
+            CriticalEvents.update({_id: $scope.events[k]._id}, {$set: {seenFlag: true}})
         }
 
         $scope.events = {};
@@ -58,11 +58,17 @@ MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootS
         }
 
         angular.forEach($scope.criticalEvents, function (o) {
-                $scope.events[o._id] = o;
+            $scope.events[o._id] = o;
+
+            if (o.type == 'Gas') {
                 for (var prop in o.gases) {
                     o.TOG = prop;
                     o.level = o.gases[prop];
                 }
+            }else if (o.type == 'Smoke') {
+                    o.level = o.smoke;
+            }
+
         });
     };
     $scope.autorun(reload)

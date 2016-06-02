@@ -12,9 +12,8 @@
                 </td>
                 <td>
                     <div class="information">
-                        Class: {{event.type}} <br>
-                        Type: {{event.TOG}} <br>
-                        Level: {{event.level}} <br>
+                        Type: {{event.type}} <br>
+                        {{(event.TOG)?event.TOG:'Smoke'}}: {{event.level}} <sup>%</sup>&frasl;<sub>m<sup>3</sup></sub> <br>
                         Latitude: {{event.coord_lat}} <br>
                         Longitude: {{event.coord_lon}}
                     </div>
