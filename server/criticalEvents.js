@@ -58,11 +58,11 @@ var smokeSensorPull = {
 		temp.data.contextResponses.forEach(function(o){
 			var obj = o.contextElement.attributes;
             if(obj.smoke > 0) {
-                    var ins = {type: "Gas", coord_lon: obj.coord_lon, coord_lat: obj.coord_lat, updated_at: obj.updated_at, smoke: obj.smoke};
+                    var ins = {type: "Smoke", coord_lon: obj.coord_lon, coord_lat: obj.coord_lat, updated_at: obj.updated_at, smoke: obj.smoke};
                     criticalEventPush(o, ins);
             }
 		});
 	}
 }
 
-export {gasSensorPull, smokeSensorPull}
+export {bounds, gasSensorPull, smokeSensorPull}
