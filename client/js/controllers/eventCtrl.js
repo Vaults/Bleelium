@@ -6,20 +6,24 @@ import {MAIN_MODULE} from  './mainModule.js';
 
 CriticalEvents = new Mongo.Collection('criticalEvents');
 
-MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
+MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootScope) {
 
     $meteor.subscribe('criticalEventsPub');
     $scope.helpers({	//Scope helpers to get from Meteor collections
         criticalEvents(){
-            return CriticalEvents.find({});
+            return CriticalEvents.find({ seenFlag: { $exists: false}} );
         }
     });
 
     var popUpMulti = document.getElementById('pop-upMulti');
 
-    $scope.events = [];
+    $scope.events = {};
 
-    //finalize the event with maximum level
+    /**
+     *
+     * @param events
+     * @returns {*}
+     */
     function getMaxLevel(events) {
         var maxLevel = 0;
         for (i = 0; i < events.length; i++) {
@@ -30,32 +34,37 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
         return events[maxLevel];
     }
 
-    // When the event array is not empty, the warning window will pop up
-
     //Close the pop-up windows when click on the x
     $scope.close = function () {
         popUpMulti.style.display = "none";
+
+        for(k in $scope.events) {
+            console.log($scope.events[k]);
+            CriticalEvents.update({_id: $scope.events[k]._id }, {$set: {seenFlag: true}})
+        }
+
+        $scope.events = {};
+
     };
 
     var reload = function () {
         $reactive(this).attach($scope);
         var events = $scope.getReactively('criticalEvents');
 
-        if ($scope.events.length != 0) {
-            for(i = 0; i < events.length ; i++){
-                $scope.events[i].type = $scope.criticalEvents[i]['data']['type']
-                $scope.events[i].gases = $scope.criticalEvents[i]['data']['gases']
-                $scope.events[i].time = $scope.criticalEvents[i]['data']['time']
-                $scope.events[i].coord_lat = $scope.criticalEvents[i]['data']['coord_lat']
-                $scope.events[i].coord_lng = $scope.criticalEvents[i]['data']['coord_lon']
+        if ($scope.events) {
+            if (Object.keys($scope.criticalEvents).length > 0) {
+                popUpMulti.style.display = "block";
             }
-            popUpMulti.style.display = "block";
         }
 
-        $scope.events.push($scope.criticalEvents);
-        console.log($scope.events)
-
+        angular.forEach($scope.criticalEvents, function (o) {
+                $scope.events[o._id] = o;
+                for (var prop in o.gases) {
+                    o.TOG = prop;
+                    o.level = o.gases[prop];
+                }
+        });
     };
     $scope.autorun(reload)
-    
+
 });

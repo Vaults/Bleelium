@@ -38,7 +38,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         'warningevacuation': {icon: 'img/security/warningfire2.png', text: 'Evacuation Notice', checked: false},
         'warningfire': {icon: 'img/security/warningfire.png', text: 'Fire Alarm', checked: false},
         'warningbombthreat': {icon: 'img/security/warningbombthreat.png', text: 'Bomb Threat', checked: false},
-        'warninggasleak': {icon: 'img/security/warninggasleak.png', text: 'Gas Leak', checked: false}
+        'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', checked: false}
     };
 
     $scope.map = {
