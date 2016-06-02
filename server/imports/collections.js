@@ -28,10 +28,20 @@ Meteor.publish('criticalEventsPub', function criticalEventsPub() {
     return criticalEvents.find({});
 });
 
+/**
+ * @summary Creates a new mongo instance for SoundSensor
+ * @return The collection for SoundSensor
+ */
+var SoundSensor = new Mongo.Collection('SoundSensor');
+Meteor.publish('soundSensorPub', function soundSensorPub() {
+    return SoundSensor.find({});
+});
+
 
 var collectionWrapper = {
 	"WeatherStation" : WeatherStations,
     "P2000" : P2000,
-    "criticalEvents" : criticalEvents
+    "criticalEvents" : criticalEvents,
+    "SoundSensor" : SoundSensor
 };
 export {collectionWrapper};
