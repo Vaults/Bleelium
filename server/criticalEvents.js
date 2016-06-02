@@ -23,6 +23,11 @@ var bounds = {
     "Toluene" : {lel: 1.2, uel: 7.0},
 };
 
+/**
+ * @summary Inserts a critical event into the mongodb
+ * @param o - the object being inserted
+ * @param ins - the data of the object that is being inserted
+ */
 var criticalEventPush = function(o, ins) {
     collectionWrapper['criticalEvents'].upsert({_id: (o.contextElement.type + o.contextElement._id)}, {$set: ins});
 }
