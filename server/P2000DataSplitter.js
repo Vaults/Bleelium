@@ -11,8 +11,8 @@ var parseData = function (o){
    }else if( o.description.indexOf("Politie") > -1){
        o.type = 'Politie';
        return(o);
-   }else if(o.description.indexOf("BRW") > -1){
-      o.type = 'Brandweer';
+   }else if(o.description.indexOf("Brandweer") > -1){
+      o.type = 'brandweer';
       return(o);
    }else{
        return false;
