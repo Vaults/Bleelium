@@ -231,7 +231,6 @@ var weatherPull = {
 	name: 'WeatherStation',
 	args: '',
 	f: function(args){
-		collectionWrapper['WeatherStation'].remove({});
 
 		//console.log(args);
 		var temp = rewriteAttributes(args);
