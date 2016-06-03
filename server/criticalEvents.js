@@ -36,14 +36,14 @@ var gasSensorPull = {
             var gases = {};
 			var obj = o.contextElement.attributes;
             for (var prop in obj) {
-                if(!(prop == "coord_lat" || prop == "coord_lon" || prop == "updated_at")) {
+                if(bounds[prop] != undefined) {
                     if(obj[prop] >= bounds[prop].lel && obj[prop] <= bounds[prop].uel) {
                         gases[prop] = obj[prop];
                     }
                 }
             }
             if(Object.keys(gases).length > 0) {
-                var ins = {type: "Gas", coord_lng: obj.coord_lon, coord_lat: obj.coord_lat, dt: obj.updated_at + '000', gases: gases};
+                var ins = {type: "Gas", coord_lng: obj.coord_lon, coord_lat: obj.coord_lat, dt: obj.updated_at + '000', gases: gases, description: obj.description};
                 criticalEventPush(o, {attributes: ins});
             }
 		});
@@ -58,7 +58,7 @@ var smokeSensorPull = {
 		temp.data.contextResponses.forEach(function(o){
 			var obj = o.contextElement.attributes;
             if(obj.smoke > 0) {
-                    var ins = {type: "Smoke", coord_lng: obj.coord_lon, coord_lat: obj.coord_lat, dt: obj.updated_at + '000', smoke: obj.smoke};
+                    var ins = {type: "Smoke", coord_lng: obj.coord_lon, coord_lat: obj.coord_lat, dt: obj.updated_at + '000', smoke: obj.smoke, description: obj.description};
                     criticalEventPush(o, {attributes: ins});
             }
 		});

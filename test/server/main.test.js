@@ -54,7 +54,7 @@ describe('initPulls()', function(done) {
                         }
                     }
         		});
-                assert.equal(collectionWrapper['criticalEvents'].find({type: 'Gas'}).count(), count);
+                assert.equal(collectionWrapper['criticalEvents'].find({'attributes.type': 'Gas'}).count(), count);
 				done();
 			}));
 		}, 1000);
