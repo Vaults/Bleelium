@@ -13,15 +13,15 @@
         <table class="table-events">
             <tr ng-repeat="event in events track by $index">
                 <td>
-                    <img src="/img/security/{{event.type}}.png" class="event-icon"/>
+                    <img src="/img/security/{{event.attributes.type}}.png" class="event-icon"/>
                 </td>
                 <td>
                     <div class="information">
-                        Type: {{event.type}} <br>
+                        Type: {{event.attributes.type}} <br>
                         {{(event.TOG)?event.TOG:'Smoke'}}: {{event.level}} <sup>%</sup>&frasl;<sub>m<sup>3</sup></sub>
                         <br>
-                        Latitude: {{event.coord_lat}} <br>
-                        Longitude: {{event.coord_lon}}
+                        Latitude: {{event.attributes.coord_lat}} <br>
+                        Longitude: {{event.attributes.coord_lon}}
                     </div>
                 </td>
                 <td>

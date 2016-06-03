@@ -4,7 +4,6 @@
 import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
-CriticalEvents = new Mongo.Collection('criticalEvents');
 
 MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootScope) {
 
@@ -60,14 +59,13 @@ MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootS
         angular.forEach($scope.criticalEvents, function (o) {
             $scope.events[o._id] = o;
 
-            if (o.type == 'Gas') {
-                for (var prop in o.gases) {
+            if (o.attributes.type == 'Gas') {
+                for (var prop in o.attributes.gases) {
                     o.TOG = prop;
-                    o.level = o.gases[prop];
+                    o.level = o.attributes.gases[prop];
                 }
-            }else if (o.type == 'Smoke') {
-                    o.level = o.smoke;
-            }
+            }else if (o.attributes.type == 'Smoke') {
+                    o.level = o.attributes.smoke; }
 
         });
     };

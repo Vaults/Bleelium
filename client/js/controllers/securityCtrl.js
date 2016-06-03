@@ -38,7 +38,8 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         'warningevacuation': {icon: 'img/security/warningfire2.png', text: 'Evacuation Notice', checked: false},
         'warningfire': {icon: 'img/security/warningfire.png', text: 'Fire Alarm', checked: false},
         'warningbombthreat': {icon: 'img/security/warningbombthreat.png', text: 'Bomb Threat', checked: false},
-        'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', checked: false}
+        'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name:'Gas', checked:true},
+        'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name:'Smoke', checked: true}
     };
 
     $scope.map = {
@@ -54,6 +55,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $meteor.subscribe('P2000Pub');
     $meteor.subscribe('soundSensorPub');
+    $meteor.subscribe('criticalEventsPub');
     $scope.markers = [];
     $scope.range = { //Initial range slider value
         value : 24
@@ -101,6 +103,9 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         },
         SoundEvents(){
             return  SoundSensor.find({}, {limit: 25});
+        },
+        CriticalEvents(){
+            return  CriticalEvents.find({});
         }
     });
 
@@ -132,33 +137,11 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     var reload = function () {
         var hack = $scope.getReactively('p2000Events');
         var hack2 = $scope.getReactively('SoundEvents');
-        var selEvent = $scope.getReactively('p2000Debug');
+        var hack3 = $scope.getReactively('criticalEvents');
         setInfo(null, $scope.loc);
-        if (selEvent) {
-            if (!$scope.map) {
-                $scope.map = {
-                    center: {
-                        latitude: hack[0].attributes.coord_lat,
-                        longitude: hack[0].attributes.coord_lng
-                    },
-                    zoom: 13,
-                    events: {
-                        click: (mapModel, eventName, originalEventArgs) => {
-                            this.setLocation(originalEventArgs[0].latLng.lat(), originalEventArgs[0].latLng.lng());
-                            $scope.$apply();
-                        }
-                    },
-                    options: {
-                        disableDefaultUI: true
-                    }
-
-                };
-            }
-        }
-
         var events = P2000.find($scope.returnFilteredEvents()).fetch();
         events = events.concat(SoundSensor.find($scope.returnFilteredEvents()).fetch());
-
+        events = events.concat(CriticalEvents.find($scope.returnFilteredEvents()).fetch());
 
         $scope.markers = [];
         for (var i = 0; i < events.length; i++) {

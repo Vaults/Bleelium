@@ -43,8 +43,8 @@ var gasSensorPull = {
                 }
             }
             if(Object.keys(gases).length > 0) {
-                var ins = {type: "Gas", coord_lon: obj.coord_lon, coord_lat: obj.coord_lat, updated_at: obj.updated_at, gases: gases};
-                criticalEventPush(o, ins);
+                var ins = {type: "Gas", coord_lng: obj.coord_lon, coord_lat: obj.coord_lat, dt: obj.updated_at + '000', gases: gases};
+                criticalEventPush(o, {attributes: ins});
             }
 		});
 	}
@@ -58,8 +58,8 @@ var smokeSensorPull = {
 		temp.data.contextResponses.forEach(function(o){
 			var obj = o.contextElement.attributes;
             if(obj.smoke > 0) {
-                    var ins = {type: "Smoke", coord_lon: obj.coord_lon, coord_lat: obj.coord_lat, updated_at: obj.updated_at, smoke: obj.smoke};
-                    criticalEventPush(o, ins);
+                    var ins = {type: "Smoke", coord_lng: obj.coord_lon, coord_lat: obj.coord_lat, dt: obj.updated_at + '000', smoke: obj.smoke};
+                    criticalEventPush(o, {attributes: ins});
             }
 		});
 	}
