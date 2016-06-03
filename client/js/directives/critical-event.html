@@ -1,9 +1,14 @@
 <div id="pop-upMulti" class="pop-up" ng-controller="eventCtrl">
+    <span ng-click="close()">
+        <div class="transparent">
+
+        </div>
+    </span>
     <div class="content">
         <div class="header">
-            <img src="/img/security/warninggeneral.png"/>
+            <img src="/img/event/warninggeneral.png"/>
             WARNING!
-            <span ng-click="close()"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <span ng-click="close()"><img src="/img/cross.png" height="50px"/></span>
         </div>
         <table class="table-events">
             <tr ng-repeat="event in events track by $index">
@@ -13,7 +18,8 @@
                 <td>
                     <div class="information">
                         Type: {{event.type}} <br>
-                        {{(event.TOG)?event.TOG:'Smoke'}}: {{event.level}} <sup>%</sup>&frasl;<sub>m<sup>3</sup></sub> <br>
+                        {{(event.TOG)?event.TOG:'Smoke'}}: {{event.level}} <sup>%</sup>&frasl;<sub>m<sup>3</sup></sub>
+                        <br>
                         Latitude: {{event.coord_lat}} <br>
                         Longitude: {{event.coord_lon}}
                     </div>
