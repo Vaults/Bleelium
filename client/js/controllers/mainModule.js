@@ -6,13 +6,21 @@ import 'angular-ui-bootstrap';
 
 var MAIN_MODULE;
 if (!MAIN_MODULE) {
+    /**
+     * @summary Creates module and lists dependencies
+     * @type {Module} Dashboard
+     */
     MAIN_MODULE = angular.module('dashboard', [
         angularMeteor,
         'nemLogging',
         'uiGmapgoogle-maps',
         'ui.bootstrap',
         'ui.router'
-    ]).config(function ($stateProvider, $urlRouterProvider) {
+    ]);
+    /**
+     * @summary Specifies which urls route to which files and controllers
+     */
+    MAIN_MODULE.config(function ($stateProvider, $urlRouterProvider) {
         document.title = 'Smart-S';
         $urlRouterProvider.otherwise('/weather');
 
@@ -53,32 +61,58 @@ if (!MAIN_MODULE) {
                 url: '/securitySoundEvent',
                 templateUrl: 'client/js/directives/infoSoundEvent.html'
             });
-    }).directive('criticalEvents', function () {
+    });
+    /**
+     * @summary Creates HTML tag for critical event template
+     */
+    MAIN_MODULE.directive('criticalEvents', function () {
         return {
             templateUrl: 'client/js/directives/critical-event.html',
             scope: '=',
         };
-    }).directive('navBar', function () {
+    });
+    /**
+     * @summary Creates HTML tag for navigation bar
+     */
+    MAIN_MODULE.directive('navBar', function () {
         return {
             templateUrl: 'client/js/directives/nav-bar.html',
             scope: '=',
         };
-    }).controller('navBarCtrl', function ($scope, $location) {
+    });
+    /**
+     * @summary Controller for the navigation bar, keeps categories and highlights current category
+     */
+    MAIN_MODULE.controller('navBarCtrl', function ($scope, $location) {
+        /**
+         * @summary Determine which tab is currently selected
+         * @param {String} path to test current webpage path to 
+         * @returns {string} active when path === current page, '' otherwise
+         */
         $scope.navClass = function (path) {
             return (($location.path().substr(1, path.length) === path) ? 'active' : '');
         };
+        //Categories to display in the top bar.
         $scope.categories = [
             {link: 'parking', text: 'PARKING', color: '#ea5959'},
             {link: 'weather', text: 'WEATHER', color: '#eb9860'},
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
-    }).directive('googleMap', function () {
+    });
+    /**
+     * @summary Creates HTML tag for adding a google map
+     */
+    MAIN_MODULE.directive('googleMap', function () {
         return {
             templateUrl: 'client/js/directives/google-map.html',
             scope: '='
         }
-    }).factory('IconService', function () {
+    });
+    /**
+     * @summary Provides functionality for displaying icons in UI and on markers
+     */
+    MAIN_MODULE.factory('IconService', function () {
         var IconService = {};
         /**
          * @summary Sanitize a string by removing '/' and '.' to prevent filepath exploits
@@ -119,14 +153,18 @@ if (!MAIN_MODULE) {
             };
         }
         return IconService;
-    }).factory('WeatherService', function () {
+    });
+    /**
+     * @summary keeps the currently selected weatherstation's location
+     */
+    MAIN_MODULE.factory('WeatherService', function () {
         return weatherLocation = {
             'attributes.coord_lat': '5.48',
             'attributes.coord_lon': '51.44'
         };
     });
     /**
-     * Filter to round floats in a string format usable from HTML
+     * @summary Filter to round floats in a string format usable from HTML
      */
     MAIN_MODULE.filter('toFixed', function () { //Turns string into float and removes decimals
         return function (string) {

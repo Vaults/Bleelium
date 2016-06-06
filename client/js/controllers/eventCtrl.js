@@ -4,36 +4,27 @@
 import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
-
+/**
+ * @summary Takes care of critical event pop-ups on any page
+ */
 MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootScope) {
 
     $meteor.subscribe('criticalEventsPub');
-    $scope.helpers({	//Scope helpers to get from Meteor collections
+    $scope.helpers({	//Scope helpers to get data from Meteor collection
         criticalEvents(){
             return CriticalEvents.find({seenFlag: {$exists: false}});
         }
     });
 
+    //Pop-up element in UI
     var popUpMulti = document.getElementById('pop-upMulti');
 
     $scope.events = {};
 
-    /**
-     *
-     * @param events
-     * @returns {*}
-     */
-    function getMaxLevel(events) {
-        var maxLevel = 0;
-        for (i = 0; i < events.length; i++) {
-            if (events[i].description.level >= events[maxLevel].description.level) {
-                maxLevel = i;
-            }
-        }
-        return events[maxLevel];
-    }
 
-    //Close the pop-up windows when click on the x
+    /**
+     * @summary Closes pop-up window when 'X' is clicked
+     */
     $scope.close = function () {
         popUpMulti.style.display = "none";
 
@@ -46,10 +37,13 @@ MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootS
 
     };
 
+    /**
+     * @summary When the collection is updated, the pop-up is displayed again if any event has seenFlag == false
+     */
     var reload = function () {
         $reactive(this).attach($scope);
         var events = $scope.getReactively('criticalEvents');
-
+        
         if ($scope.events) {
             if (Object.keys($scope.criticalEvents).length > 0) {
                 popUpMulti.style.display = "block";

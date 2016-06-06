@@ -4,6 +4,7 @@ import {MAIN_MODULE} from  './mainModule.js';
  * @summary Controller for the parking tab
  */
 MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
+    //Create a google map
     $scope.map = {
         center: {
             longitude: 5.4500238,
