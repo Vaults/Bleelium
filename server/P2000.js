@@ -2,21 +2,33 @@ import {HTTP} from 'meteor/http';
 import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
-import {splitData,createP2000Data} from './P2000DataSplitter.js';
+import {splitData, createP2000Data} from './P2000DataSplitter.js';
 
-
+/**
+ *
+ */
 var pushP2000ToOrion = function () {
     HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function (response) {
         xml2js.parseString(response.content, handleError(function (result) {
             for (item in result.rss.channel[0].item) {
-                
-                postOrionData(createP2000Data(result.rss.channel[0].item[item]));
 
+                if (result.rss.channel[0].item[item]['geo:lat'] != null || result.rss.channel[0].item[item]['geo:long'] != null) {
+                    var obj = createP2000Data(result.rss.channel[0].item[item]);
+                    if (obj){
+                       // console.log(obj.contextElements[0].attributes);
+                        postOrionData(obj);
+                    }
+                } else {
+                }
             }
         }));
     }));
 }
 
+/**
+ *
+ * @summary Cronjob for pushing P2000 to orion, calls pushP2000ToOrion every 10 seconds
+ */
 SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     name: 'Pushing P2000 to Orion',
     schedule: function (parser) {
@@ -25,11 +37,15 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
     job: pushP2000ToOrion
 });
 
+/**
+ *
+ * @type {{name: string, args: string, f: P2000Pull.f}}
+ */
 var P2000Pull = {
     name: 'P2000',
     args: '?orderBy=!publish_date&limit=1000',
     f: function (args) {
-        collectionWrapper['P2000'].remove({});
+        //collectionWrapper['P2000'].remove({});
         response = rewriteAttributes(args);
         for (item in args.data.contextResponses) {
             var obj = args.data.contextResponses[item].contextElement;

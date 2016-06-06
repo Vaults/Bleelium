@@ -62,9 +62,13 @@ describe('pull()', function(done){
 });
 describe('reloadPull()', function(done){
 	it('simple reloadPull call', function(done){
+		var doneFlag = false;
 		reloadPull('WeatherStation', '', function(response){
 			assert.isDefined(response.data.contextResponses);
-			done();
+			if(!doneFlag){
+				done();
+				doneFlag = true;
+			}
 		});
 	});
 });

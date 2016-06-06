@@ -1,22 +1,33 @@
 <div id="pop-upMulti" class="pop-up" ng-controller="eventCtrl">
+    <span ng-click="close()">
+        <div class="transparent">
 
+        </div>
+    </span>
     <div class="content">
         <div class="header">
-            <span class="close" ng-click="close()">×</span>
-            <img src="/img/security/warninggeneral.png" class="warning-icon" />
-            <h2>Warning! </h2>
+            <img src="/img/event/warninggeneral.png"/>
+            WARNING!
+            <span ng-click="close()"><img src="/img/cross.png" height="50px"/></span>
         </div>
-        <div class="body">
-            <img src="/img/security/{{selectedEvent.icon}}.png" class="event-icon" />
-            <select id="events" class="selection" ng-model="selectedEvent" ng-options="event.description.name for event in events" >
-            </select>
-        </div>
-        <div class="information">
-            <p>Address: {{selectedEvent.street}} </p>
-            <p>Time: {{selectedEvent.time}}</p>
-        </div>
-        <div class="options">
-            <button id="view" class="optionButton">info</button>
-        </div>
+        <table class="table-events">
+            <tr ng-repeat="event in events track by $index">
+                <td>
+                    <img src="/img/security/{{event.attributes.type}}.png" class="event-icon"/>
+                </td>
+                <td>
+                    <div class="information">
+                        Type: {{event.attributes.type}} <br>
+                        {{(event.TOG)?event.TOG:'Smoke'}}: {{event.level}} <sup>%</sup>&frasl;<sub>m<sup>3</sup></sub>
+                        <br>
+                        Latitude: {{event.attributes.coord_lat}} <br>
+                        Longitude: {{event.attributes.coord_lng}}
+                    </div>
+                </td>
+                <td>
+                    <button id="view" class="button button-red">Info</button>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

@@ -1,67 +1,27 @@
+/**
+ * Created by Marcel on 26-5-2016.
+ */
+import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
-/**
- * @summary
- */
-MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
+
+MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootScope) {
+
+    $meteor.subscribe('criticalEventsPub');
+    $scope.helpers({	//Scope helpers to get from Meteor collections
+        criticalEvents(){
+            return CriticalEvents.find({seenFlag: {$exists: false}});
+        }
+    });
 
     var popUpMulti = document.getElementById('pop-upMulti');
 
-    $scope.events = [
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Woenselse Watermolen",
-            description: {
-                name: "Bomb Threat",
-                sensor: "bomb detector",
-                level: 9
-            },
-            time: 1530,
-            date: 24052016,
-            view: true,
-            icon: "warningbombthreat"
-        },
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Gildebuurt",
-            description: {
-                name: "Gas Leak",
-                sensor: "gas detector",
-                level: 10
-            },
-            time: 1630,
-            date: 24052016,
-            view: true,
-            icon: "warninggasleak"
-        },
-        {
-            coord: {
-                lot: 5.487589,
-                lat: 51.447835
-            },
-            street: "Witte Dame",
-            description: {
-                name: "Car Accident",
-                sensor: "sound sensor",
-                level: 7
-            },
-            time: 1730,
-            date: 24052016,
-            view: true,
-            icon: "warninggeneral"
-        }
-    ]
+    $scope.events = {};
 
     /**
-     * @summary Function that finds the event with the maximum level
-     * @param events The events array that will be executed by this function
-     * @returns {the event with the maximum level}
+     *
+     * @param events
+     * @returns {*}
      */
     function getMaxLevel(events) {
         var maxLevel = 0;
@@ -73,21 +33,42 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
         return events[maxLevel];
     }
 
-    //Set the default event as the one with the maximum
-    if ($scope.events.length == 1) {
-        $scope.selectedEvent = $scope.events[0];
-    }
-    else {
-        $scope.selectedEvent = getMaxLevel($scope.events);
-    }
-
-    // When the event array is not empty, the warning window will pop up
-    if ($scope.events.length != 0) {
-        popUpMulti.style.display = "block";
-    }
-
     //Close the pop-up windows when click on the x
     $scope.close = function () {
         popUpMulti.style.display = "none";
-    }
+
+        for (k in $scope.events) {
+            console.log($scope.events[k]);
+            CriticalEvents.update({_id: $scope.events[k]._id}, {$set: {seenFlag: true}})
+        }
+
+        $scope.events = {};
+
+    };
+
+    var reload = function () {
+        $reactive(this).attach($scope);
+        var events = $scope.getReactively('criticalEvents');
+
+        if ($scope.events) {
+            if (Object.keys($scope.criticalEvents).length > 0) {
+                popUpMulti.style.display = "block";
+            }
+        }
+
+        angular.forEach($scope.criticalEvents, function (o) {
+            $scope.events[o._id] = o;
+
+            if (o.attributes.type == 'Gas') {
+                for (var prop in o.attributes.gases) {
+                    o.TOG = prop;
+                    o.level = o.attributes.gases[prop];
+                }
+            }else if (o.attributes.type == 'Smoke') {
+                    o.level = o.attributes.smoke; }
+
+        });
+    };
+    $scope.autorun(reload)
+
 });
