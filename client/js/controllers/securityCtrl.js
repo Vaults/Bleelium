@@ -1,6 +1,10 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
+P2000 = new Mongo.Collection('P2000');
 
+/**
+ * @summary 
+ */
 MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state) {
     $reactive(this).attach($scope);
     $scope.eventTypes = {

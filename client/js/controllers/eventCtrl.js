@@ -2,7 +2,12 @@
  * Created by Marcel on 26-5-2016.
  */
 import {MAIN_MODULE} from  './mainModule.js';
-MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootScope) {
+
+/**
+ * @summary Sets the scope of the critical event popup
+ * @param $scope Angular scope
+ */
+MAIN_MODULE.controller('eventCtrl', function($scope) {
 
     var popUpMulti = document.getElementById('pop-upMulti');
 
@@ -57,7 +62,11 @@ MAIN_MODULE.controller('eventCtrl', function($scope, $meteor, $reactive, $rootSc
         }
     ]
 
-    //fina the event with maximum level
+    /**
+     * @summary Returns the event with the maximum level
+     * @param events array with events
+     * @returns {Maximum events[i].description.level for any i}
+     */
     function getMaxLevel(events) {
         var maxLevel = 0;
         for (i = 0; i < events.length; i++) {

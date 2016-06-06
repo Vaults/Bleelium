@@ -4,6 +4,12 @@ import 'angular-simple-logger';
 import 'angular-google-maps';
 import 'angular-ui-bootstrap';
 
+
+/**
+ * The main Angular module which stores the state of the application, as well as containing all controllers
+ * These controllers are defined in their own files
+ * @var {angular.module} MAIN_MODULE
+ */
 var MAIN_MODULE;
 if (!MAIN_MODULE) {
     MAIN_MODULE = angular.module('dashboard', [
@@ -53,17 +59,29 @@ if (!MAIN_MODULE) {
                 url: '/securitySoundEvent',
                 templateUrl: 'client/js/directives/infoSoundEvent.html'
             });
-    }).directive('criticalEvents', function () {
-        return {
-            templateUrl: 'client/js/directives/critical-event.html',
-            scope: '=',
-        };
-    }).directive('navBar', function () {
+    })
+    /**
+     * @summary Binds the critical event HTML to the name criticalEvents
+     */
+    .directive('criticalEvents', function () {
+    return {
+        templateUrl: 'client/js/directives/critical-event.html',
+        scope: '=',
+    };
+    })
+    /**
+     * @summary Binds the navigation bar HTML to the name navBar
+     */
+    .directive('navBar', function () {
         return {
             templateUrl: 'client/js/directives/nav-bar.html',
             scope: '=',
         };
-    }).controller('navBarCtrl', function ($scope, $location) {
+    })
+    /**
+     * @summary 
+     */
+    .controller('navBarCtrl', function ($scope, $location) {
         $scope.navClass = function (path) {
             return (($location.path().substr(1, path.length) === path) ? 'active' : '');
         };
