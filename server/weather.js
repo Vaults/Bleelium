@@ -204,8 +204,6 @@ var pushForecastToOrion = function(){
 	}
 }
 
-
-/* https://github.com/percolatestudio/meteor-synced-cron */
 /**
  * @summary Cronjob for pushing weather to orion, calls pushWeatherToOrion every 30 minutes
  */
@@ -216,6 +214,7 @@ SyncedCron.add({
 	},
 	job: pushWeatherToOrion
 });
+
 /**
  * @summary Cronjob for pushing weather forecast to orion, calls pushWeatherToOrion every 6 hours
  */
@@ -227,12 +226,15 @@ SyncedCron.add({	//calls pushForecastToOrion every 30 mins
 	job: pushForecastToOrion
 });
 
+
+/**
+ * @summary Defines the variables for the weather pull, containing the name, arguments and the callback function.
+ * @var {array} - weatherPull
+ */
 var weatherPull = {
 	name: 'WeatherStation',
 	args: '',
 	f: function(args){
-
-		//console.log(args);
 		var temp = rewriteAttributes(args);
 		rewriteNumbersToObjects(temp).data.contextResponses.forEach(function(o){
 			var obj = o.contextElement;

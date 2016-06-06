@@ -3,6 +3,10 @@ import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError, rewriteNumbersToObjects} from '/server/imports/util.js';
 
+/**
+ * @summary The bounds in percentages of when each gas is flameable
+ * @var {array} bound
+ */
 var bounds = {
 	"Acetone" : {lel: 2.15, uel: 13.0},
     "Acetylene" : {lel: 2.5, uel: 100.0},
@@ -23,10 +27,19 @@ var bounds = {
     "Toluene" : {lel: 1.2, uel: 7.0},
 };
 
+/**
+ * @summary Sends the object to the meteor database
+ * @param {json} o - the json object that we will insert, this is used to generate the unique id
+ * @param {json} ins - the modified json object that we will insert, the actual data.
+ */
 var criticalEventPush = function(o, ins) {
     collectionWrapper['criticalEvents'].upsert({_id: (o.contextElement.type + o.contextElement._id)}, {$set: ins});
 }
 
+/**
+ * @summary Defines the variables for the gasSensors pull, containing the name, arguments and the callback function.
+ * @var {array} - gasSensorPUll
+ */
 var gasSensorPull = {
 	name: 'GasSensor',
 	args: '',
@@ -50,6 +63,10 @@ var gasSensorPull = {
 	}
 }
 
+/**
+ * @summary Defines the variables for the smokeSensor pull, containing the name, arguments and the callback function.
+ * @var {array} - smokeSensorPull
+ */
 var smokeSensorPull = {
 	name: 'SmokeSensor',
 	args: '',
@@ -65,4 +82,5 @@ var smokeSensorPull = {
 	}
 }
 
+//exports for tests
 export {bounds, gasSensorPull, smokeSensorPull}

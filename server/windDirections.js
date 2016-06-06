@@ -1,6 +1,8 @@
-var WIND_DIR;
-
-WIND_DIR = {
+/**
+ * @summary Datastructure to couple wind directions to degrees and icons
+ * @var {json} - WIND_DIR
+ */
+var WIND_DIR = {
     "N": {
         "name" : "N",
         "deg": 0,
@@ -99,5 +101,5 @@ WIND_DIR = {
     }
 }
 
+//exports for tests
 export{WIND_DIR};
-

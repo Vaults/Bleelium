@@ -1,10 +1,9 @@
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes} from '/server/imports/util.js';
 
-
 /**
- *
- * @type {{name: string, args: string, f: P2000Pull.f}}
+ * @summary Defines the variables for the soundData pull, containing the name, arguments and the callback function.
+ * @var {array} - SoundDataPull
  */
 var SoundDataPull = {
     name: 'SoundSensor',
