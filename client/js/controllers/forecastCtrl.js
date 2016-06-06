@@ -2,8 +2,14 @@ import {MAIN_MODULE} from  './mainModule.js';
 
 /**
  * @summary Controller for the forecast tab. Loads the current weatherstation and sets scope variables accordingly
+ * @param $scope Angular scope
+ * @param $meteor Angular meteor handle
+ * @param $reactive Angular reactive component
+ * @param $rootScope Angular root scope
+ * @param WeatherService stores the location of the currently selected weather station
+ * @param IconService is used to set the marker icon
  */
-MAIN_MODULE.controller('forecastCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
+MAIN_MODULE.controller('forecastCtrl', function ($scope, $meteor, WeatherService, IconService) {
 
     $meteor.subscribe('weatherPub');
     //If no weatherstation selected, use Eindhoven
