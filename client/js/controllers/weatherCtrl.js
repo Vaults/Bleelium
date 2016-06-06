@@ -3,6 +3,9 @@ import {MAIN_MODULE} from  './mainModule.js';
 
 WeatherStations = new Mongo.Collection('weatherStations');
 
+/**
+ * @summary controller that takes care of the weather map and the weather sidebar
+ */
 MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
     $scope.map = {
         center: {
