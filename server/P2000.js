@@ -5,7 +5,7 @@ import {rewriteAttributes, handleError} from '/server/imports/util.js';
 import {splitData, createP2000Data} from './P2000DataSplitter.js';
 
 /**
- *
+ * @summary Collects the rss feed from p2000 and stores it into Orion
  */
 var pushP2000ToOrion = function () {
     HTTP.call('GET', 'http://feeds.livep2000.nl/?r=22&d=1,2,3', handleError(function (response) {
@@ -15,7 +15,6 @@ var pushP2000ToOrion = function () {
                 if (result.rss.channel[0].item[item]['geo:lat'] != null || result.rss.channel[0].item[item]['geo:long'] != null) {
                     var obj = createP2000Data(result.rss.channel[0].item[item]);
                     if (obj){
-                       // console.log(obj.contextElements[0].attributes);
                         postOrionData(obj);
                     }
                 } else {
@@ -26,10 +25,9 @@ var pushP2000ToOrion = function () {
 }
 
 /**
- *
  * @summary Cronjob for pushing P2000 to orion, calls pushP2000ToOrion every 10 seconds
  */
-SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
+SyncedCron.add({
     name: 'Pushing P2000 to Orion',
     schedule: function (parser) {
         return parser.text('every 10 seconds');
@@ -38,14 +36,13 @@ SyncedCron.add({	//calls pushWeatherToOrion every 30 mins
 });
 
 /**
- *
- * @type {{name: string, args: string, f: P2000Pull.f}}
+ * @summary Defines the variables for the p2000 pull, containing the name, arguments and the callback function.
+ * @var {array} - P2000Pull
  */
 var P2000Pull = {
     name: 'P2000',
     args: '?orderBy=!publish_date&limit=1000',
     f: function (args) {
-        //collectionWrapper['P2000'].remove({});
         response = rewriteAttributes(args);
         for (item in args.data.contextResponses) {
             var obj = args.data.contextResponses[item].contextElement;

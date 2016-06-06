@@ -1,7 +1,7 @@
 /**
  * @summary Rewrites the attribute format of Orion into key = value
  * @param {array} attr - Atribute object from Orion
- * @returns Rewritten attribute as key=value
+ * @returns {array} Rewritten attribute as key=value
  */
 var attributesToKeyValue = function (attr) {
     var temp = {}
@@ -13,8 +13,8 @@ var attributesToKeyValue = function (attr) {
 /**
  * @summary Loops through all the attributes and rewrites them to key = value
  * @param {json} obj - The Orion object
- * @param callback
- * @returns the complete Orion object with the attributes rewritten as key = value
+ * @param {function} c - callback
+ * @returns {json} - the complete Orion object with the attributes rewritten as key = value
  */
 var rewriteAttributes = function (obj, callback) {
     if (!callback) {
@@ -32,7 +32,7 @@ var rewriteAttributes = function (obj, callback) {
 }
 /**
  * @summary Handles the error if there is one
- * @param c- callback
+ * @param {function} c - callback
  * @returns If there is no error the result is returned
  */
 var handleError = function (c) {
@@ -55,7 +55,7 @@ var handleError = function (c) {
 /**
  * @summary Adjust the Orion attribute for forecast data
  * @param {json} 0 - An orion attribute
- * @returns The adjusted Orion attribute for forecast
+ * @returns {json} - The adjusted Orion attribute for forecast
  */
 var numToObj = function (o) {
     var tempobj = {forecast: {}};
@@ -75,7 +75,7 @@ var numToObj = function (o) {
 /**
  * @summary Adjust the Orion object so we are able to save forecast data
  * @param {json} obj - The Orion object
- * @returns The adjusted Orion object for forecast data
+ * @returns {json} - The adjusted Orion object for forecast data
  */
 var rewriteNumbersToObjects = function (obj) {
     for (var i = 0; i < obj.data.contextResponses.length; i++) {
@@ -85,4 +85,5 @@ var rewriteNumbersToObjects = function (obj) {
     return obj;
 }
 
+//exports for tests
 export{attributesToKeyValue, rewriteAttributes, handleError, numToObj, rewriteNumbersToObjects}
