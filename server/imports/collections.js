@@ -38,6 +38,33 @@ Meteor.publish('soundSensorPub', function soundSensorPub() {
 });
 
 /**
+ * @summary Creates a new mongo instance for ParkingArea
+ * @return {json} - The collection for ParkingArea
+ */
+var ParkingArea = new Mongo.Collection('ParkingArea');
+Meteor.publish('parkingAreaPub', function parkingAreaPub() {
+    return ParkingArea.find({});
+});
+
+/**
+ * @summary Creates a new mongo instance for ParkingLot
+ * @return {json} - The collection for ParkingLot
+ */
+var ParkingLot = new Mongo.Collection('ParkingLot');
+Meteor.publish('parkingLotPub', function parkingLotPub() {
+    return ParkingLot.find({});
+});
+
+/**
+ * @summary Creates a new mongo instance for ParkingSpace
+ * @return {json} - The collection for ParkingSpace
+ */
+var ParkingSpace = new Mongo.Collection('ParkingSpace');
+Meteor.publish('parkingSpacePub', function parkingSpacePub() {
+    return ParkingSpace.find({});
+});
+
+/**
  * @summary The array to map collections to variables
  * @var {array} - collectionWrapper
  */
@@ -45,7 +72,10 @@ var collectionWrapper = {
 	"WeatherStation" : WeatherStations,
     "P2000" : P2000,
     "criticalEvents" : criticalEvents,
-    "SoundSensor" : SoundSensor
+    "SoundSensor" : SoundSensor,
+    "ParkingArea" : ParkingArea,
+    "ParkingLot" : ParkingLot,
+    "ParkingSpace" : ParkingSpace
 };
 
 //exports for tests

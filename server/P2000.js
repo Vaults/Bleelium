@@ -2,7 +2,7 @@ import {HTTP} from 'meteor/http';
 import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError} from '/server/imports/util.js';
-import {splitData, createP2000Data} from '/server/P2000DataSplitter.js';
+import {createP2000Data} from '/server/P2000DataSplitter.js';
 
 /**
  * @summary Collects the rss feed from p2000 and stores it into Orion

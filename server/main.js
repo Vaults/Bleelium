@@ -3,6 +3,7 @@ import {weatherPull} from '/server/weather.js';
 import {P2000Pull} from '/server/P2000.js';
 import {gasSensorPull, smokeSensorPull} from '/server/criticalEvents.js';
 import {SoundDataPull} from "/server/soundSensor.js";
+import {ParkingAreaPull, ParkingLotPull, ParkingSpacePull} from "/server/parking.js";
 
 /**
  * @summary Initializes all the pulls
@@ -13,7 +14,9 @@ var initPulls = function(){
 	reloadPull(gasSensorPull.name, gasSensorPull.args, gasSensorPull.f );
     reloadPull(smokeSensorPull.name, smokeSensorPull.args, smokeSensorPull.f );
 	reloadPull(SoundDataPull.name, SoundDataPull.args, SoundDataPull.f );
-
+	reloadPull(ParkingAreaPull.name, ParkingAreaPull.args, ParkingAreaPull.f );
+	reloadPull(ParkingLotPull.name, ParkingLotPull.args, ParkingLotPull.f );
+	//reloadPull(ParkingSpacePull.name, ParkingSpacePull.args, ParkingSpacePull.f );
 }
 
 /**

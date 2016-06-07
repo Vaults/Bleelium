@@ -3,7 +3,29 @@ import {MAIN_MODULE} from  './mainModule.js';
 /**
  * @summary Controller for the parking tab
  */
+
+ParkingArea = new Mongo.Collection('ParkingArea');
+ParkingLot = new Mongo.Collection('ParkingLot');
+ParkingSpace = new Mongo.Collection('ParkingSpace');
+
 MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
+    $reactive(this).attach($scope);
+    $meteor.subscribe('parkingAreaPub');
+    $meteor.subscribe('parkingLotPub');
+
+    $scope.helpers({	//Scope helpers to get from Meteor collections
+        parkingArea(){
+            console.log(ParkingArea.find({}))
+            return ParkingArea.find({});
+        },
+        parkingLot(){
+            return ParkingLot.find({});
+        },
+        parkingSpace(){
+            return ParkingSpace.find({});
+        }
+    });
+    
     //Create a google map
     $scope.map = {
         center: {
@@ -26,6 +48,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
 
     //Function that changes the freeColor when the percentage changes
     var changeColor = function() {
+        console.log($scope.parkingArea);
         if ($scope.percent <= 100) {
             if ($scope.percent < 50) {
                 $scope.freeColor = 'green';
