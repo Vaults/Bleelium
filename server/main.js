@@ -23,6 +23,5 @@ if (!Meteor.isTest) {
 	SyncedCron.start();
 	initPulls();
 }
-
 //exports for tests
 export {initPulls}
