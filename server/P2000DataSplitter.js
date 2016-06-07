@@ -1,8 +1,7 @@
 /**
- * @summary Makes a distinction between Ambulance, police or firefighter data
- * and calls the correct data handler.
- * @param o
- * @returns Object with parsed data.
+ * @summary Makes a distinction between Ambulance, police or firefighter data and calls the correct data handler.
+ * @param {json} o - a P2000 entry
+ * @returns {json} - Object with parsed data.
  */
 var parseData = function (o){
    if( o.description.indexOf("Ambulance") > -1){
@@ -11,8 +10,8 @@ var parseData = function (o){
    }else if( o.description.indexOf("Politie") > -1){
        o.type = 'Politie';
        return(o);
-   }else if(o.description.indexOf("BRW") > -1){
-      o.type = 'Brandweer';
+   }else if(o.description.indexOf("Brandweer") > -1){
+      o.type = 'brandweer';
       return(o);
    }else{
        return false;
@@ -21,9 +20,9 @@ var parseData = function (o){
 
 /**
  * @summary Parses ambulance info from P2000 into a usable format.
- * @param o (P2000 information object)
- * @modifies o
- * @returns o
+ * @param {json} o - P2000 information object
+ * @modifies {json} o
+ * @returns {json} o - Parsed ambulance object
  */
 var ambulanceInfo = function(o){
     var description = "";
@@ -47,9 +46,9 @@ var ambulanceInfo = function(o){
 
 /**
  * @summary !!DEPRECATED!! Modifies object to include (fake) location data, and sets fakeFlag accordingly .
- * @param !!DEPRECATED!! o
- * @pre  !!DEPRECATED!! !o.coord_lat
- * @modifies !!DEPRECATED!!  o
+ * @param !!DEPRECATED!! {json} o
+ * @pre  !!DEPRECATED!! {string} !o.coord_lat
+ * @modifies !!DEPRECATED!!  {json} o
  * @deprecated
  */
 var geoLoc = function(o){
@@ -72,8 +71,8 @@ var geoLoc = function(o){
 }
 /**
  * @summary !!DEPRECATED!! Generates fake coords for p2000 obbject o.
- * @param  !!DEPRECATED!! o
- * @modifies !!DEPRECATED!! o
+ * @param  !!DEPRECATED!! {json} o
+ * @modifies !!DEPRECATED!! {json} o
  * @deprecated
  */
 var generateFakeCoords = function(o){
@@ -84,10 +83,10 @@ var generateFakeCoords = function(o){
 }
 
 /**
- * @summary Get and modifies all necessary P2000 data into 1 object.
- * @param o
- * @modifies o
- * @returns Object 'contextElements'
+ * @summary Get and modifies all necessary P2000 data into 1 object for orion
+ * @param {json} o - All the P2000 data that is collected
+ * @modifies {json} o
+ * @returns {json} Object - The rewritten data
  */
 var createP2000Data = function (o) { //Creates orion-compliant objects for Orion storage
     o.description =  o.description[0].replace(/\<(.*?)\>/g, '').replace('(', '').replace(')', '').replace('<br/>','');
@@ -161,4 +160,5 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
     };
 }
 
+//exports for tests
 export {parseData,geoLoc,generateFakeCoords,ambulanceInfo, createP2000Data}

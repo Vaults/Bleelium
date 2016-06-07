@@ -1,5 +1,8 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
+P2000 = new Mongo.Collection('P2000');
+SoundSensor = new Mongo.Collection('SoundSensor');
+CriticalEvents = new Mongo.Collection('criticalEvents');
 
 MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService) {
     $reactive(this).attach($scope);

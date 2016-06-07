@@ -4,7 +4,9 @@ import {P2000Pull} from '/server/P2000.js';
 import {gasSensorPull, smokeSensorPull} from '/server/criticalEvents.js';
 import {SoundDataPull} from "/server/soundSensor.js";
 
-
+/**
+ * @summary Initializes all the pulls
+ */
 var initPulls = function(){
 	reloadPull(weatherPull.name, weatherPull.args, weatherPull.f);
 	reloadPull(P2000Pull.name, P2000Pull.args, P2000Pull.f );
@@ -14,8 +16,10 @@ var initPulls = function(){
 
 }
 
-if (!Meteor.isTest) { //only polls data getting/setting if the system is not in test mode
-    //SyncedCron.start();
+/**
+ * @summary Starts the cronjob and the pulls
+ */
+if (!Meteor.isTest) {
 	initPulls();
 }
 
