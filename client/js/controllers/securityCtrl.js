@@ -4,7 +4,7 @@ P2000 = new Mongo.Collection('P2000');
 SoundSensor = new Mongo.Collection('SoundSensor');
 CriticalEvents = new Mongo.Collection('criticalEvents');
 
-MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService) {
+MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, $stateParams, IconService) {
     $reactive(this).attach($scope);
     $scope.eventTypes = {
         'policedept': {
@@ -26,34 +26,28 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             checked: false,
             style: 'margin-bottom: 20px'
         },
-        'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot',  checked: true},
-        'stressedvoice': {icon: 'img/security/stressedvoice.png', text: 'Stressed Voice', name: 'stressedvoice', checked: false},
-        'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name:'caralarm', checked: false},
-        'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', name:'brokenglass', checked: true},
+        'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot', checked: true},
+        'stressedvoice': {
+            icon: 'img/security/stressedvoice.png',
+            text: 'Stressed Voice',
+            name: 'stressedvoice',
+            checked: false
+        },
+        'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name: 'caralarm', checked: false},
+        'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', name: 'brokenglass', checked: true},
         'caraccident': {
             icon: 'img/security/caraccident.png',
             text: 'Car accident',
             checked: true,
-            name:'caraccident',
+            name: 'caraccident',
             style: 'margin-bottom: 20px'
         },
-        'warninggeneral': {icon: 'img/security/warninggeneral.png', text: 'Critical Event', checked: false},
+        'warninggeneral': {icon: 'img/security/warninggeneral.png', text: 'Critical Event', checked: true},
         'warningevacuation': {icon: 'img/security/warningfire2.png', text: 'Evacuation Notice', checked: false},
         'warningfire': {icon: 'img/security/warningfire.png', text: 'Fire Alarm', checked: false},
         'warningbombthreat': {icon: 'img/security/warningbombthreat.png', text: 'Bomb Threat', checked: false},
-        'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name:'Gas', checked:true},
-        'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name:'Smoke', checked: true}
-    };
-
-    $scope.map = {
-        center: {
-            longitude: 5.48,
-            latitude: 51.44,
-        },
-        zoom: 13,
-        options: {
-            disableDefaultUI: true
-        }
+        'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name: 'Gas', checked: true},
+        'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name: 'Smoke', checked: true}
     };
 
     $meteor.subscribe('P2000Pub');
@@ -61,7 +55,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $meteor.subscribe('criticalEventsPub');
     $scope.markers = [];
     $scope.range = { //Initial range slider value
-        value : 24
+        value: 24
     }
 
     /**
@@ -84,35 +78,36 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.returnFilteredEvents = function () {
         var selector = {};
         var eT = $scope.eventTypes;
-        var dt = (new Date().getTime() - 1000*60*60*$scope.range.value).toString();
+        var dt = (new Date().getTime() - 1000 * 60 * 60 * $scope.range.value).toString();
 
 
         selector['attributes.dt'] = {$gte: dt};
         selector['attributes.type'] = {$in: []};
-        angular.forEach(eT,function (o) {
+        angular.forEach(eT, function (o) {
             if (o.checked) {
                 selector['attributes.type']['$in'].push(o.name);
-            }});
-        if(selector['attributes.type']['$in'].length == 0){
-            selector = {"falseValue" : "Do not show"};
+            }
+        });
+        if (selector['attributes.type']['$in'].length == 0) {
+            selector = {"falseValue": "Do not show"};
         }
 
-        return(selector);
+        return (selector);
     };
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
         p2000Events(){
-            return  P2000.find();
+            return P2000.find();
         },
         SoundEvents(){
-            return  SoundSensor.find({}, {limit: 25});
+            return SoundSensor.find({}, {limit: 25});
         },
         CriticalEvents(){
-            return  CriticalEvents.find({});
+            return CriticalEvents.find({});
         }
     });
 
-    $scope.getIcon = function(arg2){
+    $scope.getIcon = function (arg2) {
 
     }
 
@@ -133,6 +128,32 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         }
     };
     $scope.$on('setInfo', setInfo);
+
+    if(!$scope.map){
+    $scope.map = {
+        center: {
+            longitude: 5.48,
+            latitude: 51.44
+        },
+        zoom: 13,
+        options: {
+            disableDefaultUI: true
+        }
+    }}
+
+    $rootScope.$on('critEventSet', function (event, args) {
+        $scope.map = {
+            center: {
+                longitude: args.attributes.coord_lng,
+                latitude: args.attributes.coord_lat
+            }}
+
+        angular.forEach($scope.markers, function(o){
+            if(o.location.latitude == args.attributes.coord_lat){
+
+            }
+        })
+    });
 
     /**
      * @summary Runs whenever the P2000 or any of the settings are updated. Pulls p2000 events and updates all UI elements
@@ -161,7 +182,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
                     },
                     events: {
                         click: (marker, eventName, args) => {
-                            $rootScope.$broadcast('setInfo',marker);
+                            $rootScope.$broadcast('setInfo', marker);
                         },
                         dragend: (marker, eventName, args) => {
                             this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
@@ -182,15 +203,15 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.$watch('eventTypes', reload, true);
     $scope.$watch('range.value', reload);
 
-}).filter('convertHours', function(){
+}).filter('convertHours', function () {
     /**
      * @summary convert integer amount of hours into a string with amount of days and hours
      * @return string hours/24+'d'+hours%24+'h'
      */
-    return function(hours){
-        if (Math.floor(hours/24) > 0){
-            return Math.floor(hours/24)+'d'+hours%24+'h';
+    return function (hours) {
+        if (Math.floor(hours / 24) > 0) {
+            return Math.floor(hours / 24) + 'd' + hours % 24 + 'h';
         }
-        return hours%24 + 'h';
+        return hours % 24 + 'h';
     }
 })

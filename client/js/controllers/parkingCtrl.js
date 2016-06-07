@@ -20,4 +20,31 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
             disableDefaultUI: true
         }
     };
+
+    //The percentage of free spaces
+    $scope.percent = 100;
+
+    //Function that changes the freeColor when the percentage changes
+    var changeColor = function() {
+        if ($scope.percent <= 100) {
+            if ($scope.percent < 50) {
+                $scope.freeColor = 'green';
+            }
+            else if ($scope.percent > 50 & $scope.percent != 100) {
+                $scope.freeColor = 'orange';
+            }
+            else {
+                $scope.freeColor = 'red';
+            }
+        }
+    }
+    $scope.autorun(changeColor)
+
+    //Define the colors of percentage circle
+    $scope.color = {
+        center : 'white', 
+        highlight: $scope.freeColor,
+        remaining : 'lightGrey'
+    }
+    
 });

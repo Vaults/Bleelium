@@ -4,7 +4,13 @@ import {MAIN_MODULE} from  './mainModule.js';
 WeatherStations = new Mongo.Collection('weatherStations');
 
 /**
- * @summary controller that takes care of the weather map and the weather sidebar
+ * @summary Controller for the weather tab. Controls the sidebar in the weather tab as well as the icons on the map
+ * @param $scope Angular scope
+ * @param $meteor Angular meteor handle
+ * @param $reactive Angular reactive component
+ * @param $rootScope Angular root scope
+ * @param WeatherService stores the location of the currently selected weather station
+ * @param IconService is used to set the marker icon
  */
 MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
     $scope.map = {
