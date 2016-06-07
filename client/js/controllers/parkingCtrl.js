@@ -21,9 +21,30 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
         }
     };
 
-    $scope.colors = {
-        center    : 'lightBlue', // the color in the center of the circle. Default: #F5FBFC
-        highlight : 'black', // the highlighted section of the circle, representing the percentage number. Default: #2BCBED
-        remaining : 'lightGrey' // the color of the circle before highlighting occurs, representing the amount left until the percent equals 100. Default: #C8E0E8
+    //The percentage of free spaces
+    $scope.percent = 100;
+
+    //Function that changes the freeColor when the percentage changes
+    var changeColor = function() {
+        if ($scope.percent <= 100) {
+            if ($scope.percent < 50) {
+                $scope.freeColor = 'green';
+            }
+            else if ($scope.percent > 50 & $scope.percent != 100) {
+                $scope.freeColor = 'orange';
+            }
+            else {
+                $scope.freeColor = 'red';
+            }
+        }
     }
+    $scope.autorun(changeColor)
+
+    //Define the colors of percentage circle
+    $scope.color = {
+        center : 'white', 
+        highlight: $scope.freeColor,
+        remaining : 'lightGrey'
+    }
+    
 });
