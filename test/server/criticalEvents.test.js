@@ -1,4 +1,4 @@
-import { assert } from 'meteor/practicalmeteor:chai';
+import { expect, assert } from 'meteor/practicalmeteor:chai';
 
 //to be tested functions
 import {criticalEventPush,smokeSensorPull,gasSensorPull} from '/server/criticalEvents.js';

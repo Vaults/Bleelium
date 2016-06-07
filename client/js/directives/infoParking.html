@@ -1,2 +1,25 @@
-DIT IS PARKING HOI
-<!-- Best HTML eva! -->
+<div class="parking-item">
+    <h2>Strijp-S</h2>
+    <img src="{{iconURL}}" class="icon"/>
+    <percent-circle percent="17" colors="{center:'green'}"></percent-circle>
+    <br>
+    <div class="clearfix">
+        <div class="pull-left">
+            <p>
+                Opening-hour: <br>
+                Fee: <br>
+            </p>
+        </div>
+        <div class="pull-right">
+            <p>
+                {{windDirection}} <br>
+                {{Airpressure.toFixed(0)}} Euro<br>
+            </p>
+        </div>
+    </div>
+    <a>
+        <button class="button button-red">
+            Detail
+        </button>
+    </a>
+</div>

@@ -3,20 +3,24 @@ import angularMeteor from 'angular-meteor';
 import 'angular-simple-logger';
 import 'angular-google-maps';
 import 'angular-ui-bootstrap';
+import 'angular-percent-circle-directive'
 
+
+/**
+ * The main Angular module which stores the state of the application, as well as containing all controllers
+ * These controllers are defined in their own files
+ * @var {angular.module} MAIN_MODULE
+ */
 var MAIN_MODULE;
 if (!MAIN_MODULE) {
-    /**
-     * @summary Creates module and lists dependencies
-     * @type {Module} Dashboard
-     */
     MAIN_MODULE = angular.module('dashboard', [
         angularMeteor,
         'nemLogging',
         'uiGmapgoogle-maps',
         'ui.bootstrap',
-        'ui.router'
-    ]);
+        'ui.router',
+        'percentCircle-directive'
+    ]);    
     /**
      * @summary Specifies which urls route to which files and controllers
      */
@@ -63,16 +67,16 @@ if (!MAIN_MODULE) {
             });
     });
     /**
-     * @summary Creates HTML tag for critical event template
+     * @summary Binds the critical event HTML to the name criticalEvents
      */
     MAIN_MODULE.directive('criticalEvents', function () {
-        return {
-            templateUrl: 'client/js/directives/critical-event.html',
-            scope: '=',
-        };
+    return {
+        templateUrl: 'client/js/directives/critical-event.html',
+        scope: '=',
+    };
     });
     /**
-     * @summary Creates HTML tag for navigation bar
+     * @summary Binds the navigation bar HTML to the name navBar
      */
     MAIN_MODULE.directive('navBar', function () {
         return {
