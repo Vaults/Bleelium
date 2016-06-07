@@ -3,6 +3,7 @@ import angularMeteor from 'angular-meteor';
 import 'angular-simple-logger';
 import 'angular-google-maps';
 import 'angular-ui-bootstrap';
+import 'angular-percent-circle-directive'
 
 var MAIN_MODULE;
 if (!MAIN_MODULE) {
@@ -11,7 +12,8 @@ if (!MAIN_MODULE) {
         'nemLogging',
         'uiGmapgoogle-maps',
         'ui.bootstrap',
-        'ui.router'
+        'ui.router',
+        'percentCircle-directive'
     ]).config(function ($stateProvider, $urlRouterProvider) {
         document.title = 'Smart-S';
         $urlRouterProvider.otherwise('/weather');
