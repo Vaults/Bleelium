@@ -47,11 +47,11 @@ if (!MAIN_MODULE) {
             })
             .state('security', {
                 templateUrl: 'client/ui-view.html',
-                controller: 'securityCtrl'
+                controller: 'securityCtrl',
             })
             .state('security.sub', {
                 url: '/security',
-                templateUrl: 'client/js/directives/infoSecurity.html'
+                templateUrl: 'client/js/directives/infoSecurity.html',
             })
             .state('security.subemergency', {
                 url: '/securityEmergencyEvent',
@@ -90,7 +90,7 @@ if (!MAIN_MODULE) {
          * @returns {string} active when path === current page, '' otherwise
          */
         $scope.navClass = function (path) {
-            return (($location.path().substr(1, path.length) === path) ? 'active' : '');
+            return (($location.path().substr(1, path.length)) === path) ? 'active' : '';
         };
         //Categories to display in the top bar.
         $scope.categories = [

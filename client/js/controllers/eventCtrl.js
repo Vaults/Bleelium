@@ -7,7 +7,7 @@ import {MAIN_MODULE} from  './mainModule.js';
 /**
  * @summary Takes care of critical event pop-ups on any page
  */
-MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootScope) {
+MAIN_MODULE.controller('eventCtrl', function ($state, $scope, $meteor, $reactive, $rootScope) {
 
     $meteor.subscribe('criticalEventsPub');
     $scope.helpers({	//Scope helpers to get data from Meteor collection
@@ -29,13 +29,17 @@ MAIN_MODULE.controller('eventCtrl', function ($scope, $meteor, $reactive, $rootS
         popUpMulti.style.display = "none";
 
         for (k in $scope.events) {
-            console.log($scope.events[k]);
             CriticalEvents.update({_id: $scope.events[k]._id}, {$set: {seenFlag: true}})
         }
 
         $scope.events = {};
 
     };
+    
+    $scope.goToEvent = function(event){
+        $rootScope.$broadcast('critEventSet', event);
+        $state.go('security.sub');
+    }
 
     /**
      * @summary When the collection is updated, the pop-up is displayed again if any event has seenFlag == false
