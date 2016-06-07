@@ -20,8 +20,8 @@ var initPulls = function(){
  * @summary Starts the cronjob and the pulls
  */
 if (!Meteor.isTest) {
+	SyncedCron.start();
 	initPulls();
 }
-
 //exports for tests
 export {initPulls}
