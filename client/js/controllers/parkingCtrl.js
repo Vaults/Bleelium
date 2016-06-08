@@ -1,9 +1,7 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
-/** Mapping of MondoDB database collections*/
+/** Mapping of MongoDB database collections*/
 ParkingArea = new Mongo.Collection('ParkingArea');
-ParkingLot = new Mongo.Collection('ParkingLot');
-ParkingSpace = new Mongo.Collection('ParkingSpace');
 
 /**
  * @summary Controller for the parking tab. Controls the sidebar in the parking tab as well as the icons on the map
@@ -11,20 +9,20 @@ ParkingSpace = new Mongo.Collection('ParkingSpace');
  * @param $meteor Angular meteor handle
  * @param $reactive Angular reactive component
  * @param $rootScope Angular root scope
- * @param WeatherService stores the location of the currently selected weather station
  * @param IconService is used to set the marker icon
  */
-MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, $IconService) {
+//, $state, $IconService
+MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope) {
     /** Attach this to the scope */
     $reactive(this).attach($scope);
 
+    /** Subscribe parking data from server */
     $meteor.subscribe('parkingAreaPub');
-    $meteor.subscribe('parkingLotPub');
-    $meteor.subscribe('ParkingSpacePub');
 
-    $scope.helpers({	//Scope helpers to get from Meteor collections
+    /** Scope helpers to get from Meteor collections */
+    $scope.helpers({
         parkingArea(){
-            console.log(ParkingArea.find({}))
+            /*console.log(ParkingArea.find({}))*/
             return ParkingArea.find({});
         },
         parkingLot(){
@@ -35,7 +33,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     });
     
-    //Create a google map
+    /** Create a google map and adjust the view to Strijp-S*/
     $scope.map = {
         center: {
             longitude: 5.456732,
@@ -52,54 +50,8 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     };
 
-
-
-    /** TODO WHEN DB STRUCTURE IS DONE
-     * @summary Updates the scope information when a marker is clicked
-     * @param event Marker click event
-     * @param arg ParkingArea information
-     */
-    var setInfo = function (event, arg) { //Updates scope to the current selected parking area
-        if (arg) {
-            $scope.latitude = lodash.round(arg.lat(), 2);
-            $scope.longtitude = lodash.round(arg.lng(), 2);
-            $scope.$apply();
-        }
-    };
-
-    /**
-     * @summary Runs whenever Parking settings are updated. Pulls Parking events and updates all UI elements
-     */
-    var reload = function () {
-        var parkings = $scope.getReactively('parkingAreas');
-
-        /** Create map markers for each parkingArea */
-        $scope.markers = [];
-        for (var i = 0; i < parkings.length; i++) {
-            if (parkings[i].attributes) {
-                $scope.markers.push({
-                    options: {
-                        draggable: false,
-                        icon: IconService.createMarkerIcon(parkings[i].attributes.parking_icon, 'pearking')
-                    },
-                    events: {
-                        click: (marker, eventName, args) => {
-                            //Set global variable to current weatherstation for use from other controllers
-                            $rootScope.$broadcast('setInfo', marker.getPosition());
-                        }
-                    },
-                    location: {
-                        longitude: parkings[i].attributes.coord_lon,
-                        latitude: parkings[i].attributes.coord_lat,
-                    },
-                });
-            }
-        }
-    }
-    $scope.autorun(reload)
-
-    /** The percentage of free spaces */
-    $scope.percent = 100;
+    /** The percentage of use parking spaces */
+    $scope.percent = 52;
 
     /** Function that changes the freeColor when the percentage changes
      * @var {string} changeColor
@@ -122,9 +74,55 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
 
     /** Defines the colors of percentage circle */
     $scope.color = {
-        center : 'white', 
+        center : 'white',
         highlight: $scope.freeColor,
         remaining : 'lightGrey'
     }
+
+    /** TODO WHEN DB STRUCTURE IS DONE
+     * @summary Updates the scope information to the selected Parking Area when a marker is clicked
+     * @param event Marker click event
+     * @param arg ParkingArea information
+     */
+    var setInfo = function (event, arg) {
+        if (arg) {
+            $scope.latitude = lodash.round(arg.lat(), 2);
+            $scope.longtitude = lodash.round(arg.lng(), 2);
+            $scope.$apply();
+        }
+    };
+
+    /**
+     * @summary Runs whenever Parking settings are updated. Pulls Parking events and updates all UI elements
+     */
+    var reload = function () {
+        var parkingAreas= $scope.getReactively('parkingArea');
+
+        /** Remove old markers */
+        $scope.markers = [];
+
+        /** Create map markers for each of the parkingAreas */
+        for (var i = 0; i < parkingAreas.length; i++) {
+            if (parkingAreas[i].attributes) {
+                $scope.markers.push({
+                    options: {
+                        draggable: false,
+                        icon: IconService.createMarkerIcon(parkingsAreas[i].attributes.parking_icon, 'parking')
+                    },
+                    events: {
+                        click: (marker, eventName, args) => {
+                            /** Set global variable to current parkingArea for use from other controllers */
+                            $rootScope.$broadcast('setInfo', marker.getPosition());
+                        }
+                    },
+                    location: {
+                        longitude: parkingAreas[i].attributes.coord_lon,
+                        latitude: parkingAreas[i].attributes.coord_lat,
+                    },
+                });
+            }
+        }
+    }
+    $scope.autorun(reload);
     
 });
