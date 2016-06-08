@@ -9,14 +9,17 @@ import {SoundDataPull} from "/server/soundSensor.js";
 import {initPulls} from '/server/main.js';
 import {dataWeatherMap} from '/server/weather.js';
 import {bounds, gasSensorPull, smokeSensorPull} from '/server/criticalEvents.js';
-
+import {ParkingAreaPull} from "/server/parking.js";
 
 
 describe('initPulls()', function(done) {
 	before(function(){
-		collectionWrapper["P2000"].remove({});
-		collectionWrapper["WeatherStation"].remove({});
-		collectionWrapper["SoundSensor"].remove({});
+        collectionWrapper["P2000"].remove({});
+        collectionWrapper["ParkingArea"].remove({});
+        collectionWrapper["ParkingLot"].remove({});
+        collectionWrapper["WeatherStation"].remove({});
+        collectionWrapper["criticalEvents"].remove({});
+        collectionWrapper["SoundSensor"].remove({});
 		initPulls();
 	});
 	it('adds all weatherstations to the database and not any more', function(done){
@@ -82,8 +85,18 @@ describe('initPulls()', function(done) {
             }));
         }, 1000);
     });
+    it('adds all ParkingArea, Lots & Spaces items to the database', function(done){
+        Meteor.setTimeout(function(){
+            pull(ParkingAreaPull.name, ParkingAreaPull.args, handleError(function(response){
+                assert.equal(collectionWrapper['ParkingArea'].find().count(), response.data.contextResponses.length);
+                done();
+            }));
+        }, 1000);
+    });
 	after(function(){
 		collectionWrapper["P2000"].remove({});
+		collectionWrapper["ParkingArea"].remove({});
+		collectionWrapper["ParkingLot"].remove({});
 		collectionWrapper["WeatherStation"].remove({});
         collectionWrapper["criticalEvents"].remove({});
 		collectionWrapper["SoundSensor"].remove({});
