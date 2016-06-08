@@ -9,10 +9,14 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
     $meteor.subscribe('P2000Pub');
     $meteor.subscribe('soundSensorPub');
     $meteor.subscribe('criticalEventsPub');
+    $meteor.subscribe('ParkingArea');
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
         weatherStations(){
             return WeatherStations.find({});
+        },
+        parkingArea(){
+            return ParkingArea.find({});
         }
     });
     /**
@@ -99,6 +103,13 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
             sel['attributes.dt'] = {$gte: time+''};
             return sel;
         };
+
+        var result = new Mongo.Collection('metrics');
+        var metrics = new Mongo.Collection('metrics');
+        var pipeline = [
+            {$group: {_id: null, resTime: {$sum: "$resTime"}}}
+        ];
+        var result = metrics.aggregate(pipeline, {explain: true});
 
         $scope.eventTypes = {
             'policedept': {
