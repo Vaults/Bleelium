@@ -56,7 +56,7 @@ var gasSensorPull = {
                 }
             }
             if(Object.keys(gases).length > 0) {
-                var ins = {type: "Gas", coord_lng: obj.coord_lon, coord_lat: obj.coord_lat, dt: obj.updated_at + '000', gases: gases, description: obj.description};
+                var ins = {type: "Gas", coord_lng: lodash.round(obj.coord_lon, 5), coord_lat: lodash.round(obj.coord_lat,5), dt: obj.updated_at + '000', gases: gases, description: obj.description};
                 criticalEventPush(o, {attributes: ins});
             }
 		});
@@ -75,7 +75,7 @@ var smokeSensorPull = {
 		temp.data.contextResponses.forEach(function(o){
 			var obj = o.contextElement.attributes;
             if(obj.smoke > 0) {
-                    var ins = {type: "Smoke", coord_lng: obj.coord_lon, coord_lat: obj.coord_lat, dt: obj.updated_at + '000', smoke: obj.smoke, description: obj.description};
+                    var ins = {type: "Smoke", coord_lng: lodash.round(obj.coord_lon,5), coord_lat: lodash.round(obj.coord_lat,5), dt: obj.updated_at + '000', smoke: obj.smoke, description: obj.description};
                     criticalEventPush(o, {attributes: ins});
             }
 		});

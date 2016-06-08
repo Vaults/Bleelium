@@ -37,8 +37,12 @@ MAIN_MODULE.controller('eventCtrl', function ($state, $scope, $meteor, $reactive
     };
     
     $scope.goToEvent = function(event){
-        $rootScope.$broadcast('critEventSet', event);
+        Meteor.setTimeout(function(){
+            $rootScope.$broadcast('critEventSet', event);
+        }, 1000);
+        $scope.close();
         $state.go('security.sub');
+
     }
 
     /**
