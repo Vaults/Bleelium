@@ -64,6 +64,14 @@ if (!MAIN_MODULE) {
             .state('security.subsound', {
                 url: '/securitySoundEvent',
                 templateUrl: 'client/js/directives/infoSoundEvent.html'
+            })
+            .state('energy', {
+                templateUrl: 'client/ui-view.html',
+                controller: 'energyCtrl'
+            })
+            .state('energy.sub', {
+                url: '/energy',
+                //templateUrl: 'client/js/directives/infoWeather.html'
             });
     });
     /**
