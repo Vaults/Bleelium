@@ -5,24 +5,14 @@ import {MAIN_MODULE} from  './mainModule.js';
  */
 
 ParkingArea = new Mongo.Collection('ParkingArea');
-ParkingLot = new Mongo.Collection('ParkingLot');
-ParkingSpace = new Mongo.Collection('ParkingSpace');
 
 MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
     $reactive(this).attach($scope);
     $meteor.subscribe('parkingAreaPub');
-    $meteor.subscribe('parkingLotPub');
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
         parkingArea(){
-            console.log(ParkingArea.find({}))
-            return ParkingArea.find({});
-        },
-        parkingLot(){
-            return ParkingLot.find({});
-        },
-        parkingSpace(){
-            return ParkingSpace.find({});
+            return ParkingArea.find({}.fetch());
         }
     });
     
@@ -35,7 +25,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive) {
         zoom: 15,
         events: {
             click: (mapModel, eventName, originalEventArgs) => {
-                $scope.$apply();
+
             }
         },
         options: {
