@@ -93,37 +93,44 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
                 };
                 setInfo(null, temp);
         }
+        var lastDaySel = function(sel){
+            var time = new Date().getTime() - 24*60*60*1000;
+            console.log(time);
+            sel['attributes.dt'] = {$gte: time+''};
+            return sel;
+        };
+
         $scope.eventTypes = {
             'policedept': {
                 icon: 'img/security/Politie.png',
                 text: 'Police Department',
                 name: 'Politie',
-                count: P2000.find({'attributes.type': 'politie'}).count()
+                count: P2000.find(lastDaySel({'attributes.type': 'politie'})).count()
             },
             'firedept': {
                 icon: 'img/security/brandweer.png',
                 text: 'Fire Department',
                 name: 'brandweer',
-                count: P2000.find({'attributes.type': 'brandweer'}).count()
+                count: P2000.find(lastDaySel({'attributes.type': 'brandweer'})).count()
             },
             'paramedics': {
                 icon: 'img/security/Ambulance.png',
                 text: 'Paramedics',
                 name: 'Ambulance',
-                count: P2000.find({'attributes.type': 'Ambulance'}).count()
+                count: P2000.find(lastDaySel({'attributes.type': 'Ambulance'})).count()
             },
-            'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot', count: SoundSensor.find({'attributes.type': 'gunshot'}).count()},
-            'stressedvoice': {icon: 'img/security/stressedvoice.png', text: 'Stressed Voice', name: 'stressedvoice', count: SoundSensor.find({'attributes.type': 'stressedvoice'}).count()},
-            'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name:'caralarm', count: SoundSensor.find({'attributes.type': 'caralarm'}).count()},
-            'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', name:'brokenglass', count: SoundSensor.find({'attributes.type': 'brokenglass'}).count()},
+            'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot', count: SoundSensor.find(lastDaySel({'attributes.type': 'gunshot'})).count()},
+            'stressedvoice': {icon: 'img/security/stressedvoice.png', text: 'Stressed Voice', name: 'stressedvoice', count: SoundSensor.find(lastDaySel({'attributes.type': 'stressedvoice'})).count()},
+            'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name:'caralarm', count: SoundSensor.find(lastDaySel({'attributes.type': 'caralarm'})).count()},
+            'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', name:'brokenglass', count: SoundSensor.find(lastDaySel({'attributes.type': 'brokenglass'})).count()},
             'caraccident': {
                 icon: 'img/security/caraccident.png',
                 text: 'Car accident',
                 name:'caraccident',
-                count: SoundSensor.find({'attributes.type': 'caraccident'}).count()
+                count: SoundSensor.find(lastDaySel({'attributes.type': 'caraccident'})).count()
             },
-            'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name:'Gas', count: CriticalEvents.find({'attributes.type': 'Gas'}).count()},
-            'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name:'Smoke', count: CriticalEvents.find({'attributes.type': 'Smoke'}).count()}
+            'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name:'Gas', count: CriticalEvents.find(lastDaySel({'attributes.type': 'Gas'})).count()},
+            'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name:'Smoke', count: CriticalEvents.find(lastDaySel({'attributes.type': 'Smoke'})).count()}
         };
     }
     $scope.autorun(reload)
