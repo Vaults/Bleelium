@@ -11,7 +11,7 @@
 <div class="forecast-main">
     <div class="row-fluid">
         <div class="col-md-2" ng-controller="forecastCtrl"  ng-repeat="fi in forecastInfo" ng-if="$index < 5">
-            <div  class="weather-item">
+            <div  class="weather-item" style="padding: 20px">
                 <h2>{{fi.timestamp * 1000 | date: 'EEEE'}}</h2><!--Calculate from Unix timestamp-->
                 <h4>{{fi.timestamp * 1000| date: 'MMM d'}}</h4><!-- Calc from Unix timestamp-->
                 <img src="{{retIconUrl(fi.icon, 'weather')}}" class="icon"/>
