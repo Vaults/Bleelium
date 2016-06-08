@@ -1,0 +1,54 @@
+<div class="box-container clearfix" ng-controller="indexCtrl">
+    <div class="box" style="border-color: #ea5959">
+        <h2>Parking areas Eindhoven</h2>
+    </div>
+    <div class="box" style="border-color: #eb9860">
+        <div class="weather-item">
+        	<h2>{{weather_name}}</h2>
+        	<h4>{{'Long: '+ weather_longtitude.toFixed(2) + ' &deg;&nbsp;&nbsp;&nbsp;  Lat: ' + weather_latitude.toFixed(2) + ' &deg;'}}</h4>
+        	<img src="{{weather_iconURL}}" class="icon"/>
+        	<h2>{{weather_temperature.toFixed(1)}} &deg;C</h2>
+        	<br>
+        	<div class="clearfix">
+        	    <div class="pull-left">
+                    <h3>{{weather_min.toFixed(0)}} &deg;C</h3>
+                    <p>
+                        min
+                    </p>
+                    <p>
+                        Wind direction: <br>
+                        Air pressure: <br>
+                        Humidity: <br>
+                        Sunrise: <br>
+                        Sunset: <br>
+                    </p>
+        	    </div>
+        	    <div class="pull-right">
+                    <h3>{{weather_max.toFixed(0)}} &deg;C</h3>
+                    <p>
+                        max
+                    </p>
+        	        <p>
+                        {{weather_windDirection}} <img src="img/weather/windDir.png" class="winddirection" style="-ms-transform: rotate({{weather_windDegrees}}deg);-webkit-transform: rotate({{weather_windDegrees}}deg);transform: rotate({{weather_windDegrees}}deg);-webkit-backface-visibility: hidden;"/><br>
+                        {{weather_Airpressure.toFixed(0)}} hPa<br>
+                        {{weather_Humidity.toFixed(0)}} %<br>
+                        {{weather_sunrise * 1000 | date:'HH:mm'}}<br>
+                        {{weather_sunset * 1000 | date:'HH:mm'}}<br>
+                    </p>
+        	    </div>
+        	</div>
+        </div>
+    </div>
+    <div class="box" style="border-color: #52acdb">
+        <h2>Security events past 24 hrs</h2>
+        <div class="security-item clearfix" ng-repeat="type in eventTypes">
+            <div class="pull-left">
+                <img ng-src="{{type.icon}}" class="security-icon" height="50px"/>
+                <p>{{type.text}}</p>
+            </div>
+            <div class="pull-right">
+                <p>{{type.count}}</p>
+            </div>
+        </div>
+    </div>
+</div>

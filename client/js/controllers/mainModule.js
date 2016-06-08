@@ -26,12 +26,16 @@ if (!MAIN_MODULE) {
      */
     MAIN_MODULE.config(function ($stateProvider, $urlRouterProvider) {
         document.title = 'Smart-S';
-        $urlRouterProvider.otherwise('/weather');
+        $urlRouterProvider.otherwise('/');
 
         $stateProvider.state('weather', {
             templateUrl: 'client/ui-view.html',
             controller: 'weatherCtrl'
         })
+            .state('index', {
+                url: '/',
+                templateUrl: 'client/js/directives/index.html'
+            })
             .state('weather.sub', {
                 url: '/weather',
                 templateUrl: 'client/js/directives/infoWeather.html'
@@ -64,6 +68,14 @@ if (!MAIN_MODULE) {
             .state('security.subsound', {
                 url: '/securitySoundEvent',
                 templateUrl: 'client/js/directives/infoSoundEvent.html'
+            })
+            .state('energy', {
+                templateUrl: 'client/ui-view.html',
+                controller: 'energyCtrl'
+            })
+            .state('energy.sub', {
+                url: '/energy',
+                //templateUrl: 'client/js/directives/infoWeather.html'
             });
     });
     /**
@@ -90,7 +102,7 @@ if (!MAIN_MODULE) {
     MAIN_MODULE.controller('navBarCtrl', function ($scope, $location) {
         /**
          * @summary Determine which tab is currently selected
-         * @param {String} path to test current webpage path to 
+         * @param {String} path to test current webpage path to
          * @returns {string} active when path === current page, '' otherwise
          */
         $scope.navClass = function (path) {

@@ -1,0 +1,270 @@
+{
+  "contextElements": [
+    {
+      "type": "ParkingArea",
+      "isPattern": "false",
+      "id": "1",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "value": "Area_1"
+        },
+        {
+          "name": "coord_lon",
+          "type": "float",
+          "value": "5.458417"
+        },
+        {
+          "name": "coord_lat",
+          "type": "float",
+          "value": "51.447905"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "value": "Klokgebouw"
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "value": "1.40|7.00"
+        },
+        {
+          "name": "openingHours",
+          "type": "string",
+          "value": "All day|All day|All day|All day|All day|All day|All day"
+        }
+      ]
+    }
+  ,
+    {
+      "type": "ParkingArea",
+      "isPattern": "false",
+      "id": "2",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "value": "Area_2"
+        },
+        {
+          "name": "coord_lon",
+          "type": "float",
+          "value": "5.460079"
+        },
+        {
+          "name": "coord_lat",
+          "type": "float",
+          "value": "51.446726"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "value": "Philitelaan"
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "value": "1.40|7.00"
+        },
+        {
+          "name": "openingHours",
+          "type": "string",
+          "value": "All day|All day|All day|All day|All day|All day|All day"
+        }
+      ]
+    }
+  ,
+    {
+      "type": "ParkingArea",
+      "isPattern": "false",
+      "id": "3",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "value": "Area_3"
+        },
+        {
+          "name": "coord_lon",
+          "type": "float",
+          "value": "5.452773"
+        },
+        {
+          "name": "coord_lat",
+          "type": "float",
+          "value": "51.448527"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "value": "Strijps bultje"
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "value": "1.40|7.00"
+        },
+        {
+          "name": "openingHours",
+          "type": "string",
+          "value": "All day|All day|All day|All day|All day|All day|All day"
+        }
+      ]
+    }
+  ,
+    {
+      "type": "ParkingArea",
+      "isPattern": "false",
+      "id": "4",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "value": "Area_4"
+        },
+        {
+          "name": "coord_lon",
+          "type": "float",
+          "value": "5.459247"
+        },
+        {
+          "name": "coord_lat",
+          "type": "float",
+          "value": "51.444253"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "value": "Kastanjelaan (South side)"
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "value": "1.40|7.00"
+        },
+        {
+          "name": "openingHours",
+          "type": "string",
+          "value": "All day|All day|All day|All day|All day|All day|All day"
+        }
+      ]
+    }
+  ,
+    {
+      "type": "ParkingArea",
+      "isPattern": "false",
+      "id": "5",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "value": "Area_5"
+        },
+        {
+          "name": "coord_lon",
+          "type": "float",
+          "value": "5.457003"
+        },
+        {
+          "name": "coord_lat",
+          "type": "float",
+          "value": "51.445580"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "value": "Kastanjelaan (North side)"
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "value": "1.40|7.00"
+        },
+        {
+          "name": "openingHours",
+          "type": "string",
+          "value": "All day|All day|All day|All day|All day|All day|All day"
+        }
+      ]
+    }
+  ,
+    {
+      "type": "ParkingArea",
+      "isPattern": "false",
+      "id": "6",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "value": "Area_6"
+        },
+        {
+          "name": "coord_lon",
+          "type": "float",
+          "value": "5.460172"
+        },
+        {
+          "name": "coord_lat",
+          "type": "float",
+          "value": "51.445919"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "value": "Videolab"
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "value": "1.40|7.00"
+        },
+        {
+          "name": "openingHours",
+          "type": "string",
+          "value": "All day|All day|All day|All day|All day|All day|All day"
+        }
+      ]
+    }
+  ,
+    {
+      "type": "ParkingArea",
+      "isPattern": "false",
+      "id": "7",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "value": "Area_7"
+        },
+        {
+          "name": "coord_lon",
+          "type": "float",
+          "value": "5.473666"
+        },
+        {
+          "name": "coord_lat",
+          "type": "float",
+          "value": "51.441640"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "value": "P1 Parking Mathildelaan"
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "value": "2.80|19.50"
+        },
+        {
+          "name": "openingHours",
+          "type": "string",
+          "value": "All day|All day|All day|All day|All day|All day|All day"
+        }
+      ]
+    }
+  ],
+  "updateAction": "APPEND"
+}

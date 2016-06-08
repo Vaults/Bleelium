@@ -1,12 +1,13 @@
 html, body {
   margin: 0;
   height: 100%;
-  font-family: 'Lato', sans-serif;
+  background-color: #f6f6f6;
+  font-family: "Lato", sans-serif;
 }
 
 .button {
   padding: 7px 17px;
-  color: #fff;
+  color: white;
   font-size: 17px;
   border: 0px solid;
   width: 100%;
@@ -16,9 +17,8 @@ html, body {
 .button-red {
   background-color: #ea5959;
 }
-
 .button-red:hover {
-  background-color: #D45A5A;
+  background-color: #d45a5a;
 }
 
 .main {
@@ -42,12 +42,11 @@ html, body {
   position: absolute;
   background-size: cover;
 }
-
 .background .side {
-  background-color: #fff;
+  background-color: white;
   width: 320px;
   height: 100%;
-  color: #000;
+  color: black;
   position: absolute;
   top: 0;
   right: 0;
@@ -55,18 +54,16 @@ html, body {
   font-size: 17px;
   overflow-y: auto;
 }
-
 .background .side h2 {
   font-size: 24px;
   font-weight: 900;
   margin-top: 0;
   margin-bottom: 10px;
 }
-
 .background .side h4 {
   font-size: 17px;
   font-weight: normal;
-  color: #A8A8A8;
+  color: #a8a8a8;
   margin-top: 0;
   margin-bottom: 10px;
 }

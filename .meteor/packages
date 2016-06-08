@@ -29,3 +29,4 @@ urigo:angular-ui-router
 dispatch:mocha-manual				# This one lest to prevent test suite issues
 peerlibrary:xml2js
 muriloventuroso:get-coordinates
+meteorhacks:aggregate
