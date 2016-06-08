@@ -67,7 +67,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         remaining : 'lightGrey'
     }
 
-    /** TODO WHEN DB STRUCTURE IS DONE
+    /** TODO: Make sure this works with the db structure and gets outputed with the html when that's done
      * @summary Updates the scope information to the current selected parking area when a marker is clicked
      * @param event Marker click event
      * @param arg ParkingArea information
@@ -75,11 +75,17 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     var setInfo = function (event, arg) {
         if (arg) {
             $scope.latitude = lodash.round(arg.lat(), 2);
-            $scope.longtitude = lodash.round(arg.lng(), 2);
-
+            $scope.longtitude = lodash.round(arg.lon(), 2);
+            $scope.address = arg.address;
+            $scope.name = arg.name;
+            $scope.openingHours = arg.openingHours;
+            $scope.price = arg.price;
             $scope.$apply();
         }
     };
+
+    /** Call setinfo when it's broadcasted */
+    $scope.$on('setInfo', setInfo);
 
     /**ui
      * @summary Runs whenever Parking settings are updated. Pulls Parking events and updates all UI elements
