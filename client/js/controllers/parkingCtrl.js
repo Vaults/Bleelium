@@ -24,15 +24,9 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         parkingArea(){
             /*console.log(ParkingArea.find({}))*/
             return ParkingArea.find({});
-        },
-        parkingLot(){
-            return ParkingLot.find({});
-        },
-        parkingSpace(){
-            return ParkingSpace.find({});
         }
     });
-    
+
     /** Create a google map and adjust the view to Strijp-S*/
     $scope.map = {
         center: {
@@ -80,11 +74,11 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     }
 
     /** TODO WHEN DB STRUCTURE IS DONE
-     * @summary Updates the scope information to the selected Parking Area when a marker is clicked
+     * @summary Updates the scope information to the current selected parking area when a marker is clicked
      * @param event Marker click event
      * @param arg ParkingArea information
      */
-    var setInfo = function (event, arg) {
+    var setInfo = function (event, arg) { //Updates scope to the current selected parking area
         if (arg) {
             $scope.latitude = lodash.round(arg.lat(), 2);
             $scope.longtitude = lodash.round(arg.lng(), 2);
