@@ -1,4 +1,26 @@
 /**
+ * @summary Checks whether an object has identical keys and values (deep)
+ * @param a -object
+ * @param b -object to be checked
+ * @returns boolean
+ */
+var isEqual = function (a, b) {
+    var checkObj = function (a, b) {
+        var res = true;
+        for (key in a) {
+            if (!(typeof a[key] === 'object')) {
+                res = res && a[key] === b[key];
+            } else {
+                res = res && checkObj(a[key], b[key]);
+            }
+        }
+        return res;
+    }
+    return checkObj(a, b) && checkObj(b, a);
+}
+
+
+/**
  * @summary Rewrites the attribute format of Orion into key = value
  * @param {array} attr - Atribute object from Orion
  * @returns {array} Rewritten attribute as key=value
@@ -59,14 +81,14 @@ var handleError = function (c) {
  */
 var numToObj = function (o) {
     var tempobj = {forecast: {}};
-    for(key in o){
+    for (key in o) {
         var fc = key.split('-')[0];
         if (fc >= 0 && fc <= 99) {
             if (!tempobj.forecast['day' + fc]) {
                 tempobj.forecast['day' + fc] = {}
             }
             tempobj.forecast['day' + fc][key.split('-')[1]] = o[key];
-        }else{
+        } else {
             tempobj[key] = o[key];
         }
     }
@@ -86,4 +108,4 @@ var rewriteNumbersToObjects = function (obj) {
 }
 
 //exports for tests
-export{attributesToKeyValue, rewriteAttributes, handleError, numToObj, rewriteNumbersToObjects}
+export{attributesToKeyValue, rewriteAttributes, handleError, numToObj, rewriteNumbersToObjects, isEqual}

@@ -29,11 +29,13 @@ var ParkingSpacePull = {
             //collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
         }
         for(key in update){
-            var lot = collectionWrapper['ParkingLot'].findOne({_id: key});
-            lot.parkingSpaces = update[key];
-            var mod = {$set:{}};
-            mod['$set']['parkingLots.'+lot._id] = lot;
-            collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
+            var lot = collectionWrapper['ParkingLot'].findOne({_id: key});;
+            if(!lodash.isEqual(lot.parkingSpaces, update[key])){
+                lot.parkingSpaces = update[key];
+                var mod = {$set: {}};
+                mod['$set']['parkingLots.' + lot._id] = lot;
+                collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
+            }
         }
     }
 };
