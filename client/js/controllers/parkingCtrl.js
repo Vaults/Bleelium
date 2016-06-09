@@ -74,12 +74,16 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      */
     var setInfo = function (event, arg) {
         if (arg) {
-            $scope.latitude = lodash.round(arg.lat(), 2);
-            $scope.longtitude = lodash.round(arg.lon(), 2);
-            $scope.address = arg.address;
-            $scope.name = arg.name;
-            $scope.openingHours = arg.openingHours;
-            $scope.price = arg.price;
+            $scope.latitude = lodash.round(arg.lat, 2);
+            $scope.longtitude = lodash.round(arg.lon, 2);
+            $scope.address = arg.address; //parking address name
+            var d = new Date(); //get the date
+            var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; //define days
+            $scope.day = weekday[d.getDay()]; //day of the week
+            $scope.openingHours = arg.openingHours.split("|")[d.getDay()]; //get the opening hours for the current day
+            var price = arg.price.split("_"); //splits the price entry to the hourly and daily prices
+            $scope.pricehour = price[0]; //hourly fee
+            $scope.priceday = price[1]; //daily fee
             $scope.$apply();
         }
     };
@@ -104,9 +108,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                     options: {
                         draggable: false,
                         icon: IconService.createMarkerIcon('Parking', 'parking'),
-                        type: currentMarker.type,
                         address: currentMarker.address,
-                        name: currentMarker.name,
                         openingHours: currentMarker.openingHours,
                         price: currentMarker.price
                     },
@@ -114,10 +116,6 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                         click: (marker, eventName, args) => {
                             /** Set global variable to current parkingArea for use from other controllers */
                             $rootScope.$broadcast('setInfo', marker);
-                        },
-                        dragend: (marker, eventName, args) => {
-                            this.setLocation(marker.getPosition().lat(), marker.getPosition().lon());
-                            $scope.$apply();
                         }
                     },
                     location: {
