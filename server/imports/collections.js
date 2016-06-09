@@ -43,6 +43,9 @@ Meteor.publish('soundSensorPub', function soundSensorPub() {
  */
 var ParkingArea = new Mongo.Collection('ParkingArea');
 var ParkingLot = new Mongo.Collection('ParkingLot');
+Meteor.publish('parkingAreaPub', function parkingAreaPub() {
+    return ParkingArea.find({});
+});
 
 /**
  * @summary The array to map collections to variables
