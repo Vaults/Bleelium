@@ -32,3 +32,26 @@
   line-height: 50px;
   font-weight: normal;
 }
+
+.index-parking h4 {
+  font-size: 17px;
+  font-weight: normal;
+  color: #a8a8a8;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.index-parking p {
+  font-size: 17px;
+  display: inline;
+  margin-left: 15px;
+  line-height: 50px;
+  font-weight: normal;
+}
+.index-parking .pc-container {
+  width: 75%;
+  margin: 15px auto;
+}
+.index-parking .pc-container .pc-border {
+  background-color: #ea5959 !important;
+}

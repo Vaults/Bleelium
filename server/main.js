@@ -14,10 +14,11 @@ var initPulls = function(){
 	reloadPull(gasSensorPull.name, gasSensorPull.args, gasSensorPull.f );
     reloadPull(smokeSensorPull.name, smokeSensorPull.args, smokeSensorPull.f );
 	reloadPull(SoundDataPull.name, SoundDataPull.args, SoundDataPull.f );
+
+
 	reloadPull(ParkingAreaPull.name, ParkingAreaPull.args, ParkingAreaPull.f );
-	reloadPull(ParkingLotPull.name, ParkingLotPull.args, ParkingLotPull.f );
-	//reloadPull(ParkingSpacePull.name, ParkingSpacePull.args, ParkingSpacePull.f );
-}
+
+};
 
 /**
  * @summary Starts the cronjob and the pulls

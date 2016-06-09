@@ -187,6 +187,23 @@ if (!MAIN_MODULE) {
             return parseFloat(string).toFixed();
         }
     });
+    /**
+     * @summary caches data, and queues calls of aggregateparking
+     */
+    MAIN_MODULE.factory('aggregateParking', function(){
+        var data = { spaces: { '0': 240, '1': 120, '2': 498, total: 858 },occupied: { '0': 120, '1': 61, '2': 243, total: 424 } };
+        var flag = false;
+        return function() {
+            if(!flag){
+                flag = true;
+                Meteor.call('aggregateParking', function(e, r){
+                    data = r;
+                    flag = false;
+                })
+            }
+            return data;
+        }
+    })
 }
 
 export {MAIN_MODULE}

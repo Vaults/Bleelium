@@ -1,18 +1,20 @@
 import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
-/**
- * @summary controller that takes care of the index
- */
-MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
+
+MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateParking) {
     $meteor.subscribe('weatherPub');
     $meteor.subscribe('P2000Pub');
     $meteor.subscribe('soundSensorPub');
     $meteor.subscribe('criticalEventsPub');
+    $meteor.subscribe('parkingAreaPub');
 
     $scope.helpers({	//Scope helpers to get from Meteor collections
         weatherStations(){
             return WeatherStations.find({});
+        },
+        parkingArea(){
+            return ParkingArea.find({});
         }
     });
     /**
@@ -34,7 +36,6 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
      * @param arg WeatherStation information
      */
     var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
-        console.log(arg);
         if (arg) {
             var loc = $scope.findWeatherStationInfo(arg);
             $scope.weather_loc = arg;
@@ -80,6 +81,8 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
      * @summary Runs whenever weatherstation collection is updated. Pulls weatherstations and updates UI elements accordingly
      */
     var reload = function () {
+        console.log($scope.getReactively('parkingArea'));
+        console.log($scope.parkingArea);
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
                 var temp = {
@@ -95,10 +98,16 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
         }
         var lastDaySel = function(sel){
             var time = new Date().getTime() - 24*60*60*1000;
-            console.log(time);
             sel['attributes.dt'] = {$gte: time+''};
             return sel;
         };
+
+        var result = aggregateParking();
+        $scope.spaces = result.spaces;
+        $scope.occupied = result.occupied;
+        $scope.percent = (result.occupied.total/result.spaces.total)*100;
+
+
 
         $scope.eventTypes = {
             'policedept': {

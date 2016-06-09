@@ -2,7 +2,7 @@ import { assert } from 'meteor/practicalmeteor:chai';
 import { expect } from 'meteor/practicalmeteor:chai';
 
 //to be tested functions
-import {attributesToKeyValue, rewriteAttributes, handleError, numToObj, rewriteNumbersToObjects} from '/server/imports/util.js';
+import {attributesToKeyValue, rewriteAttributes, handleError, numToObj, rewriteNumbersToObjects, isEqual} from '/server/imports/util.js';
 describe('attributesToKeyValue()', function(){
 	it('Simple Orion Object', function(){
         var orObj = [
@@ -195,3 +195,18 @@ describe('rewriteNumbersToObjects()', function () {
         assert.equal(Object.keys(convObjAttr.forecast).length, 2);
     });
 });
+describe('isEqual', function(){
+    it('simple obj', function(){
+        assert.isTrue(isEqual({"a":"B"}, {"a":"B"}));
+    });
+    it('simple nested obj', function(){
+        assert.isTrue(isEqual({"a":"B", "b":{"x":"y"}}, {"a":"B", "b":{"x":"y"}}));
+    });
+    it('simple faulty nested obj', function(){
+        assert.isFalse(isEqual({"a":"B", "b":{"A":"y"}}, {"a":"B", "b":{"x":"y"}}));
+    });
+    it('more nested obj', function(){
+        assert.isTrue(isEqual({"a":"B", "b":{"x":"y", "a":{"a":3, "B":{x:123808123}}}}, {"a":"B", "b":{"x":"y", "a":{"a":3, "B":{x:123808123}}}}));
+    });
+
+})
