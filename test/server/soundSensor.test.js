@@ -2,11 +2,12 @@ import { expect, assert } from 'meteor/practicalmeteor:chai';
 
 //to be tested functions
 import {SoundDataPull} from '/server/soundSensor.js';
+import {pull} from '/server/imports/orionAPI.js'
 
-describe('gasSensorPull and smokeSensorPull and criticalEventPush()', function(){
+describe('soundSensorPull', function(){
     it('Should not return error', function() {
         expect(function(){
-            var test1 = SoundDataPull;
+            pull(SoundDataPull.name,SoundDataPull.args,SoundDataPull.f);
         }).to.not.throw();
     });
 });
