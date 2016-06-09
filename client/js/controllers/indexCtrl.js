@@ -2,7 +2,7 @@ import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
 
-MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
+MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateParking) {
     $meteor.subscribe('weatherPub');
     $meteor.subscribe('P2000Pub');
     $meteor.subscribe('soundSensorPub');
@@ -102,11 +102,10 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
             return sel;
         };
 
-        Meteor.call('aggregateParking', function(error, result){
-                $scope.spaces = result.spaces;
-                $scope.occupied = result.occupied;
-                $scope.percent = (result.occupied.total/result.spaces.total)*100;
-            })
+        var result = aggregateParking();
+        $scope.spaces = result.spaces;
+        $scope.occupied = result.occupied;
+        $scope.percent = (result.occupied.total/result.spaces.total)*100;
 
 
 

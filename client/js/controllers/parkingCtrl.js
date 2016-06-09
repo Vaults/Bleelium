@@ -12,7 +12,7 @@ ParkingArea = new Mongo.Collection('ParkingArea');
  * @param IconService is used to set the marker icon
  */
 //
-MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService) {
+MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking) {
     /** Attach this to the scope */
     $reactive(this).attach($scope);
 
@@ -89,13 +89,10 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
 
-            Meteor.call('aggregateParking', function(error, result){
-                if(error !== null) {
-                    $scope.capacity = result['spaces'][arg.index]; //get the amount of parking spaces for this parking area
-                    $scope.occupied = result['occupied'][arg.index]; //get current occupancy number for this parking area
-                    $scope.percent = ($scope.occupied/$scope.capacity)*100;
-                }
-            })
+            var result = aggregateParking();
+            $scope.capacity = result['spaces'][arg.index]; //get the amount of parking spaces for this parking area
+            $scope.occupied = result['occupied'][arg.index]; //get current occupancy number for this parking area
+            $scope.percent = ($scope.occupied/$scope.capacity)*100
             $scope.$apply();
         }
     };
