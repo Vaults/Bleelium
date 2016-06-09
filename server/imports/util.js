@@ -6,12 +6,19 @@
  */
 var isEqual = function (a, b) {
     var checkObj = function (a, b) {
+        if(!(a && b)){
+            return false;
+        }
         var res = true;
         for (key in a) {
             if (!(typeof a[key] === 'object')) {
                 res = res && a[key] === b[key];
             } else {
-                res = res && checkObj(a[key], b[key]);
+                if(a[key] && b[key]) {
+                    res = res && checkObj(a[key], b[key]);
+                }else{
+                    res = false;
+                }
             }
         }
         return res;

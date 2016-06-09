@@ -4,7 +4,7 @@
 import {HTTP} from 'meteor/http';
 import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
-import {rewriteAttributes, handleError} from '/server/imports/util.js';
+import {rewriteAttributes, handleError, isEqual} from '/server/imports/util.js';
 import {pull} from '/server/imports/orionAPI.js';
 
 
@@ -18,7 +18,6 @@ var ParkingSpacePull = {
     args: '?orderBy=!publish_date&limit=1000',
     f: function (args) {
         response = rewriteAttributes(args);
-        var mod = {$set: {}}
         var update = {}; //{"0": {mod:{}}}
         for (item in args.data.contextResponses) {
             space = args.data.contextResponses[item].contextElement;
@@ -26,14 +25,18 @@ var ParkingSpacePull = {
                 update[space.attributes.lotId] = [];
             }
             update[space.attributes.lotId].push(space);
-            //collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
         }
         for(key in update){
-            var lot = collectionWrapper['ParkingLot'].findOne({_id: key});;
-            if(!lodash.isEqual(lot.parkingSpaces, update[key])){
+            var lot = collectionWrapper['ParkingLot'].findOne({_id: key});
+            if(!isEqual(lot.parkingSpaces, update[key])){
                 lot.parkingSpaces = update[key];
+                collectionWrapper['ParkingLot'].upsert({_id:key}, {$set: lot});
+                console.log('---');
+                console.log(lot.parkingSpaces.length);
+                console.log(update[key].length);
+                console.log('---')
                 var mod = {$set: {}};
-                mod['$set']['parkingLots.' + lot._id] = lot;
+                mod['$set']['parkingLots.' + key] = lot;
                 collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
             }
         }
@@ -54,12 +57,12 @@ var ParkingLotPull = {
         }
 
         pull(ParkingSpacePull.name, ParkingSpacePull.args, ParkingSpacePull.f );
-
-        for (item in args.data.contextResponses) {
-            obj = args.data.contextResponses[item].contextElement;
+        var lots =  collectionWrapper['ParkingLot'].find().fetch();
+        for (lotKey in lots) {
+            var lot = lots[lotKey];
             var mod = {$set: {}}
-            mod['$set']["parkingLots." + obj._id] = obj;
-            collectionWrapper['ParkingArea'].update({_id: obj.attributes.garageId}, mod);
+            mod['$set']["parkingLots." + lot._id] = lot;
+            collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
         }
     }
 };
