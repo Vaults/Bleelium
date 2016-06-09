@@ -18,14 +18,21 @@ var ParkingSpacePull = {
     args: '?orderBy=!publish_date&limit=1000',
     f: function (args) {
         response = rewriteAttributes(args);
-
+        var mod = {$set: {}}
+        var update = {}; //{"0": {mod:{}}}
         for (item in args.data.contextResponses) {
             space = args.data.contextResponses[item].contextElement;
-            var mod = {$set: {}}
-            mod['$set']["parkingLots." + space.attributes.lotId + ".parkingSpaces." + space._id] = space;
-            var lot = collectionWrapper['ParkingLot'].findOne({_id: space.attributes.lotId});
-            if(!lot){console.log(space.attributes.lotId)
-            console.log(collectionWrapper['ParkingLot'].find({}).fetch())};
+            if(!update[space.attributes.lotId]) {
+                update[space.attributes.lotId] = [];
+            }
+            update[space.attributes.lotId].push(space);
+            //collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
+        }
+        for(key in update){
+            var lot = collectionWrapper['ParkingLot'].findOne({_id: key});
+            lot.parkingSpaces = update[key];
+            var mod = {$set:{}};
+            mod['$set']['parkingLots.'+lot._id] = lot;
             collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
         }
     }
@@ -44,13 +51,14 @@ var ParkingLotPull = {
             collectionWrapper['ParkingLot'].upsert({_id: obj._id}, {$set: obj});
         }
 
+        pull(ParkingSpacePull.name, ParkingSpacePull.args, ParkingSpacePull.f );
+
         for (item in args.data.contextResponses) {
             obj = args.data.contextResponses[item].contextElement;
             var mod = {$set: {}}
             mod['$set']["parkingLots." + obj._id] = obj;
             collectionWrapper['ParkingArea'].update({_id: obj.attributes.garageId}, mod);
         }
-        pull(ParkingSpacePull.name, ParkingSpacePull.args, ParkingSpacePull.f );
     }
 };
 
