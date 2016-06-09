@@ -129,5 +129,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     }
     $scope.autorun(reload);
-    
+
 });
+
+export{ParkingArea}

@@ -59,6 +59,9 @@ var gasSensorPull = {
                 var ins = {type: "Gas", coord_lng: lodash.round(obj.coord_lon, 5), coord_lat: lodash.round(obj.coord_lat,5), dt: obj.updated_at + '000', gases: gases, description: obj.description};
                 criticalEventPush(o, {attributes: ins});
             }
+			else {
+				collectionWrapper['criticalEvents'].remove({"_id":o.contextElement.type + o.contextElement._id});
+			}
 		});
 	}
 }
@@ -78,6 +81,9 @@ var smokeSensorPull = {
                     var ins = {type: "Smoke", coord_lng: lodash.round(obj.coord_lon,5), coord_lat: lodash.round(obj.coord_lat,5), dt: obj.updated_at + '000', smoke: obj.smoke, description: obj.description};
                     criticalEventPush(o, {attributes: ins});
             }
+			else {
+				collectionWrapper['criticalEvents'].remove({"_id":o.contextElement.type + o.contextElement._id});
+			}
 		});
 	}
 }
