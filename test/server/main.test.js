@@ -9,18 +9,20 @@ import {SoundDataPull} from "/server/soundSensor.js";
 import {initPulls} from '/server/main.js';
 import {dataWeatherMap} from '/server/weather.js';
 import {bounds, gasSensorPull, smokeSensorPull} from '/server/criticalEvents.js';
-import {ParkingAreaPull} from "/server/parking.js";
+import {ParkingAreaPull, countParking} from "/server/parking.js";
 
 
 describe('initPulls()', function(done) {
-	before(function(){
+	before(function(done){
+        this.timeout(30000);
         collectionWrapper["P2000"].remove({});
         collectionWrapper["ParkingArea"].remove({});
         collectionWrapper["ParkingLot"].remove({});
         collectionWrapper["WeatherStation"].remove({});
         collectionWrapper["criticalEvents"].remove({});
         collectionWrapper["SoundSensor"].remove({});
-		initPulls();
+        initPulls();
+        Meteor.setTimeout(function(){done()}, 25000);
 	});
 	it('adds all weatherstations to the database and not any more', function(done){
 		//var len = Object.keys(dataWeatherMap).length;
@@ -91,6 +93,14 @@ describe('initPulls()', function(done) {
                 assert.equal(collectionWrapper['ParkingArea'].find().count(), response.data.contextResponses.length);
                 done();
             }));
+        }, 1000);
+    });
+    it('Counts occupancy properly', function(done){
+        Meteor.setTimeout(function(){
+            var res = countParking();
+            var comp = { spaces: { '0': 240, '1': 120, '2': 498, total: 858 },occupied: { '0': 120, '1': 61, '2': 243, total: 424 } };
+            assert.isTrue(lodash.isEqual(res,comp));
+            done();
         }, 1000);
     });
 	after(function(){

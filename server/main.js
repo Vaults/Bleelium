@@ -17,8 +17,7 @@ var initPulls = function(){
 
 
 	reloadPull(ParkingAreaPull.name, ParkingAreaPull.args, ParkingAreaPull.f );
-	reloadPull(ParkingLotPull.name, ParkingLotPull.args, ParkingLotPull.f );
-	reloadPull(ParkingSpacePull.name, ParkingSpacePull.args, ParkingSpacePull.f );
+
 };
 
 /**
