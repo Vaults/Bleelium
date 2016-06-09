@@ -65,17 +65,38 @@ var ParkingSpacePull = {
 };
 
 Meteor.methods({
+    /**
+     * TODO: MORE DOCUMENTATION ON THIS ONE
+     * @summary Returns aggregation object of the parking data. This is normally done in MongoDB's aggregation pipeline.
+     * However, because of restrictions with Orion, we chose a key-value structure and this is not supported by MongoDB.
+     * --COUNT SPACES PER AREA
+     * --COUNT OCCUPIED SPACES PER AREA
+     * --PERCENTAGE GLOBAL FREE SPACES
+     * @returns {string}
+     */
     'aggregateParking'(){
-        return 'ayyy';
+        var parkingAreas = collectionWrapper['ParkingArea'].find().fetch();
+        var spaceCounts = {total: 0};
+        var occupiedCounts = {total: 0};
+        for(areaKey in parkingAreas){
+            var area = parkingAreas[areaKey];
+            spaceCounts[areaKey] = 0;
+            occupiedCounts[areaKey] = 0;
+            for(lotKey in area.parkingLots){
+                var lot = area.parkingLots[lotKey];
+                for(spaceKey in lot.parkingSpaces){
+                    var space = lot.parkingSpaces[spaceKey];
+                    if(space.attributes.occupied === "true"){
+                        occupiedCounts[areaKey] ++;
+                        occupiedCounts['total'] ++;
+                    }
+                    spaceCounts[areaKey] ++;
+                    spaceCounts['total'] ++;space
+                }
+            }
+        }
+        return {spaces: spaceCounts, occupied: occupiedCounts};
     }
 })
-Meteor.call('aggregateParking', function(e, r){
-   //console.log(r);
-});
-// for (space in parkingSpace) {
-//     var mod = {$set: {}}
-//     mod['$set']["parkingLots." + parkingSpace[space].contextElement.attributes.lotId + ".parkingSpaces." + parkingSpace[space].contextElement._id] = parkingSpace[space].contextElement;
-//     var lot = collectionWrapper['parkingArea'].find({_id: parkingSpace[space].contextElement._id});
-//     collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
 
 export {ParkingAreaPull, ParkingLotPull, ParkingSpacePull}
