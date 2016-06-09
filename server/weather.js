@@ -210,7 +210,7 @@ var pushForecastToOrion = function(){
 SyncedCron.add({
 	name: 'Pushing weather to Orion',
 	schedule: function (parser) {
-		return parser.text('every 30 minutes');
+		return parser.text('every 10 minutes');
 	},
 	job: pushWeatherToOrion
 });
