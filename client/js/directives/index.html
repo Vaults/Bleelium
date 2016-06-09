@@ -1,6 +1,21 @@
 <div class="box-container clearfix" ng-controller="indexCtrl">
     <div class="box" style="border-color: #ea5959">
-        <h2>Parking areas Eindhoven</h2>
+        <div class="index-parking">
+            <h2>Parking spots in Eindhoven</h2>
+            <h4>{{occupied.total}}/{{spaces.total}}</h4>
+            <percent-circle percent="percent" colors="color"></percent-circle>
+            {{parkingAreas}}
+            <div class="pull-left">
+                <div ng-repeat="occupie in occupied">
+                {{occupie}} <br>
+                </div>
+            </div>
+            <div class="pull-right">
+                <div ng-repeat="(key, value) in spaces">
+                    <p ng-if="key >= 0">{{occupied[key]}} / {{spaces[key]}}</p>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="box" style="border-color: #eb9860">
         <div class="weather-item">
