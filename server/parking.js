@@ -64,6 +64,14 @@ var ParkingSpacePull = {
     }
 };
 
+Meteor.methods({
+    'aggregateParking'(){
+        return 'ayyy';
+    }
+})
+Meteor.call('aggregateParking', function(e, r){
+   //console.log(r);
+});
 // for (space in parkingSpace) {
 //     var mod = {$set: {}}
 //     mod['$set']["parkingLots." + parkingSpace[space].contextElement.attributes.lotId + ".parkingSpaces." + parkingSpace[space].contextElement._id] = parkingSpace[space].contextElement;

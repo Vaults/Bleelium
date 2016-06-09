@@ -4,6 +4,7 @@ import {MAIN_MODULE} from  './mainModule.js';
 /**
  * @summary controller that takes care of the index
  */
+
 MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
     $meteor.subscribe('weatherPub');
     $meteor.subscribe('P2000Pub');
@@ -104,12 +105,6 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
             return sel;
         };
 
-        var result = new Mongo.Collection('metrics');
-        var metrics = new Mongo.Collection('metrics');
-        var pipeline = [
-            {$group: {_id: null, resTime: {$sum: "$resTime"}}}
-        ];
-        var result = metrics.aggregate(pipeline, {explain: true});
 
         $scope.eventTypes = {
             'policedept': {
