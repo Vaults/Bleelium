@@ -1,7 +1,7 @@
 .parking-item h2 {
     font-size: 24px;
     font-weight: 900;
-    margin-top: 0;
+    margin-top: 10;
     text-align: center;
     margin-bottom: 10px;
 }
@@ -15,12 +15,12 @@
 
 .parking-item .pull-right {
     text-align: right;
-    display: inline;
 }
 
 .pc-container {
     position: relative;
-    width: 100%;
+    width: 80%;
+    margin: auto;
 }
 
 .pc-border {
