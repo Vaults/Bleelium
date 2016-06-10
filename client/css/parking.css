@@ -15,6 +15,7 @@
 
 .parking-item .pull-right {
     text-align: right;
+    display: inline;
 }
 
 .pc-container {
