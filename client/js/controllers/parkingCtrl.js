@@ -79,6 +79,23 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     /** Call setinfo when it's broadcasted */
     $scope.$on('setInfo', setInfo);
 
+    /**
+     * @summary set color of each parking space according to occupied attr
+     * @param parkingSpaces set of all parkingspaces for current lot
+     */
+    var setParkingImage = function(parkingSpaces) {
+        //For each full parking space, set the svg's color to red, otherwise green
+        for (var i = 0; i < parkingSpaces.length; i++){
+            var thisSpace = angular.getElementById("ParkingSpace-"+(i+1));
+            if(parkingSpace.occupied){
+                thisSpace.attr('color', '#ff0000');
+            }
+            else {
+                thisSpace.attr('color', '#00ff00');
+            }
+        }
+    };
+
     /**ui
      * @summary Runs whenever Parking settings are updated. Pulls Parking events and updates all UI elements
      */
