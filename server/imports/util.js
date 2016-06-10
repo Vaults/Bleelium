@@ -1,9 +1,8 @@
 /**
- * TODO: MORE DOCS
- * @summary Checks whether an object has identical keys and values (deep)
- * @param a -object
- * @param b -object to be checked
- * @returns boolean
+ * @summary Checks whether an object has identical keys and values (deep), key order has no influence.
+ * @param a JS-object
+ * @param b JS-object to be checked
+ * @returns true if object is equal (deep equal), false if not.
  */
 var isEqual = function (a, b) {
     var checkObj = function (a, b) {
@@ -14,7 +13,7 @@ var isEqual = function (a, b) {
         for (key in a) {
             if (!(typeof a[key] === 'object' || Array.isArray(a[key]))) {
                 res = res && a[key] === b[key];
-            }  else {
+            } else {
                 if(a[key] && b[key]) {
                     res = res && checkObj(a[key], b[key]);
                 }else{

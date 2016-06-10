@@ -1,8 +1,3 @@
-/**
- * Created by s126763 on 7-6-2016.
- */
-import {HTTP} from 'meteor/http';
-import {postOrionData} from '/server/imports/orionAPI.js';
 import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes, handleError, isEqual} from '/server/imports/util.js';
 import {pull} from '/server/imports/orionAPI.js';
@@ -11,7 +6,7 @@ import {pull} from '/server/imports/orionAPI.js';
 
 /**
  * @summary Defines the variables for the ParkingSpacePull, containing the name, arguments and the callback function.
- * @var {array} - ParkingSpacePull
+ * @var {array} - ParkingSpacePull, used for requesting Orion data.
  */
 var ParkingSpacePull = {
     name: 'ParkingSpace',
@@ -40,7 +35,7 @@ var ParkingSpacePull = {
 };
 /**
  * @summary Defines the variables for the ParkingLotPull, containing the name, arguments and the callback function.
- * @var {array} - ParkingLotPull
+ * @var {array} - ParkingLotPull, used for requesting Orion data.
  */
 var ParkingLotPull = {
     name: 'ParkingLot',
@@ -80,13 +75,12 @@ var ParkingAreaPull = {
     }
 };
 /**
- * TODO: MORE DOCUMENTATION ON THIS ONE
  * @summary Returns aggregation object of the parking data. This is normally done in MongoDB's aggregation pipeline.
  * However, because of restrictions with Orion, we chose a key-value structure and this is not supported by MongoDB.
- * --COUNT SPACES PER AREA
- * --COUNT OCCUPIED SPACES PER AREA
- * --PERCENTAGE GLOBAL FREE SPACES
- * @returns {string}
+ * Function counts all parkingSpaces in a parkingArea
+ * Function counts all occupied parkingSpaces in a parkingArea
+ * Used to calculate percentages of occupied spaces
+ * @returns JS-object with information about total and occupied parkingSpaces
  */
 var countParking = function() {
     var parkingAreas = collectionWrapper['ParkingArea'].find().fetch();
