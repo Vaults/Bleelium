@@ -71,7 +71,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
-            
+            setParkingImage(arg.lots[1].parkingSpaces)
             $scope.$apply();
         }
     };
@@ -84,14 +84,17 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      * @param parkingSpaces set of all parkingspaces for current lot
      */
     var setParkingImage = function(parkingSpaces) {
+        angular.element("ParkingSpace-1").attr('style', 'fill:#ffff0e;fill-opacity:1;stroke:none');
         //For each full parking space, set the svg's color to red, otherwise green
         for (var i = 0; i < parkingSpaces.length; i++){
-            var thisSpace = angular.getElementById("ParkingSpace-"+(i+1));
-            if(parkingSpace.occupied){
-                thisSpace.attr('color', '#ff0000');
+            var thisSpace = angular.element("ParkingSpace-"+(i+1));
+            console.log(thisSpace);
+            console.log(parkingSpaces[i].attributes.occupied);
+            if(parkingSpaces[i].attributes.occupied === "true"){
+                thisSpace.attr('style', 'fill:#ff0e0e;fill-opacity:1;stroke:none');
             }
             else {
-                thisSpace.attr('color', '#00ff00');
+                thisSpace.attr('style', 'fill:#0eff0e;fill-opacity:1;stroke:none');
             }
         }
     };
@@ -101,7 +104,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      */
     var reload = function () {
         var parkingAreas= $scope.getReactively('parkingArea');
-        
+
         /** Remove old markers */
         $scope.markers = [];
 
@@ -116,7 +119,8 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                         address: currentMarker.address,
                         openingHours: currentMarker.openingHours,
                         price: currentMarker.price,
-                        index: parkingAreas[i]._id
+                        index: parkingAreas[i]._id,
+                        lots: parkingAreas[i].parkingLots
                     },
                     events: {
                         click: (marker, eventName, args) => {
