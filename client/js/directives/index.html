@@ -4,13 +4,12 @@
             <h2>Parking spots in Eindhoven</h2>
             <h4>{{occupied.total}}/{{spaces.total}}</h4>
             <percent-circle percent="percent" colors="color"></percent-circle>
-            {{parkingAreas}}
-            <div class="pull-left">
-                <div ng-repeat="occupie in occupied">
-                {{occupie}} <br>
+            <div class="pull-left" style="text-align: left">
+                <div ng-repeat="area in parkingArea">
+                    <p>{{area.attributes.address}} </p>
                 </div>
             </div>
-            <div class="pull-right">
+            <div class="pull-right" style="text-align: right">
                 <div ng-repeat="(key, value) in spaces">
                     <p ng-if="key >= 0">{{occupied[key]}} / {{spaces[key]}}</p>
                 </div>

@@ -82,7 +82,6 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
      */
     var reload = function () {
         console.log($scope.getReactively('parkingArea'));
-        console.log($scope.parkingArea);
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
                 var temp = {
