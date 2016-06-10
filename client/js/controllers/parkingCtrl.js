@@ -10,10 +10,10 @@ ParkingArea = new Mongo.Collection('ParkingArea');
  * @param $reactive Angular reactive component
  * @param $rootScope Angular root scope
  * @param IconService is used to set the marker icon
+ * @param aggregateParking is used for the parking space aggregation to get the occupancy values
  */
-//
 MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking) {
-    /** Attach this to the scope */
+    /** Make scope reactive scope */
     $reactive(this).attach($scope);
 
     /** Subscribe parking data from server */
@@ -22,7 +22,6 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     /** Scope helpers to get from Meteor collections */
     $scope.helpers({
         parkingArea(){
-            /*console.log(ParkingArea.find({}))*/
             return ParkingArea.find({});
         }
     });
@@ -39,23 +38,26 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     };
 
-    /** Function that changes the freeColor when the percentage changes
+    $scope.percent=10;
+
+    /** Function that changes the freeColor in the percentage circle when the percentage changes
      * @var {string} changeColor
      */
     var changeColor = function() {
-        if ($scope.occupied <= $scope.capacity) {
-            if ($scope.occupied <= Math.round($scope.capacity / 2)) {
+        if ($scope.percent <= 100) {
+            if ($scope.percent <= 50) {
                 $scope.freeColor = 'green';
             }
-            else if ($scope.occupied > Math.round($scope.capacity / 2) && $scope.occupied != $scope.capacity) {
+            else if ($scope.percent > 50 && $scope.percent < 100) {
                 $scope.freeColor = 'orange';
             }
             else {
                 $scope.freeColor = 'red';
             }
         }
+        console.log($scope.percent);
     }
-    $scope.autorun(changeColor);
+    //$scope.autorun(changeColor);
 
     /** Defines the colors of percentage circle */
     $scope.color = {
@@ -71,7 +73,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     })
 
-    /** TODO: Make sure this works with the db structure and gets outputed with the html when that's done
+    /**
      * @summary Updates the scope information to the current selected parking area when a marker is clicked
      * @param event Marker click event
      * @param arg ParkingArea information
@@ -92,7 +94,8 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             var result = aggregateParking();
             $scope.capacity = result['spaces'][arg.index]; //get the amount of parking spaces for this parking area
             $scope.occupied = result['occupied'][arg.index]; //get current occupancy number for this parking area
-            $scope.percent = ($scope.occupied/$scope.capacity)*100
+            $scope.percent = Math.round(($scope.occupied/$scope.capacity)*100); //update current occupancy percentage
+            $scope.autorun(changeColor);
             $scope.$apply();
         }
     };
@@ -105,7 +108,6 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      */
     var reload = function () {
         var parkingAreas= $scope.getReactively('parkingArea');
-
         /** Remove old markers */
         $scope.markers = [];
 
@@ -139,4 +141,5 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     }
     $scope.autorun(reload);
+    $scope.$watch('percent', reload);
 });
