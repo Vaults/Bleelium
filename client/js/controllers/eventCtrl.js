@@ -6,6 +6,11 @@ import {MAIN_MODULE} from  './mainModule.js';
 
 /**
  * @summary Takes care of critical event pop-ups on any page
+ * @param $scope Angular scope
+ * @param $meteor Angular meteor handle
+ * @param $reactive Angular reactive component
+ * @param $rootScope Angular root scope
+ * @param $state stores the current state of the system
  */
 MAIN_MODULE.controller('eventCtrl', function ($state, $scope, $meteor, $reactive, $rootScope) {
 
@@ -23,7 +28,7 @@ MAIN_MODULE.controller('eventCtrl', function ($state, $scope, $meteor, $reactive
 
 
     /**
-     * @summary Closes pop-up window when 'X' is clicked
+     * @summary Closes critical event pop-up window when 'X' is clicked
      */
     $scope.close = function () {
         popUpMulti.style.display = "none";
@@ -35,7 +40,11 @@ MAIN_MODULE.controller('eventCtrl', function ($state, $scope, $meteor, $reactive
         $scope.events = {};
 
     };
-    
+
+    /**
+     * @summary Sends user to the security tab, when more information about a critical event is requested
+     * @param event Critical event that is clicked
+     */
     $scope.goToEvent = function(event){
         Meteor.setTimeout(function(){
             $rootScope.$broadcast('critEventSet', event);

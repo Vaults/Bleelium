@@ -1,8 +1,8 @@
 /**
- * @summary Checks whether an object has identical keys and values (deep)
- * @param a -object
- * @param b -object to be checked
- * @returns boolean
+ * @summary Checks whether an object has identical keys and values (deep), key order has no influence.
+ * @param a JS-object
+ * @param b JS-object to be checked
+ * @returns true if object is equal (deep equal), false if not.
  */
 var isEqual = function (a, b) {
     var checkObj = function (a, b) {
