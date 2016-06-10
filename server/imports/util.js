@@ -1,4 +1,5 @@
 /**
+ * TODO: MORE DOCS
  * @summary Checks whether an object has identical keys and values (deep)
  * @param a -object
  * @param b -object to be checked
@@ -11,9 +12,9 @@ var isEqual = function (a, b) {
         }
         var res = true;
         for (key in a) {
-            if (!(typeof a[key] === 'object')) {
+            if (!(typeof a[key] === 'object' || Array.isArray(a[key]))) {
                 res = res && a[key] === b[key];
-            } else {
+            }  else {
                 if(a[key] && b[key]) {
                     res = res && checkObj(a[key], b[key]);
                 }else{

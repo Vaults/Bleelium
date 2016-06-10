@@ -202,11 +202,22 @@ describe('isEqual', function(){
     it('simple nested obj', function(){
         assert.isTrue(isEqual({"a":"B", "b":{"x":"y"}}, {"a":"B", "b":{"x":"y"}}));
     });
+    it('simple switched obj', function(){
+        assert.isTrue(isEqual({"b":{"x":"y"}, "a":"B"}, {"a":"B", "b":{"x":"y"}}));
+    });
     it('simple faulty nested obj', function(){
         assert.isFalse(isEqual({"a":"B", "b":{"A":"y"}}, {"a":"B", "b":{"x":"y"}}));
     });
     it('more nested obj', function(){
         assert.isTrue(isEqual({"a":"B", "b":{"x":"y", "a":{"a":3, "B":{x:123808123}}}}, {"a":"B", "b":{"x":"y", "a":{"a":3, "B":{x:123808123}}}}));
     });
-
+    it('simple nested obj with arrays', function(){
+        assert.isTrue(isEqual({"a":"B", "b":['a', 'b']}, {"a":"B", "b":['a', 'b']}));
+    });
+    it('simple nested faulty obj with arrays', function(){
+        assert.isFalse(isEqual({"a":"B", "b":['a', 'b']}, {"a":"B", "b":['a', 'b', undefined, 3]}));
+    });
+    it('simple nested obj with arrays, different order', function(){
+        assert.isTrue(isEqual({"b":['a', 'b'], "a":"B"}, {"a":"B", "b":['a', 'b']}));
+    });
 })

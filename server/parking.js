@@ -31,10 +31,6 @@ var ParkingSpacePull = {
             if(!isEqual(lot.parkingSpaces, update[key])){
                 lot.parkingSpaces = update[key];
                 collectionWrapper['ParkingLot'].upsert({_id:key}, {$set: lot});
-                console.log('---');
-                console.log(lot.parkingSpaces.length);
-                console.log(update[key].length);
-                console.log('---')
                 var mod = {$set: {}};
                 mod['$set']['parkingLots.' + key] = lot;
                 collectionWrapper['ParkingArea'].update({_id: lot.attributes.garageId}, mod);
