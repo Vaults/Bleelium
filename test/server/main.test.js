@@ -5,11 +5,12 @@ import {P2000Pull} from '/server/P2000.js';
 import {pull} from '/server/imports/orionAPI.js'
 import {handleError} from '/server/imports/util.js'
 import {SoundDataPull} from "/server/soundSensor.js";
-/*//to be tested functions
+//to be tested functions
 import {initPulls} from '/server/main.js';
 import {dataWeatherMap} from '/server/weather.js';
 import {bounds, gasSensorPull, smokeSensorPull} from '/server/criticalEvents.js';
 import {ParkingAreaPull, countParking} from "/server/parking.js";
+import {isEqual} from '/server/imports/util.js';
 
 
 describe('initPulls()', function(done) {
@@ -98,7 +99,8 @@ describe('initPulls()', function(done) {
     it('Counts occupancy properly', function(done){
         Meteor.setTimeout(function(){
             var res = countParking();
-            var comp = { spaces: { '0': 240, '1': 120, '2': 498, total: 858 },occupied: { '0': 120, '1': 61, '2': 243, total: 424 } };
+            var comp = { spaces: { '1': 498, '2': 240, '3': 120, total: 858 },
+				occupied: { '1': 243, '2': 120, '3': 61, total: 424 } };
             assert.isTrue(isEqual(res,comp));
             done();
         }, 1000);
