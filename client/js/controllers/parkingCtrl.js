@@ -39,19 +39,27 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     };
 
+    $scope.setFreeColor = function(c){
+        $scope.color = {
+            center : 'white',
+            highlight: c,
+            remaining : 'lightGrey'
+        }
+    }
+
     /** Function that changes the freeColor when the percentage changes
      * @var {string} changeColor
      */
     var changeColor = function() {
         if ($scope.occupied <= $scope.capacity) {
             if ($scope.occupied <= Math.round($scope.capacity / 2)) {
-                $scope.freeColor = 'green';
+                $scope.setFreeColor('green');
             }
             else if ($scope.occupied > Math.round($scope.capacity / 2) && $scope.occupied != $scope.capacity) {
-                $scope.freeColor = 'orange';
+                $scope.setFreeColor('orange');
             }
             else {
-                $scope.freeColor = 'red';
+                $scope.setFreeColor('red');
             }
         }
     }
@@ -60,7 +68,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     /** Defines the colors of percentage circle */
     $scope.color = {
         center : 'white',
-        highlight: $scope.freeColor,
+        highlight: 'red',
         remaining : 'lightGrey'
     }
 
@@ -93,6 +101,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.capacity = result['spaces'][arg.index]; //get the amount of parking spaces for this parking area
             $scope.occupied = result['occupied'][arg.index]; //get current occupancy number for this parking area
             $scope.percent = ($scope.occupied/$scope.capacity)*100
+            changeColor();
             $scope.$apply();
         }
     };
