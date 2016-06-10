@@ -191,7 +191,7 @@ if (!MAIN_MODULE) {
      * @summary caches data, and queues calls of aggregateparking
      */
     MAIN_MODULE.factory('aggregateParking', function(){
-        var data = { spaces: { '0': 240, '1': 120, '2': 498, total: 858 },occupied: { '0': 120, '1': 61, '2': 243, total: 424 } };
+        var data = { spaces: { '1': 240, '2': 120, '3': 498, total: 858 },occupied: { '1': 120, '2': 61, '3': 243, total: 424 } };
         var flag = false;
         return function() {
             if(!flag){
@@ -203,7 +203,44 @@ if (!MAIN_MODULE) {
             }
             return data;
         }
-    })
+    });
+    
+    MAIN_MODULE.factory('circleHandler', ['aggregateParking', function(aggregateParking){
+        return function(scope, index) {
+            var setFreeColor = function (c) {
+                scope.color = {
+                    center: 'white',
+                    highlight: c,
+                    remaining: 'lightGrey'
+                }
+            }
+            var changeColor = function () {
+                if (scope.percent <= 100) {
+                    if (scope.percent <= 50) {
+                        setFreeColor('green');
+                    }
+                    else if (scope.percent > 50 && scope.percent < 95) {
+                        setFreeColor('orange');
+                    }
+                    else {
+                        setFreeColor('red');
+                    }
+                }
+            }
+            var result = aggregateParking();
+            console.log(result);
+            scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
+            scope.occupied = result['occupied']; //get current occupancy number for this parking area
+            scope.percent = (scope.occupied.total / scope.capacity.total) * 100; //update current occupancy percentage
+            if(index) {
+                scope.capacity = scope.capacity[index];
+                scope.occupied = scope.occupied[index];
+                scope.percent = (scope.occupied / scope.capacity) * 100; //update current occupancy percentage
+            }
+
+            changeColor();
+        }
+    }]);
 }
 
 export {MAIN_MODULE}

@@ -88,6 +88,7 @@ var countParking = function() {
     var occupiedCounts = {total: 0};
     for (areaKey in parkingAreas) {
         var area = parkingAreas[areaKey];
+        areaKey = area._id;
         spaceCounts[areaKey] = 0;
         occupiedCounts[areaKey] = 0;
         for (lotKey in area.parkingLots) {

@@ -12,7 +12,7 @@ ParkingArea = new Mongo.Collection('ParkingArea');
  * @param IconService is used to set the marker icon
  * @param aggregateParking is used for the parking space aggregation to get the occupancy values
  */
-MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking) {
+MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler) {
     /** Make scope reactive scope */
     $reactive(this).attach($scope);
 
@@ -45,32 +45,6 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         remaining : 'lightGrey'
     }
 
-    /** Sets the colors of percentage circle */
-    $scope.setFreeColor = function(c){
-        $scope.color = {
-            center : 'white',
-            highlight: c,
-            remaining : 'lightGrey'
-        }
-    }
-
-    /** Function that changes the freeColor when the percentage changes
-     * @var {string} changeColor
-     */
-    var changeColor = function() {
-        if ($scope.percent <= 100) {
-            if ($scope.percent <= 50) {
-                $scope.setFreeColor('green');
-            }
-            else if ($scope.percent > 50 && $scope.percent < 95) {
-                $scope.setFreeColor('orange');
-            }
-            else {
-                $scope.setFreeColor('red');
-            }
-        }
-    }
-
     /** Call the parking aggregation function */
     Meteor.call('aggregateParking', function(error, result){
         if(error !== null) {
@@ -96,12 +70,8 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             var price = arg.price.split("_"); //splits the price entry to the hourly and daily prices
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
-
-            var result = aggregateParking();
-            $scope.capacity = result['spaces'][arg.index]; //get the amount of parking spaces for this parking area
-            $scope.occupied = result['occupied'][arg.index]; //get current occupancy number for this parking area
-            $scope.percent = ($scope.occupied/$scope.capacity)*100; //update current occupancy percentage
-            changeColor();
+            circleHandler($scope, arg.index);
+            
             $scope.$apply();
         }
     };
@@ -129,7 +99,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                         address: currentMarker.address,
                         openingHours: currentMarker.openingHours,
                         price: currentMarker.price,
-                        index: i
+                        index: parkingAreas[i]._id
                     },
                     events: {
                         click: (marker, eventName, args) => {
