@@ -6,8 +6,8 @@ import {ENDPOINT} from '/server/config.js';
  * @param {json} data - the data to post
  * @param callback - callback
  */
-var postOrionData = function(data, callback){
-	HTTP.call('POST', ENDPOINT+':1026/v1/updateContext', {data: data}, callback);
+var postOrionData = function (data, callback) {
+    HTTP.call('POST', ENDPOINT + ':1026/v1/updateContext', {data: data}, callback);
 }
 /**
  * @summary Pulls data from Orion
@@ -15,9 +15,9 @@ var postOrionData = function(data, callback){
  * @param {string} args - Arguments to pass
  * @param callback - callback
  */
-var pull= function(coll, args, callback) {
-	//console.log(query.data.entities[0]);
-    HTTP.call('GET', ENDPOINT+':1026/v1/contextEntityTypes/'+coll+args, handleError(function(response) {
+var pull = function (coll, args, callback) {
+    //console.log(query.data.entities[0]);
+    HTTP.call('GET', ENDPOINT + ':1026/v1/contextEntityTypes/' + coll + args, handleError(function (response) {
         rewriteAttributes(response, callback);
     }));
 };
@@ -28,8 +28,10 @@ var pull= function(coll, args, callback) {
  * @param {function} callback - callback
  */
 var reloadPull = function (collection, args, callback) {
-    pull(collection, args, callback); 
-    Meteor.setTimeout(function(){reloadPull(collection, args, callback)}, 5000);
+    pull(collection, args, callback);
+    Meteor.setTimeout(function () {
+        reloadPull(collection, args, callback)
+    }, 5000);
 }
 
 //exports for tests

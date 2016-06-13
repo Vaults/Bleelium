@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
 
-var secSelector = {'attributes.dt':{$gte : (new Date().getTime() - 2*24*60*60*1000)+'' }};
+var secSelector = {'attributes.dt': {$gte: (new Date().getTime() - 2 * 24 * 60 * 60 * 1000) + ''}};
 
 /**
  * @summary Creates a new mongo instance for WeatherStations
@@ -62,13 +62,13 @@ Meteor.publish('AggregationCachePub', function aggregationCachePub() {
  * @var {array} - collectionWrapper
  */
 var collectionWrapper = {
-	"WeatherStation" : WeatherStations,
-    "P2000" : P2000,
-    "criticalEvents" : criticalEvents,
-    "aggregationCache" : AggregationCache,
-    "SoundSensor" : SoundSensor,
-    "ParkingArea" : ParkingArea,
-    "ParkingLot" : ParkingLot
+    "WeatherStation": WeatherStations,
+    "P2000": P2000,
+    "criticalEvents": criticalEvents,
+    "aggregationCache": AggregationCache,
+    "SoundSensor": SoundSensor,
+    "ParkingArea": ParkingArea,
+    "ParkingLot": ParkingLot
 };
 
 //exports for tests

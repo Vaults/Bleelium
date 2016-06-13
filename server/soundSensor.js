@@ -9,8 +9,8 @@ var SoundDataPull = {
     name: 'SoundSensor',
     args: '?limit=1000',
     f: function (args) {
-        response = rewriteAttributes(args);
-        for (item in args.data.contextResponses) {
+        args = rewriteAttributes(args);
+        for (var item in args.data.contextResponses) {
             var obj = args.data.contextResponses[item].contextElement;
             collectionWrapper['SoundSensor'].upsert({_id: obj._id}, {$set: obj});
         }
