@@ -71,6 +71,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
+            $scope.parkingLot = arg.name;
             setParkingImage(arg.lots[Object.keys(arg.lots)[0]].parkingSpaces);
             $scope.$apply();
         }
@@ -140,9 +141,13 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
 }).directive('parkingImage', ['$compile', function($compile) {
     return {
         restrict: 'A',
-        templateUrl: 'img/parking/Parking1.svg',
+        scope: {
+            image: '='
+        },
+        templateNamespace: 'svg',
+        templateUrl: 'img/parking/Area_1.svg',
         link: function(scope,element,attr) {
-
+            templateUrl: 'img/parking/'+scope.image+'.svg'
         }
     }
 }]);
