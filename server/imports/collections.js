@@ -47,6 +47,8 @@ Meteor.publish('parkingAreaPub', function parkingAreaPub() {
     return ParkingArea.find({});
 });
 
+
+
 /**
  * @summary The array to map collections to variables
  * @var {array} - collectionWrapper
