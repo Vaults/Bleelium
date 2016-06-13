@@ -51,5 +51,38 @@ var P2000Pull = {
     }
 }
 
+var countSecurity = function(){
+    var keyValueIfy = function(obj, counts){
+        obj.forEach(function(o){
+            counts[o._id] = o.count;
+        });
+    }
+    var calcInsertSec = function(){
+        var pipeline = [{$match: {'attributes.dt': {$gte : (new Date().getTime() - 24*60*60*1000)+'' } }},{$group:{ _id: '$attributes.type',  count: {$sum: 1}}}];
+        var counts = {};
+        keyValueIfy(collectionWrapper['P2000'].aggregate(pipeline), counts);
+        keyValueIfy(collectionWrapper['SoundSensor'].aggregate(pipeline), counts);
+        keyValueIfy(collectionWrapper['criticalEvents'].aggregate(pipeline), counts);
+
+
+        secAgg = {'_id': 'security', counts: counts, dt: new Date().getTime()};
+        collectionWrapper['aggregationCache'].upsert({'_id':'security'}, secAgg);
+    }
+
+    var secAgg = collectionWrapper['aggregationCache'].findOne({'_id':'security'});
+    if(!secAgg){
+        calcInsertSec();
+    } else if(new Date().getTime() - secAgg.dt > 5000 ){
+        calcInsertSec();
+    }
+    return secAgg;
+}
+
+Meteor.methods({
+    'aggregateSecurity'(){
+        return countSecurity();
+    }
+});
+
 //exports for tests
 export {pushP2000ToOrion, P2000Pull}

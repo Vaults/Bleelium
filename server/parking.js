@@ -69,7 +69,7 @@ var ParkingAreaPull = {
         response = rewriteAttributes(args);
         for (item in args.data.contextResponses) {
             var obj = args.data.contextResponses[item].contextElement;
-            collectionWrapper['ParkingArea'].upsert({_id: obj._id}, {$set: obj});;
+            collectionWrapper['ParkingArea'].upsert({_id: obj._id}, {$set: obj});
         }
         pull(ParkingLotPull.name, ParkingLotPull.args, ParkingLotPull.f )
     }
@@ -83,34 +83,48 @@ var ParkingAreaPull = {
  * @returns JS-object with information about total and occupied parkingSpaces
  */
 var countParking = function() {
-    var parkingAreas = collectionWrapper['ParkingArea'].find().fetch();
-    var spaceCounts = {total: 0};
-    var occupiedCounts = {total: 0};
-    for (areaKey in parkingAreas) {
-        var area = parkingAreas[areaKey];
-        areaKey = area._id;
-        spaceCounts[areaKey] = 0;
-        occupiedCounts[areaKey] = 0;
-        for (lotKey in area.parkingLots) {
-            var lot = area.parkingLots[lotKey];
-            for (spaceKey in lot.parkingSpaces) {
-                var space = lot.parkingSpaces[spaceKey];
-                if (space.attributes.occupied === "true") {
-                    occupiedCounts[areaKey]++;
-                    occupiedCounts['total']++;
+    var calcInsertPark = function(){
+        var parkingAreas = collectionWrapper['ParkingArea'].find().fetch();
+        var spaceCounts = {total: 0};
+        var occupiedCounts = {total: 0};
+        for (areaKey in parkingAreas) {
+            var area = parkingAreas[areaKey];
+            areaKey = area._id;
+            spaceCounts[areaKey] = 0;
+            occupiedCounts[areaKey] = 0;
+            for (lotKey in area.parkingLots) {
+                var lot = area.parkingLots[lotKey];
+                for (spaceKey in lot.parkingSpaces) {
+                    var space = lot.parkingSpaces[spaceKey];
+                    if (space.attributes.occupied === "true") {
+                        occupiedCounts[areaKey]++;
+                        occupiedCounts['total']++;
+                    }
+                    spaceCounts[areaKey]++;
+                    spaceCounts['total']++;
                 }
-                spaceCounts[areaKey]++;
-                spaceCounts['total']++;
             }
         }
+        parkAgg = {'_id': 'parking',spaces : spaceCounts,occupied : occupiedCounts, dt: new Date().getTime()};
+        collectionWrapper['aggregationCache'].upsert({'_id':'parking'}, parkAgg);
     }
-    return {spaces: spaceCounts, occupied: occupiedCounts};
+
+
+    var parkAgg = collectionWrapper['aggregationCache'].findOne({'_id':'parking'});
+    if(!parkAgg){
+        calcInsertPark();
+    } else if(new Date().getTime() - parkAgg.dt > 5000 ){
+        calcInsertPark();
+    }
+    return parkAgg;
 }
+
+
 
 Meteor.methods({
     'aggregateParking'(){
         return countParking();
     }
-})
+});
 
 export {ParkingAreaPull, ParkingLotPull, ParkingSpacePull, countParking}

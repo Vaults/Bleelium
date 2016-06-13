@@ -45,13 +45,6 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         remaining : 'lightGrey'
     }
 
-    /** Call the parking aggregation function */
-    Meteor.call('aggregateParking', function(error, result){
-        if(error !== null) {
-            $scope.capacity = result['spaces']['total'];
-            $scope.occupied = result['occupied']['total'];
-        }
-    })
 
     /**
      * @summary Updates the scope information to the current selected parking area when a marker is clicked
