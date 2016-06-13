@@ -4,7 +4,7 @@
  * @returns {json} - Object with parsed data.
  */
 var parseData = function (o){
-   if( o.description.indexOf("Ambulance") > -1){
+   if( o.description.indexOf("Ambulance") > -1 ||  o.description.indexOf("MKA") > -1){
        o.type = 'Ambulance';
        return(ambulanceInfo(o));
    }else if( o.description.indexOf("Politie") > -1){
