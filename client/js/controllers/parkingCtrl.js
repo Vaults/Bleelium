@@ -71,7 +71,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
-            setParkingImage(arg.lots[1].parkingSpaces)
+            setParkingImage(arg.lots[Object.keys(arg.lots)[0]].parkingSpaces);
             $scope.$apply();
         }
     };
@@ -80,21 +80,19 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     $scope.$on('setInfo', setInfo);
 
     /**
-     * @summary set color of each parking space according to occupied attr
+     * @summary set color of each parking space in SVG according to occupied attr
      * @param parkingSpaces set of all parkingspaces for current lot
      */
     var setParkingImage = function(parkingSpaces) {
-        angular.element("ParkingSpace-1").attr('style', 'fill:#ffff0e;fill-opacity:1;stroke:none');
         //For each full parking space, set the svg's color to red, otherwise green
         for (var i = 0; i < parkingSpaces.length; i++){
-            var thisSpace = angular.element("ParkingSpace-"+(i+1));
-            console.log(thisSpace);
-            console.log(parkingSpaces[i].attributes.occupied);
+            var selector = "#ParkingSpace-"+(i+1);
+            var thisSpace = document.querySelector(selector);
             if(parkingSpaces[i].attributes.occupied === "true"){
-                thisSpace.attr('style', 'fill:#ff0e0e;fill-opacity:1;stroke:none');
+                thisSpace.style.fill = "#ea5959";
             }
             else {
-                thisSpace.attr('style', 'fill:#0eff0e;fill-opacity:1;stroke:none');
+                thisSpace.style.fill = "#53dc4e";
             }
         }
     };
@@ -139,4 +137,12 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     }
     $scope.autorun(reload);
-});
+}).directive('parkingImage', ['$compile', function($compile) {
+    return {
+        restrict: 'A',
+        templateUrl: 'img/parking/Parking1.svg',
+        link: function(scope,element,attr) {
+
+        }
+    }
+}]);
