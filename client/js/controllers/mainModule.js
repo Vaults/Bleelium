@@ -20,7 +20,7 @@ if (!MAIN_MODULE) {
         'ui.bootstrap',
         'ui.router',
         'percentCircle-directive'
-    ]);    
+    ]);
     /**
      * @summary Specifies which urls route to which files and controllers
      */
@@ -52,6 +52,11 @@ if (!MAIN_MODULE) {
             .state('parking.sub', {
                 url: '/parking',
                 templateUrl: 'client/js/directives/infoParking.html'
+            })
+            .state('details', {
+                url: '/parking/details',
+                templateUrl: 'client/js/directives/infoDetails.html',
+                controller: 'detailsCtrl'
             })
             .state('security', {
                 templateUrl: 'client/ui-view.html',
@@ -144,6 +149,10 @@ if (!MAIN_MODULE) {
                     thisSpace.style.fill = "#53dc4e";
                 }
             }
+        };
+        ParkingService.parkingLocation = {
+            'attributes.coord_lat': '51.448527',
+            'attributes.coord_lon': '5.452773'
         };
         return ParkingService;
     });
@@ -244,7 +253,7 @@ if (!MAIN_MODULE) {
             return data;
         }
     });
-    
+
     MAIN_MODULE.factory('circleHandler', ['aggregateParking', function(aggregateParking){
         return function(scope, index) {
             var setFreeColor = function (c) {

@@ -53,6 +53,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      */
     var setInfo = function (event, arg) {
         if (arg) {
+            console.log(arg);
             $scope.latitude = lodash.round(arg.lat, 2);
             $scope.longtitude = lodash.round(arg.lon, 2);
             $scope.address = arg.address; //parking address name
@@ -67,9 +68,10 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.parkingLot = arg.name;
             $scope.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
             ParkingService.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
-            var imageElement = document.querySelector("parking-image");
-            imageElement.setAttribute('template-url', $scope.parkingLot);
-            ParkingService.setParkingImage();
+            ParkingService.parkingLocation = { //Set a global variable with current location
+                'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
+                'attributes.coord_lon': '' + lodash.round(arg.lng(), 2)
+            };
             $scope.$apply();
         }
     };
@@ -118,15 +120,4 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     }
     $scope.autorun(reload);
-}).directive('parkingImage', ['ParkingService', function(ParkingService){
-    return {
-        restrict: 'E',
-        link: function(scope,element,attrs) {
-            scope.contentUrl = 'img/parking/'+attrs.templateUrl+'.svg';
-            scope.$watch(function() {return element.attr('template-url'); }, function(v){
-                scope.contentUrl = 'img/parking/'+v+'.svg';
-            });
-        },
-        template: '<div ng-include="contentUrl"></div>'
-    }
-}]);
+})
