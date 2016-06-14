@@ -72,6 +72,9 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
             $scope.parkingLot = arg.name;
+            $scope.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
+            var imageElement = document.querySelector("parking-image");
+            imageElement.setAttribute('template-url', $scope.parkingLot);
             setParkingImage(arg.lots[Object.keys(arg.lots)[0]].parkingSpaces);
             $scope.$apply();
         }
@@ -115,6 +118,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                     options: {
                         draggable: false,
                         icon: IconService.createMarkerIcon('Parking', 'parking'),
+                        name: currentMarker.name,
                         address: currentMarker.address,
                         openingHours: currentMarker.openingHours,
                         price: currentMarker.price,
@@ -138,16 +142,17 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     }
     $scope.autorun(reload);
-}).directive('parkingImage', ['$compile', function($compile) {
+}).directive('parkingImage', function(){
     return {
-        restrict: 'A',
-        scope: {
-            image: '='
+        restrict: 'E',
+        link: function(scope,element,attrs) {
+            scope.contentUrl = 'img/parking/'+attrs.templateUrl+'.svg';
+            scope.$watch(function() {return element.attr('template-url'); }, function(v){
+                scope.contentUrl = 'img/parking/'+v+'.svg';
+
+                console.log(scope.contentUrl);
+            });
         },
-        templateNamespace: 'svg',
-        templateUrl: 'img/parking/Area_1.svg',
-        link: function(scope,element,attr) {
-            templateUrl: 'img/parking/'+scope.image+'.svg'
-        }
+        template: '<div ng-include="contentUrl"></div>'
     }
-}]);
+});
