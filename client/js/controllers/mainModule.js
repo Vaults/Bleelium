@@ -204,6 +204,24 @@ if (!MAIN_MODULE) {
             return data;
         }
     });
+
+    /**
+     * @summary caches data, and queues calls of aggregateSecurity;
+     */
+    MAIN_MODULE.factory('aggregateSecurity', function(){
+        var data = {counts:{}};
+        var flag = false;
+        return function() {
+            if(!flag){
+                flag = true;
+                Meteor.call('aggregateSecurity', function(e, r){
+                    data = r;
+                    flag = false;
+                })
+            }
+            return data;
+        }
+    });
     
     MAIN_MODULE.factory('circleHandler', ['aggregateParking', function(aggregateParking){
         return function(scope, index) {
@@ -227,6 +245,7 @@ if (!MAIN_MODULE) {
                     }
                 }
             }
+
             var result = aggregateParking();
             console.log(result);
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
@@ -237,8 +256,8 @@ if (!MAIN_MODULE) {
                 scope.occupied = scope.occupied[index];
                 scope.percent = (scope.occupied / scope.capacity) * 100; //update current occupancy percentage
             }
+             //setTimeout(changeColor, 500);
 
-            changeColor();
         }
     }]);
 }

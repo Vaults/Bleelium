@@ -1,6 +1,8 @@
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
 
+var secSelector = {'attributes.dt': {$gte: (new Date().getTime() - 2 * 24 * 60 * 60 * 1000) + ''}};
+
 /**
  * @summary Creates a new mongo instance for WeatherStations
  * @return {json} - The collection for WeatherStations
@@ -16,7 +18,7 @@ Meteor.publish('weatherPub', function weatherPublication() {
  */
 var P2000 = new Mongo.Collection('P2000');
 Meteor.publish('P2000Pub', function P2000Publication() {
-    return P2000.find({}, {sort: {'attributes.publish_date' : -1}});
+    return P2000.find(secSelector);
 });
 
 /**
@@ -34,7 +36,7 @@ Meteor.publish('criticalEventsPub', function criticalEventsPub() {
  */
 var SoundSensor = new Mongo.Collection('SoundSensor');
 Meteor.publish('soundSensorPub', function soundSensorPub() {
-    return SoundSensor.find({});
+    return SoundSensor.find(secSelector);
 });
 
 /**
@@ -46,18 +48,27 @@ var ParkingLot = new Mongo.Collection('ParkingLot');
 Meteor.publish('parkingAreaPub', function parkingAreaPub() {
     return ParkingArea.find({});
 });
+/**
+ * @summary Creates a new mongo instance for AggregationCache
+ * @return {json} - The collection for AggregationCache
+ */
+var AggregationCache = new Mongo.Collection('AggregationCache');
+Meteor.publish('AggregationCachePub', function aggregationCachePub() {
+    return AggregationCache.find({});
+});
 
 /**
  * @summary The array to map collections to variables
  * @var {array} - collectionWrapper
  */
 var collectionWrapper = {
-	"WeatherStation" : WeatherStations,
-    "P2000" : P2000,
-    "criticalEvents" : criticalEvents,
-    "SoundSensor" : SoundSensor,
-    "ParkingArea" : ParkingArea,
-    "ParkingLot" : ParkingLot
+    "WeatherStation": WeatherStations,
+    "P2000": P2000,
+    "criticalEvents": criticalEvents,
+    "aggregationCache": AggregationCache,
+    "SoundSensor": SoundSensor,
+    "ParkingArea": ParkingArea,
+    "ParkingLot": ParkingLot
 };
 
 //exports for tests
