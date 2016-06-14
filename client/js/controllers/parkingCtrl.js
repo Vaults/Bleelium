@@ -64,7 +64,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
-            
+
             $scope.$apply();
         }
     };
@@ -77,7 +77,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      */
     var reload = function () {
         var parkingAreas= $scope.getReactively('parkingArea');
-        
+
         /** Remove old markers */
         $scope.markers = [];
 

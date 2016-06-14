@@ -2,14 +2,15 @@
     <div class="pull-left">
         <a href="#/"><img src="img/logo_smart-s.png" class="logo"></a>
         <ul>
-            <li ng-repeat="category in categories" style="border-top-color: {{category.color}}">
-                <a href="#/{{category.link}}" ng-style="{'color': navClass(category.link) === 'active' ? category.color : '#888888'}">{{category.text}}</a>
-            </li>
+            <a href="#/{{category.link}}" ng-repeat="category in categories">
+                <li style="border-top-color: {{category.color}}">
+                    <span ng-style="{'color': navClass(category.link) === 'active' ? category.color : '#888888'}">{{category.text}}</span>
+                </li>
+            </a>
         </ul>
     </div>
     <div class="pull-right">
-        <div class="user-container">
+        <div class="user-container user-container-{{state()}}">
         </div>
     </div>
 </div>
-

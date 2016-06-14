@@ -18,7 +18,7 @@
     </div>
     <div class="box" style="border-color: #eb9860">
         <div class="weather-item">
-        	<h2>{{weather_name}}</h2>
+        	<h2>Weather in {{weather_name}}</h2>
         	<h4>{{'Long: '+ weather_longtitude.toFixed(2) + ' &deg;&nbsp;&nbsp;&nbsp;  Lat: ' + weather_latitude.toFixed(2) + ' &deg;'}}</h4>
         	<img src="{{weather_iconURL}}" class="icon"/>
         	<h2>{{weather_temperature.toFixed(1)}} &deg;C</h2>
@@ -53,15 +53,16 @@
         	</div>
         </div>
     </div>
-    <div class="box" style="border-color: #52acdb">
-        <h2>Security events past 24 hrs</h2>
+    <div class="box index-security" style="border-color: #52acdb">
+        <h2>Security events in Eindhoven</h2>
+        <h4>of the past 24 hrs</h4>
         <div class="security-item clearfix" ng-repeat="type in eventTypes">
             <div class="pull-left">
                 <img ng-src="{{type.icon}}" class="security-icon" height="50px"/>
                 <p>{{type.text}}</p>
             </div>
             <div class="pull-right">
-                <p>{{(type.count)?type.count:0}}</p>
+                <p>{{type.count}}</p>
             </div>
         </div>
     </div>

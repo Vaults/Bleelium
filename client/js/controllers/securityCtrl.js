@@ -150,7 +150,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             },
             zoom: 15
         }
-    
+
         var mark={};
         $scope.markers.forEach(function(o){
            if(o.location.longitude == args.attributes.coord_lng){

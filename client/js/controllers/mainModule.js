@@ -20,7 +20,7 @@ if (!MAIN_MODULE) {
         'ui.bootstrap',
         'ui.router',
         'percentCircle-directive'
-    ]);    
+    ]);
     /**
      * @summary Specifies which urls route to which files and controllers
      */
@@ -115,6 +115,10 @@ if (!MAIN_MODULE) {
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
+
+        $scope.state = function() {
+            return $location.path().replace(/\//g, '');
+        }
     });
     /**
      * @summary Creates HTML tag for adding a google map
@@ -205,24 +209,6 @@ if (!MAIN_MODULE) {
         }
     });
 
-    /**
-     * @summary caches data, and queues calls of aggregateSecurity;
-     */
-    MAIN_MODULE.factory('aggregateSecurity', function(){
-        var data = {counts:{}};
-        var flag = false;
-        return function() {
-            if(!flag){
-                flag = true;
-                Meteor.call('aggregateSecurity', function(e, r){
-                    data = r;
-                    flag = false;
-                })
-            }
-            return data;
-        }
-    });
-    
     MAIN_MODULE.factory('circleHandler', ['aggregateParking', function(aggregateParking){
         return function(scope, index) {
             var setFreeColor = function (c) {
@@ -245,7 +231,6 @@ if (!MAIN_MODULE) {
                     }
                 }
             }
-
             var result = aggregateParking();
             console.log(result);
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
@@ -256,8 +241,8 @@ if (!MAIN_MODULE) {
                 scope.occupied = scope.occupied[index];
                 scope.percent = (scope.occupied / scope.capacity) * 100; //update current occupancy percentage
             }
-             //setTimeout(changeColor, 500);
 
+            changeColor();
         }
     }]);
 }

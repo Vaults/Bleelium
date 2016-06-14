@@ -1,8 +1,9 @@
 .nav {
   height: 72px;
-  z-index: 2;
+  z-index: 999;
   background-color: white;
-  position: relative;
+  position: fixed;
+  top: 0;
   width: 100%;
   border-top: 3px solid black;
   box-sizing: content-box;
@@ -35,7 +36,6 @@
 }
 .nav .user-container {
   padding: 0 40px;
-  background-color: #ea5959;
   height: 72px;
   width: 320px;
 }
@@ -48,4 +48,16 @@
 .nav .user-container .fa {
   color: white;
   margin-left: 5px;
+}
+.nav .user-container-parking {
+  background-color: #ea5959;
+}
+.nav .user-container-weather {
+  background-color: #eb9860;
+}
+.nav .user-container-security, .nav .user-container-securityEmergencyEvent {
+  background-color: #52acdb;
+}
+.nav .user-container-energy {
+  background-color: #f3db36;
 }

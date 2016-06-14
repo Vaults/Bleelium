@@ -2,9 +2,10 @@
 
 .nav
   height: 72px
-  z-index: 2
+  z-index: 999
   background-color: #fff
-  position: relative
+  position: fixed
+  top: 0
   width: 100%
   border-top: $nav-top-border solid #000
   box-sizing: content-box
@@ -37,7 +38,6 @@
 
   .user-container
     padding: 0 40px
-    background-color: #ea5959
     height: 72px
     width: 320px
 
@@ -50,3 +50,15 @@
     .fa
       color: #fff
       margin-left: 5px
+
+  .user-container-parking
+    background-color: #EA5959
+
+  .user-container-weather
+    background-color: #EB9860
+
+  .user-container-security, .user-container-securityEmergencyEvent
+    background-color: #52ACDB
+
+  .user-container-energy
+    background-color: #F3DB36

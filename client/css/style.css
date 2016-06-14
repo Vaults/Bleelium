@@ -12,6 +12,14 @@ html, body {
   border: 0px solid;
   width: 100%;
   text-align: center;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.button-orange {
+  background-color: #eb9860;
+}
+.button-orange:hover {
+  background-color: #d38550;
 }
 
 .button-red {
