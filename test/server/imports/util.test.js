@@ -2,7 +2,7 @@ import { assert } from 'meteor/practicalmeteor:chai';
 import { expect } from 'meteor/practicalmeteor:chai';
 
 //to be tested functions
-import {attributesToKeyValue, rewriteAttributes, handleError, numToObj, rewriteNumbersToObjects, isEqual} from '/server/imports/util.js';
+import {attributesToKeyValue, rewriteAttributes, handleError, numToObj, rewriteNumbersToObjects, isEqual,createBoilerplateOrionObject,createBoilerplateOrionAttribute,orionBoilerplateAttributePusher} from '/server/imports/util.js';
 describe('attributesToKeyValue()', function(){
 	it('Simple Orion Object', function(){
         var orObj = [
@@ -219,5 +219,91 @@ describe('isEqual', function(){
     });
     it('simple nested obj with arrays, different order', function(){
         assert.isTrue(isEqual({"b":['a', 'b'], "a":"B"}, {"a":"B", "b":['a', 'b']}));
+    });
+});
+describe('createBoilerplateOrionObject', function(){
+    var testBoilerplate = createBoilerplateOrionObject("Test","Test","APPEND");
+    var obj = {
+        "contextElements": [
+            {
+                "type": "Test",
+                "isPattern": "false",
+                "id":"Test",
+                "attributes": []
+            }
+        ],
+        "updateAction": "APPEND"
+    };
+    it('Should not return error', function() {
+        expect(function(){
+            createBoilerplateOrionObject("Test","Test","APPEND");
+        }).to.not.throw();
+    });
+    it('non-empty', function(){
+        assert.isNotNull(testBoilerplate);
+    });
+    it('simple-equal', function(){
+        assert.deepEqual(obj,testBoilerplate);
+    });
+
+});
+describe('createBoilerplateOrionAttribute', function(){
+    var testBoilerplate = createBoilerplateOrionAttribute("Test","Test");
+    var obj = {
+        "name": "Test",
+        "type": "string",
+        "value": "Test"
+    };
+    it('Should not return error', function() {
+        expect(function(){
+            createBoilerplateOrionAttribute("Test","Test");
+        }).to.not.throw();
+    });
+    it('non-empty', function(){
+        assert.isNotNull(testBoilerplate);
+    });
+    it('simple-equal', function(){
+        assert.deepEqual(obj,testBoilerplate);
+    });
+});
+describe('orionBoilerplateAttributePusher', function(){
+    var orionBoilerplate = createBoilerplateOrionObject("P2000", "Test", "APPEND_STRICT");
+    var obj = {
+        "_id" : "1606131518500222",
+        "type" : "P2000",
+        "isPattern" : "false",
+        "attributes" : {
+            "EST" : "B1 5641CG 16 : Citroenvlinderlaan Eindhoven Obj: Rit: 46686~",
+            "coord_lat" : [
+                "51.4517619"
+            ],
+            "coord_lng" : [
+                "5.5163619"
+            ],
+            "description" : "1123109 MKA Brabant Zuid-Oost  Ambulance 22-109 Eindhoven ",
+            "dt" : "1465823930000",
+            "prio" : "B1",
+            "publish_date" : "Mon, 13 Jun 2016 15:18:50 +0200",
+            "restTitle" : ": Citroenvlinderlaan Eindhoven Obj: Rit: 46686~ ",
+            "strLoc" : "Citroenvlinderlaan Eindhoven ",
+            "type" : "Ambulance"
+        }
+    }
+    var attrMap = {
+        type: '',
+        EST: "testTitle",
+        description: '',
+        dt: '',
+        publish_date:'',
+        coord_lat: '',
+        coord_lng: '',
+        prio: '',
+        restTitle: '',
+        strLoc: ''
+    };
+    it('Should not return error', function() {
+        expect(function(){
+            orionBoilerplateAttributePusher(orionBoilerplate,obj,attrMap);
+        }).to.not.throw();
     });
 })
