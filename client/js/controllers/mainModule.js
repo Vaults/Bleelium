@@ -125,6 +125,28 @@ if (!MAIN_MODULE) {
             scope: '='
         }
     });
+    MAIN_MODULE.factory('ParkingService', function() {
+        var ParkingService = {};
+        ParkingService.parkingSpaces;
+        ParkingService.setParkingImage = function() {
+            var parkingSpaces = ParkingService.parkingSpaces;
+            //For each full parking space, set the svg's color to red, otherwise green
+            for (var i = 0; i < parkingSpaces.length; i++){
+                var selector = "#ParkingSpace-"+(i+1);
+                var thisSpace = document.querySelector(selector);
+                if(!thisSpace){
+                    continue;
+                }
+                if(parkingSpaces[i].attributes.occupied === "true"){
+                    thisSpace.style.fill = "#ea5959";
+                }
+                else {
+                    thisSpace.style.fill = "#53dc4e";
+                }
+            }
+        };
+        return ParkingService;
+    });
     /**
      * @summary Provides functionality for displaying icons in UI and on markers
      */

@@ -12,7 +12,7 @@ ParkingArea = new Mongo.Collection('ParkingArea');
  * @param IconService is used to set the marker icon
  * @param aggregateParking is used for the parking space aggregation to get the occupancy values
  */
-MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler) {
+MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler, ParkingService) {
     /** Make scope reactive scope */
     $reactive(this).attach($scope);
 
@@ -66,33 +66,16 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             circleHandler($scope, arg.index);
             $scope.parkingLot = arg.name;
             $scope.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
+            ParkingService.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
             var imageElement = document.querySelector("parking-image");
             imageElement.setAttribute('template-url', $scope.parkingLot);
-            setParkingImage(arg.lots[Object.keys(arg.lots)[0]].parkingSpaces);
+            ParkingService.setParkingImage();
             $scope.$apply();
         }
     };
 
     /** Call setinfo when it's broadcasted */
     $scope.$on('setInfo', setInfo);
-
-    /**
-     * @summary set color of each parking space in SVG according to occupied attr
-     * @param parkingSpaces set of all parkingspaces for current lot
-     */
-    var setParkingImage = function(parkingSpaces) {
-        //For each full parking space, set the svg's color to red, otherwise green
-        for (var i = 0; i < parkingSpaces.length; i++){
-            var selector = "#ParkingSpace-"+(i+1);
-            var thisSpace = document.querySelector(selector);
-            if(parkingSpaces[i].attributes.occupied === "true"){
-                thisSpace.style.fill = "#ea5959";
-            }
-            else {
-                thisSpace.style.fill = "#53dc4e";
-            }
-        }
-    };
 
     /**ui
      * @summary Runs whenever Parking settings are updated. Pulls Parking events and updates all UI elements
@@ -135,17 +118,15 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     }
     $scope.autorun(reload);
-}).directive('parkingImage', function(){
+}).directive('parkingImage', ['ParkingService', function(ParkingService){
     return {
         restrict: 'E',
         link: function(scope,element,attrs) {
             scope.contentUrl = 'img/parking/'+attrs.templateUrl+'.svg';
             scope.$watch(function() {return element.attr('template-url'); }, function(v){
                 scope.contentUrl = 'img/parking/'+v+'.svg';
-
-                console.log(scope.contentUrl);
             });
         },
         template: '<div ng-include="contentUrl"></div>'
     }
-});
+}]);
