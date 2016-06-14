@@ -64,7 +64,8 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
-            
+            $scope.parkingLot = arg.name;
+            setParkingImage(arg.lots[Object.keys(arg.lots)[0]].parkingSpaces);
             $scope.$apply();
         }
     };
@@ -72,12 +73,30 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     /** Call setinfo when it's broadcasted */
     $scope.$on('setInfo', setInfo);
 
+    /**
+     * @summary set color of each parking space in SVG according to occupied attr
+     * @param parkingSpaces set of all parkingspaces for current lot
+     */
+    var setParkingImage = function(parkingSpaces) {
+        //For each full parking space, set the svg's color to red, otherwise green
+        for (var i = 0; i < parkingSpaces.length; i++){
+            var selector = "#ParkingSpace-"+(i+1);
+            var thisSpace = document.querySelector(selector);
+            if(parkingSpaces[i].attributes.occupied === "true"){
+                thisSpace.style.fill = "#ea5959";
+            }
+            else {
+                thisSpace.style.fill = "#53dc4e";
+            }
+        }
+    };
+
     /**ui
      * @summary Runs whenever Parking settings are updated. Pulls Parking events and updates all UI elements
      */
     var reload = function () {
         var parkingAreas= $scope.getReactively('parkingArea');
-        
+
         /** Remove old markers */
         $scope.markers = [];
 
@@ -92,7 +111,8 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                         address: currentMarker.address,
                         openingHours: currentMarker.openingHours,
                         price: currentMarker.price,
-                        index: parkingAreas[i]._id
+                        index: parkingAreas[i]._id,
+                        lots: parkingAreas[i].parkingLots
                     },
                     events: {
                         click: (marker, eventName, args) => {
@@ -111,4 +131,16 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     }
     $scope.autorun(reload);
-});
+}).directive('parkingImage', ['$compile', function($compile) {
+    return {
+        restrict: 'A',
+        scope: {
+            image: '='
+        },
+        templateNamespace: 'svg',
+        templateUrl: 'img/parking/Area_1.svg',
+        link: function(scope,element,attr) {
+            templateUrl: 'img/parking/'+scope.image+'.svg'
+        }
+    }
+}]);
