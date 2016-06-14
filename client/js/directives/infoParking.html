@@ -3,28 +3,33 @@
     <percent-circle percent="percent" colors="color"></percent-circle>
     <br>
     <div class="clearfix">
-        <div class="pull-left">
-            <p>
-                Address: <br>
-                Capacity: <br>
-                Occupied-spaces: <br>
-                Day: <br>
-                Opening-hours: <br>
-                Hourly Fee: <br>
-                Daily Fee: <br>
-            </p>
-        </div>
-        <div class="pull-right">
-            <p>
-                {{address}} <br>
-                {{capacity}} <br>
-                {{occupied}} <br>
-                {{day}} <br>
-                {{openingHours}} <br>
-                {{pricehour}} &euro;<br>
-                {{priceday}} &euro;<br>
-            </p>
-        </div>
+        <table style="width: 100%" border="0">
+            <col width="100px"/>
+            <tr style="padding-bottom: 10px;">
+                <td style="padding-bottom: 5px;">Address:</td>
+                <td style="padding-bottom: 5px;" align="right">{{address}}</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 5px;">Occupied:</td>
+                <td style="padding-bottom: 5px;" align="right">{{occupied}}</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 5px;">Day:</td>
+                <td style="padding-bottom: 5px;" align="right">{{day}}</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 5px;">Address:</td>
+                <td style="padding-bottom: 5px;" align="right">{{openingHours}}</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 5px;">Hourly Fee:</td>
+                <td style="padding-bottom: 5px;" align="right">{{pricehour}}</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 5px;">Daily Fee:</td>
+                <td style="padding-bottom: 5px;" align="right">{{priceday}}</td>
+            </tr>
+        </table>
     </div>
     <a>
         <button class="button button-red">
