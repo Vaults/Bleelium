@@ -1,4 +1,6 @@
 @import "variables.scss"
+@import 'bourbon'
+@import 'neat'
 
 .nav
   height: 72px
@@ -15,6 +17,11 @@
     float: left
     margin-left: 20px
     margin-top: -$nav-top-border
+    +transition(all 0.05s ease)
+
+    &:hover
+      transform: scale(1.02)
+      +transition(all 0.05s ease)
 
   ul
     list-style: none

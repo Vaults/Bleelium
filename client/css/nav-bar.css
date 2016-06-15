@@ -1,3 +1,9 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .nav {
   height: 72px;
   z-index: 999;
@@ -13,6 +19,15 @@
   float: left;
   margin-left: 20px;
   margin-top: -3px;
+  -webkit-transition: all 0.05s ease;
+  -moz-transition: all 0.05s ease;
+  transition: all 0.05s ease;
+}
+.nav .logo:hover {
+  transform: scale(1.02);
+  -webkit-transition: all 0.05s ease;
+  -moz-transition: all 0.05s ease;
+  transition: all 0.05s ease;
 }
 .nav ul {
   list-style: none;
