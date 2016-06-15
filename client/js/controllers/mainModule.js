@@ -132,7 +132,7 @@ if (!MAIN_MODULE) {
     });
     MAIN_MODULE.factory('ParkingService', function() {
         var ParkingService = {};
-        ParkingService.parkingSpaces;
+        ParkingService.parkingSpaces = {};
         ParkingService.setParkingImage = function() {
             var parkingSpaces = ParkingService.parkingSpaces;
             //For each full parking space, set the svg's color to red, otherwise green

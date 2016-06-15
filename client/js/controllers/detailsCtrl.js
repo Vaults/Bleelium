@@ -14,17 +14,11 @@ MAIN_MODULE.controller('detailsCtrl', function ($scope, $meteor, $reactive, $roo
     $scope.address = arg.attributes.address; //parking address name
     circleHandler($scope, arg.attributes.index);
     $scope.parkingLot = arg.attributes.name;
-    console.log(arg.parkingLots);
-    $scope.parkingSpaces = arg.parkingLots[Object.keys(arg.parkingLots)[0]];
-    ParkingService.parkingSpaces = arg.parkingLots[Object.keys(arg.parkingLots)[0]];
-    ParkingService.parkingLocation = { //Set a global variable with current location
-        'attributes.coord_lat': '' + lodash.round(arg.attributes.coord_lat, 2),
-        'attributes.coord_lon': '' + lodash.round(arg.attributes.coord_lat, 2)
-    };
+    $scope.parkingSpaces = ParkingService.parkingSpaces;
     var imageElement = document.querySelector("parking-image");
     imageElement.setAttribute('template-url', $scope.parkingLot);
+    console.log($scope.parkingSpaces)
     ParkingService.setParkingImage();
-    $scope.$apply();
 
 }).directive('parkingImage', ['ParkingService', function(ParkingService){
     return {
