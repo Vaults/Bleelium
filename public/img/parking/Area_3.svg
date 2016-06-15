@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   max-height="100%"
-   max-width="100%"
-   viewBox="0 0 1013.1434 444.87097"
+   height="100%"
+   width="100%"
+   viewBox="0 0 1029.3252 460.60925"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="LotFull.svg">
+   sodipodi:docname="Area_3.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="601.76362"
-     inkscape:cy="186.46954"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="368.52565"
+     inkscape:cy="206.37218"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -36,7 +36,7 @@
      fit-margin-bottom="1"
      fit-margin-right="1"
      inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-height="1058"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
@@ -57,7 +57,12 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(-185.83725,-333.61333)">
+     transform="translate(-178.77633,-324.93596)">
+    <path
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 204.02,325.93596 -24.24367,81.82236 1.01016,376.7869 1026.31501,0 0,-305.06607 -113.1371,0 -885.90379,-153.54319 z"
+       id="path3462"
+       inkscape:connector-curvature="0" />
     <rect
        style="fill:#ff0505;fill-opacity:1;stroke:none"
        id="ParkingSpace-1"
@@ -907,7 +912,7 @@
      id="layer2"
      inkscape:label="Laag 2"
      style="display:inline"
-     transform="translate(-185.83725,-333.61333)">
+     transform="translate(-178.77633,-324.93596)">
     <path
        sodipodi:type="star"
        style="display:inline;fill:#000000;fill-opacity:1;stroke:none"
