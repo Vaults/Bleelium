@@ -5,17 +5,18 @@
   bottom: 0px;
   position: absolute;
 }
-
+.security-container .button {
+  box-shadow: none !important;
+}
 .security-container .list-overflow {
   top: 0px;
   bottom: 120px;
   left: 0px;
   right: 0px;
   position: absolute;
-  margin: 00px;
+  margin: 0px;
   overflow-y: auto;
 }
-
 .security-container .list-overflow .list {
   top: 0px;
   bottom: 0px;
@@ -24,7 +25,6 @@
   position: absolute;
   margin: 20px;
 }
-
 .security-container .list-overflow .list .item {
   position: relative;
   width: 100%;
@@ -33,7 +33,6 @@
   margin-bottom: 10px;
   float: bottom;
 }
-
 .security-container .list-overflow .list .item .image {
   position: absolute;
   left: 0px;
@@ -41,7 +40,6 @@
   width: 50px;
   height: 50px;
 }
-
 .security-container .list-overflow .list .item .title {
   position: absolute;
   left: 60px;
@@ -51,7 +49,6 @@
   margin-top: 4px;
   align-items: center;
 }
-
 .security-container .list-overflow .list .item .title p {
   font-family: "Lato";
   font-size: 20px;
@@ -60,7 +57,6 @@
   top: 50%;
   transform: translateY(-50%);
 }
-
 .security-container .list-overflow .list .item .button {
   position: absolute;
   right: 0px;
@@ -68,7 +64,6 @@
   width: 40px;
   height: 50px;
 }
-
 .security-container .list-overflow .list .item .button .switch {
   position: absolute;
   display: inline-block;
@@ -77,23 +72,21 @@
   top: 15px;
   right: 0px;
 }
-
 .security-container .list-overflow .list .item .button .switch input {
   display: none;
 }
-
 .security-container .list-overflow .list .item .button .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
   left: 0;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
   right: 0;
   bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  background-color: #cccccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
-
 .security-container .list-overflow .list .item .button .slider:before {
   position: absolute;
   content: "";
@@ -102,24 +95,20 @@
   left: 2px;
   bottom: 2px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
-
 .security-container .list-overflow .list .item .button input:checked + .slider {
   background-color: #52acdb;
 }
-
 .security-container .list-overflow .list .item .button input:focus + .slider {
   box-shadow: 0;
 }
-
 .security-container .list-overflow .list .item .button input:checked + .slider:before {
   -webkit-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
 }
-
 .security-container .range {
   height: 120px;
   bottom: 0px;
@@ -128,7 +117,6 @@
   position: absolute;
   background-color: white;
 }
-
 .security-container .range .bottom {
   left: 20px;
   right: 20px;
@@ -136,34 +124,30 @@
   height: 20px;
   margin: 0px;
   position: absolute;
-  background-color: #ccc;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+  background-color: #cccccc;
 }
-
 .security-container .range .bottom input[type=range] {
   -webkit-appearance: none;
   width: 276px;
   background: transparent;
 }
-
 .security-container .range .bottom input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 20px;
-  color: #ccc;
+  color: #cccccc;
 }
-
 .security-container .range .bottom input[type=range]:focus {
   outline: none;
 }
-
 .security-container .range .bottom input[type=range]::-ms-track {
   width: 100%;
   cursor: pointer;
   background: transparent;
   border-color: transparent;
-  color: #ccc;
+  color: #cccccc;
   height: 20px;
 }
-
 .security-container .range .bottom input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   content: "";
@@ -173,7 +157,6 @@
   background-color: white;
   cursor: pointer;
 }
-
 .security-container .range .bottom input[type=range]::-moz-range-thumb {
   content: "";
   height: 16px;
@@ -182,7 +165,6 @@
   background-color: white;
   cursor: pointer;
 }
-
 .security-container .range .bottom input[type=range]::-ms-thumb {
   content: "";
   height: 16px;
@@ -191,7 +173,6 @@
   background-color: white;
   cursor: pointer;
 }
-
 .security-container .range .top {
   left: 20px;
   right: 20px;
@@ -201,7 +182,6 @@
   position: absolute;
   background-color: white;
 }
-
 .security-container .range .top .align-left {
   top: 0px;
   bottom: 0px;
@@ -210,7 +190,6 @@
   position: absolute;
   margin: 0px;
 }
-
 .security-container .range .top .align-left p {
   font-family: "Lato";
   font-size: 20px;
@@ -220,7 +199,6 @@
   text-align: left;
   position: relative;
 }
-
 .security-container .range .top .align-right {
   top: 0px;
   bottom: 0px;
@@ -229,7 +207,6 @@
   position: absolute;
   margin: 0px;
 }
-
 .security-container .range .top .align-right p {
   font-family: "Lato";
   font-size: 20px;
