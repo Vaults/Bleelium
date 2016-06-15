@@ -59,6 +59,14 @@ if (!MAIN_MODULE) {
                     }
                 }
                 return newMarkers;
+            },
+            initSetInfo: function(scope, func){
+                var setInfo = function (event, arg) {
+                    if (arg) {
+                        func(arg);
+                    }
+                };
+                scope.$on('setInfo', setInfo);
             }
         }
     })
@@ -163,7 +171,9 @@ if (!MAIN_MODULE) {
         ];
 
         $scope.state = function() {
-            return $location.path().split("/")[1];
+            var split = $location.path().split("/");
+            console.log(split);
+            return (split.length == 2)?split[1]:'';
         }
     });
     /**

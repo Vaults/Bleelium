@@ -116,8 +116,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
      * @param event
      * @param arg
      */
-    var setInfo = function (event, arg) { //Updates scope to the current selected p2000 event
-        if (arg) {
+    util.initSetInfo($scope, function(arg){
             $state.go('security.subemergency');
             $scope.city = "Eindhoven";
             $scope.type = arg.type;
@@ -125,9 +124,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             $scope.description = arg.description;
             $scope.publish_date = arg.publish_date;
             $scope.$apply();
-        }
-    };
-    $scope.$on('setInfo', setInfo);
+    });
 
     $scope.map = util.map;
 
@@ -147,7 +144,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
                mark = o;
            }
         });
-        setInfo(null, mark.options);
+        $rootScope.$broadcast('setInfo', mark.options);
     });
 
     /**
@@ -157,7 +154,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         var hack = $scope.getReactively('p2000Events');
         var hack2 = $scope.getReactively('SoundEvents');
         var hack3 = $scope.getReactively('criticalEvents');
-        setInfo(null, $scope.loc);
+        $rootScope.$broadcast('setInfo', $scope.loc);
         var events = P2000.find($scope.returnFilteredEvents()).fetch();
         events = events.concat(SoundSensor.find($scope.returnFilteredEvents()).fetch());
         events = events.concat(CriticalEvents.find($scope.returnFilteredEvents()).fetch());

@@ -40,9 +40,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
      * @param event Marker click event
      * @param arg WeatherStation information
      */
-    var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
-        console.log(arg);
-        if (arg) {
+    util.initSetInfo($scope, function(arg){
             console.log(arg);
             var loc = $scope.findWeatherStationInfo(arg);
             $scope.loc = arg;
@@ -63,11 +61,9 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.sunrise = loc.attributes.sunrise;
             $scope.sunset = loc.attributes.sunset;
             $scope.iconURL = IconService.retIconUrl(loc.attributes.weather_icon, 'weather');
-        }
-    };
+    });
 
-    //When setInfo is broadcasted, call setInfo function
-    $scope.$on('setInfo', setInfo);
+
     /**
      * @summary Make a location objects with latitude and longitude fields
      * @param latitude
@@ -91,16 +87,16 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
         //Create map and center on Eindhoven
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
-                var temp = {
-                    lat: function(){
-                        return '51.44';
+            var temp = {
+                lat: function(){
+                    return '51.44';
 
-                    },
-                    lng: function(){
-                        return '5.48';
-                    }
-                };
-                setInfo(null, temp);
+                },
+                lng: function(){
+                    return '5.48';
+                }
+            };
+            $rootScope.$broadcast('setInfo',  temp);
         }
         // //Create map markers for each weatherstation
         var optFunc = function(opts, obj){

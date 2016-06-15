@@ -38,28 +38,21 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      * @param event Marker click event
      * @param arg ParkingArea information
      */
-    var setInfo = function (event, arg) {
-        //console.log(arg);
-        if (arg) {
-            $scope.latitude = lodash.round(arg.lat, 2);
-            $scope.longtitude = lodash.round(arg.lon, 2);
-            $scope.address = arg.address; //parking address name
-            var d = new Date(); //get the date
-            var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; //define days
-            $scope.day = weekday[d.getDay()]; //day of the week
-            $scope.openingHours = arg.openingHours.split("|")[d.getDay()]; //get the opening hours for the current day
-            var price = arg.price.split("_"); //splits the price entry to the hourly and daily prices
-            $scope.pricehour = price[0]; //hourly fee
-            $scope.priceday = price[1]; //daily fee
-            circleHandler($scope, arg.index);
-            //Set parking info for detail view
-            ParkingService.setInfo(Object.keys(arg.lots)[0], arg);
-            //$scope.$apply();
-        }
-    };
-
-    /** Call setinfo when it's broadcasted */
-    $scope.$on('setInfo', setInfo);
+    util.initSetInfo($scope, function(arg){
+        $scope.latitude = lodash.round(arg.lat, 2);
+        $scope.longtitude = lodash.round(arg.lon, 2);
+        $scope.address = arg.address; //parking address name
+        var d = new Date(); //get the date
+        var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; //define days
+        $scope.day = weekday[d.getDay()]; //day of the week
+        $scope.openingHours = arg.openingHours.split("|")[d.getDay()]; //get the opening hours for the current day
+        var price = arg.price.split("_"); //splits the price entry to the hourly and daily prices
+        $scope.pricehour = price[0]; /*hourly fee*/
+        $scope.priceday = price[1]; //daily fee
+        circleHandler($scope, arg.index);
+        //Set parking info for detail view
+        ParkingService.setInfo(Object.keys(arg.lots)[0], arg);
+    });
 
     /**ui
      * @summary Runs whenever Parking settings are updated. Pulls Parking events and updates all UI elements
@@ -86,7 +79,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
        
         //If no marker has been clicked yet, load the data from the zeroth marker
         if(!$scope.latitude && $scope.markers[0]){
-            setInfo(null, $scope.markers[0].options);
+            $rootScope.$broadcast('setInfo', $scope.markers[0].options);
         }
     };
     $scope.autorun(reload);
