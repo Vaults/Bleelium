@@ -65,15 +65,12 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
-            $scope.parkingLot = arg.name;
-            $scope.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
-            ParkingService.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
+            ParkingService.setInfo(Object.keys(arg.lots)[0], arg);
+            //ParkingService.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
             // ParkingService.parkingLocation = { //Set a global variable with current location
             //     'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
             //     'attributes.coord_lon': '' + lodash.round(arg.lng(), 2)
             // };
-            console.log(ParkingService.parkingSpaces);
-            console.log(ParkingService.parkingLocation);
             $scope.$apply();
         }
     };
