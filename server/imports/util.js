@@ -145,7 +145,6 @@ var createBoilerplateOrionAttribute = function (name, value) {
         "type": "string",
         "value": value
     };
-
 };
 
 /**
