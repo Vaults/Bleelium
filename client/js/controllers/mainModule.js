@@ -21,8 +21,14 @@ if (!MAIN_MODULE) {
         'ui.router',
         'percentCircle-directive'
     ]);
+    /**
+     * @summary Collection of miscellaneous functions for use in multiple controllers
+     */
     MAIN_MODULE.factory('util', function () {
         return {
+            /**
+             * @summary global variable to keep state of map
+             */
             map: {
                 center: {
                     longitude: '5.48',
@@ -38,6 +44,14 @@ if (!MAIN_MODULE) {
                 }
 
             },
+            /**
+             * @summary Creates all markers for the map and adds correct parameters using helper functions
+             * @param objs Objects to represent on map
+             * @param markers Current set of markers on map
+             * @param optFunc Sets new marker parameters
+             * @param click Specifies click event
+             * @returns {Array} new markers
+             */
             calculateMarkers: function (objs, markers, optFunc, click) {
                 var newMarkers = [];
 
@@ -60,6 +74,10 @@ if (!MAIN_MODULE) {
                 }
                 return newMarkers;
             },
+            /**
+             * @summary Abstract function. Calls func() when setInfo is broadcasted and arg is set
+             * @param func function to call
+             */
             initSetInfo: function (scope, func) {
                 var setInfo = function (event, arg) {
                     if (arg) {
@@ -68,6 +86,9 @@ if (!MAIN_MODULE) {
                 };
                 scope.$on('setInfo', setInfo);
             },
+            /**
+             * @summary Global variable specifying all event types
+             */
             eventTypes: {
                 'policedept': {
                     icon: 'img/security/Politie.png',
@@ -115,6 +136,24 @@ if (!MAIN_MODULE) {
                 'warningbombthreat': {icon: 'img/security/warningbombthreat.png', text: 'Bomb Threat', checked: false},
                 'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name: 'Gas', checked: true},
                 'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name: 'Smoke', checked: true}
+            },
+            /**
+             * @summary Wrapper for aggregateParking and aggregateSecurity for caching
+             * @param meteorCall back-end meteor function to call
+             * @param flag mutex flag
+             * @param data current cache
+             * @modifies data
+             * @returns data cache
+             */
+            concurrentCall : function(meteorCall, flag, data){
+                if (!flag) {
+                    flag = true;
+                    Meteor.call(meteorCall, function (e, r) {
+                        data = r;
+                        flag = false;
+                    })
+                }
+                return data;
             }
         };
     });
@@ -157,11 +196,11 @@ if (!MAIN_MODULE) {
             })
             .state('security', {
                 templateUrl: 'client/ui-view.html',
-                controller: 'securityCtrl',
+                controller: 'securityCtrl'
             })
             .state('security.sub', {
                 url: '/security',
-                templateUrl: 'client/js/directives/infoSecurity.html',
+                templateUrl: 'client/js/directives/infoSecurity.html'
             })
             .state('security.subemergency', {
                 url: '/securityEmergencyEvent',
@@ -176,8 +215,7 @@ if (!MAIN_MODULE) {
                 controller: 'energyCtrl'
             })
             .state('energy.sub', {
-                url: '/energy',
-                //templateUrl: 'client/js/directives/infoWeather.html'
+                url: '/energy'
             });
     });
     /**
@@ -186,7 +224,7 @@ if (!MAIN_MODULE) {
     MAIN_MODULE.directive('criticalEvents', function () {
         return {
             templateUrl: 'client/js/directives/critical-event.html',
-            scope: '=',
+            scope: '='
         };
     });
     /**
@@ -210,14 +248,19 @@ if (!MAIN_MODULE) {
         $scope.navClass = function (path) {
             return (($location.path().substr(1, path.length)) === path) ? 'active' : '';
         };
-        //Categories to display in the top bar.
+        /**
+         * @summary Categories to display in the top bar.
+         */
         $scope.categories = [
             {link: 'parking', text: 'PARKING', color: '#ea5959'},
             {link: 'weather', text: 'WEATHER', color: '#47BB47'},
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
-
+        /**
+         * @summary Obtains state to be able to display correct navigation bar colors
+         * @returns {string} state
+         */
         $scope.state = function () {
             var split = $location.path().split("/");
             return (split.length == 2) ? split[1] : '';
@@ -255,6 +298,9 @@ if (!MAIN_MODULE) {
             this.name = area.name;
             this.areaIndex = area.index;
         };
+        /**
+         * @summary Keeps currently selected parking area
+         */
         ParkingService.parkingLocation = {
             'attributes.coord_lat': '51.448527',
             'attributes.coord_lon': '5.452773'
@@ -307,7 +353,7 @@ if (!MAIN_MODULE) {
         return IconService;
     });
     /**
-     * @summary keeps the currently selected weatherstation's location
+     * @summary keeps the currently selected weatherstation
      */
     MAIN_MODULE.factory('WeatherService', function () {
         var wLoc = {
@@ -336,55 +382,43 @@ if (!MAIN_MODULE) {
         return ret;
     });
     /**
-     * @summary Filter to round floats in a string format usable from HTML
+     * @summary Filter to round floats and turn into a string format usable from HTML
      */
-    MAIN_MODULE.filter('toFixed', function () { //Turns string into float and removes decimals
+    MAIN_MODULE.filter('toFixed', function () {
         return function (string) {
             return parseFloat(string).toFixed();
         }
     });
+
+
+
     /**
      * @summary caches data, and queues calls of aggregateparking
      */
-    MAIN_MODULE.factory('aggregateParking', function () {
+    MAIN_MODULE.factory('aggregateParking', function (util) {
         var data = {
             spaces: {'1': 240, '2': 120, '3': 498, total: 858},
             occupied: {'1': 120, '2': 61, '3': 243, total: 424}
         };
         var flag = false;
-        return function () {
-            if (!flag) {
-                flag = true;
-                Meteor.call('aggregateParking', function (e, r) {
-                    data = r;
-                    flag = false;
-                })
-            }
-            return data;
-        }
+        return util.concurrentCall('aggregateParking', flag, data);
     });
 
     /**
      * @summary caches data, and queues calls of aggregateSecurity;
      */
-    MAIN_MODULE.factory('aggregateSecurity', function () {
+    MAIN_MODULE.factory('aggregateSecurity', function (util) {
         var data = {counts: {}};
         var flag = false;
-        return function () {
-            if (!flag) {
-                flag = true;
-                Meteor.call('aggregateSecurity', function (e, r) {
-                    data = r;
-                    flag = false;
-                })
-            }
-            return data;
-        }
+        return util.concurrentCall('aggregateSecurity', flag, data);
     });
 
+    /**
+     * @summary Sets scope for percentage circle visualizations
+     */
     MAIN_MODULE.factory('circleHandler', ['aggregateParking', function (aggregateParking) {
         return function (scope, index) {
-            var setFreeColor = function (c) {
+            /*var setFreeColor = function (c) {
                 scope.color = {
                     center: 'white',
                     highlight: c,
@@ -403,9 +437,8 @@ if (!MAIN_MODULE) {
                         setFreeColor('red');
                     }
                 }
-            }
-
-            var result = aggregateParking();
+            }*/
+            var result = aggregateParking;
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
             scope.occupied = result['occupied']; //get current occupancy number for this parking area
             scope.percent = (scope.occupied.total / scope.capacity.total) * 100; //update current occupancy percentage

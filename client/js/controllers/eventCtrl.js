@@ -28,7 +28,7 @@ MAIN_MODULE.controller('eventCtrl', function ($state, $scope, $meteor, $reactive
 
 
     /**
-     * @summary Closes critical event pop-up window when 'X' is clicked
+     * @summary Closes critical event pop-up window when 'X' is clicked and updates the seen flag
      */
     $scope.close = function () {
         popUpMulti.style.display = "none";
@@ -52,7 +52,7 @@ MAIN_MODULE.controller('eventCtrl', function ($state, $scope, $meteor, $reactive
         $scope.close();
         $state.go('security.sub');
 
-    }
+    };
 
     /**
      * @summary When the collection is updated, the pop-up is displayed again if any event has seenFlag == false

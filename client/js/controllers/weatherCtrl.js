@@ -25,7 +25,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
 
     /**
      * @summary Updates the scope information when a marker is clicked
-     * @param event Marker click event
      * @param arg WeatherStation information
      */
     util.initSetInfo($scope, function(arg){
@@ -51,21 +50,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.iconURL = IconService.retIconUrl(loc.attributes.weather_icon, 'weather');
     });
 
-
-    /**
-     * @summary Make a location objects with latitude and longitude fields
-     * @param latitude
-     * @param longitude
-     * @returns Object with latitude and longitude
-     */
-    $scope.makeLocation = function (latitude, longitude) {
-        return {
-            latitude,
-            longitude
-        }
-    };
-
-
     /**
      * @summary Runs whenever weatherstation collection is updated. Pulls weatherstations and updates UI elements accordingly
      */
@@ -85,11 +69,20 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                 }
             });
         }
-        // //Create map markers for each weatherstation
+        /**
+         * @summary Create map markers for each of the weather stations
+         * @param opts options to set in each marker
+         * @param obj weatherstation object
+         * @returns options to set in marker
+         */
         var optFunc = function(opts, obj){
             opts['icon'] = IconService.createMarkerIcon(obj.attributes.weather_icon, 'weather')
             return opts;
         }
+        /**
+         * @summary Click event for marker
+         * @param marker
+         */
         var markerFunc = (marker)=>{
             $rootScope.$broadcast('setInfo', marker.getPosition());
         }

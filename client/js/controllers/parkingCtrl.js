@@ -60,7 +60,12 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     var reload = function () {
         var parkingAreas= $scope.getReactively('parkingArea');
 
-        /** Create map markers for each of the parkingAreas */
+        /**
+         * @summary Create map markers for each of the parking areas
+         * @param opts options to set in each marker
+         * @param obj parking area object
+         * @returns options to set in marker
+         */
         var optFunc = function(opts, obj){
             opts['icon'] = IconService.createMarkerIcon('Parking', 'parking');
             opts['name'] = obj.attributes.name;
@@ -70,11 +75,17 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             opts['index'] = obj._id;
             opts['lots'] = obj.parkingLots;
             return opts;
-        }
+        };
+
+        /**
+         * @summary Click event for marker
+         * @param marker
+         */
         var markerFunc = (marker) => {
                 $rootScope.$broadcast('setInfo', marker);
         };
 
+        //Creates all parking markers
         $scope.markers = util.calculateMarkers(parkingAreas, $scope.markers, optFunc, markerFunc);
        
         //If no marker has been clicked yet, load the data from the zeroth marker

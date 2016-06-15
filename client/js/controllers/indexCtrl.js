@@ -1,7 +1,20 @@
 import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
-
+/**
+ * @summary controller for the homepage. Displays common information for each visualization category
+ * @param $scope Angular scope
+ * @param $meteor Angular meteor handle
+ * @param $reactive Angular reactive component
+ * @param $rootScope Angular root scope
+ * @param WeatherService stores the location of the currently selected weather station
+ * @param IconService is used to set the marker icon
+ * @param aggregateSecurity is used for the P2000 to get each event's counts
+ * @param aggregateParking is used for the parking space aggregation to get the occupancy values
+ * @param circleHandler is used to give correct scope values to the percentage circle
+ * @param ParkingService is used to keep parking state
+ * @param util is used for miscellaneous functions
+ */
 MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateSecurity, aggregateParking, circleHandler, ParkingService, util) {
     $meteor.subscribe('weatherPub');
     $meteor.subscribe('P2000Pub');
@@ -20,8 +33,7 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
 
 
     /**
-     * @summary Updates the scope information when a marker is clicked
-     * @param event Marker click event
+     * @summary Updates the scope information for the weather station
      * @param arg WeatherStation information
      */
     util.initSetInfo($scope, function(arg){
@@ -39,13 +51,11 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
             $scope.weather_min = lodash.round(loc.attributes.temp_min, 2);
             $scope.weather_max = lodash.round(loc.attributes.temp_max, 2);
             $scope.weather_windDegrees = loc.attributes.wind_deg;
-            //$scope.windDirection = getWindDir(loc.attributes.wind_deg);
             $scope.weather_Airpressure = lodash.round(loc.attributes.pressure);
             $scope.weather_Humidity = lodash.round(loc.attributes.humidity);
             $scope.weather_sunrise = loc.attributes.sunrise;
             $scope.weather_sunset = loc.attributes.sunset;
             $scope.weather_iconURL = IconService.retIconUrl(loc.attributes.weather_icon, 'weather');
-            //$scope.$apply();
     });
 
 
@@ -71,7 +81,7 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
         }
 
         circleHandler($scope);
-        var security = aggregateSecurity().counts;
+        var security = aggregateSecurity.counts;
         $scope.eventTypes = util.eventTypes;
         for(key in $scope.eventTypes){
             $scope.eventTypes[key].count = security[$scope.eventTypes[key].name];

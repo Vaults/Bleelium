@@ -4,6 +4,16 @@ P2000 = new Mongo.Collection('P2000');
 SoundSensor = new Mongo.Collection('SoundSensor');
 CriticalEvents = new Mongo.Collection('criticalEvents');
 
+/**
+ * @summary Controller for the security tab. Controls the sidebar in the security tab as well as the icons on the map
+ * @param $scope Angular scope
+ * @param $meteor Angular meteor handle
+ * @param $reactive Angular reactive component
+ * @param $rootScope Angular root scope
+ * @param $state UI router state used to switch state
+ * @param IconService is used to set the marker icon
+ * @param util utilities for map
+ */
 MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, $stateParams, IconService, util) {
     $reactive(this).attach($scope);
 
@@ -65,14 +75,9 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         }
     });
 
-    $scope.getIcon = function (arg2) {
-
-    }
-
     /**
      * @summary update scope to the currently selected event
-     * @param event
-     * @param arg
+     * @param arg marker options
      */
     util.initSetInfo($scope, function(arg){
             $state.go('security.subemergency');
@@ -86,6 +91,9 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
 
     $scope.map = util.map;
 
+    /**
+     * @summary Zooms and loads critical event when info button is clicked on homepage
+     */
     $rootScope.$on('critEventSet', function (event, args) {
         console.log(args);
         $scope.map = {
@@ -94,7 +102,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
                 latitude: args.attributes.coord_lat
             },
             zoom: 15
-        }
+        };
 
         var mark={};
         $scope.markers.forEach(function(o){
@@ -116,6 +124,12 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         var events = P2000.find($scope.returnFilteredEvents()).fetch();
         events = events.concat(SoundSensor.find($scope.returnFilteredEvents()).fetch());
         events = events.concat(CriticalEvents.find($scope.returnFilteredEvents()).fetch());
+        /**
+         * @summary Create map markers for each of the security events
+         * @param opts options to set in each marker
+         * @param obj security event object
+         * @returns options to set in marker
+         */
         var optFunc = function(opts, obj){
             opts['icon'] = IconService.createMarkerIcon(obj.attributes.type, 'security'),
             opts['type'] = obj.attributes.type,
@@ -124,6 +138,11 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             opts['publish_date'] = obj.attributes.publish_date
             return opts;
         };
+
+        /**
+         * @summary Click event for marker
+         * @param marker
+         */
         var markerFunc = (marker) => {
             $rootScope.$broadcast('setInfo', marker);
         };

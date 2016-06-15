@@ -1,11 +1,21 @@
 import {MAIN_MODULE} from  './mainModule.js';
-
+/**
+ * @summary controller for the parking details page
+ * @param $scope Angular scope
+ * @param $meteor Angular meteor handle
+ * @param $reactive Angular reactive component
+ * @param $rootScope Angular root scope
+ * @param IconService is used to set the marker icon
+ * @param aggregateParking is used for the parking space aggregation to get the occupancy values
+ * @param circleHandler is used to give correct scope values to the percentage circle
+ * @param ParkingService is used to keep parking state
+ */
 MAIN_MODULE.controller('parkingDetailsCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler, ParkingService) {
 
     $meteor.subscribe('parkingAreaPub');
 
     /**
-     * @summary sets the free parking spaces to green based on parkingSpaces set in the factory
+     * @summary sets the free parking spaces to green based on parkingSpaces set in the ParkingService
      */
     var setParkingImage = function() {
         var parkingSpaces = ParkingService.parkingSpaces;
