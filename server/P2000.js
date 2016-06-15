@@ -90,4 +90,4 @@ Meteor.methods({
 });
 
 //exports for tests
-export {pushP2000ToOrion, P2000Pull}
+export {pushP2000ToOrion, P2000Pull,countSecurity}
