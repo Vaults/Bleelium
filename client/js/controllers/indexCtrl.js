@@ -2,7 +2,7 @@ import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
 
-MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateSecurity, aggregateParking, circleHandler, ParkingService) {
+MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateSecurity, aggregateParking, circleHandler, ParkingService, util) {
     $meteor.subscribe('weatherPub');
     $meteor.subscribe('P2000Pub');
     $meteor.subscribe('soundSensorPub');
@@ -35,8 +35,7 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
      * @param event Marker click event
      * @param arg WeatherStation information
      */
-    var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
-        if (arg) {
+    util.initSetInfo($scope, function(arg){
             var loc = $scope.findWeatherStationInfo(arg);
             $scope.weather_loc = arg;
             WeatherService.weatherLocation = { //Set a global variable with current location
@@ -58,23 +57,10 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
             $scope.weather_sunset = loc.attributes.sunset;
             $scope.weather_iconURL = IconService.retIconUrl(loc.attributes.weather_icon, 'weather');
             //$scope.$apply();
-        }
-    };
+    });
 
-    //When setInfo is broadcasted, call setInfo function
-    $scope.$on('setInfo', setInfo);
-    /**
-     * @summary Make a location objects with latitude and longitude fields
-     * @param latitude
-     * @param longitude
-     * @returns Object with latitude and longitude
-     */
-    $scope.makeLocation = function (latitude, longitude) {
-        return {
-            latitude,
-            longitude
-        }
-    };
+
+
 
 
     /**
@@ -84,58 +70,23 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
         console.log($scope.getReactively('parkingArea'));
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
-                var temp = {
-                    lat: function(){
-                        return '51.44';
+            $rootScope.$broadcast('setInfo', {
+                lat: function(){
+                    return '51.44';
 
-                    },
-                    lng: function(){
-                        return '5.48';
-                    }
-                };
-                setInfo(null, temp);
+                },
+                lng: function(){
+                    return '5.48';
+                }
+            });
         }
-        var lastDaySel = function(sel){
-            var time = new Date().getTime() - 24*60*60*1000;
-            sel['attributes.dt'] = {$gte: time+''};
-            return sel;
-        };
 
         circleHandler($scope);
         var security = aggregateSecurity().counts;
-
-        $scope.eventTypes = {
-            'policedept': {
-                icon: 'img/security/Politie.png',
-                text: 'Police Department',
-                name: 'Politie',
-                count: security.Politie
-            },
-            'firedept': {
-                icon: 'img/security/brandweer.png',
-                text: 'Fire Department',
-                name: 'brandweer',
-                count: security.brandweer
-            },
-            'paramedics': {
-                icon: 'img/security/Ambulance.png',
-                text: 'Paramedics',
-                name: 'Ambulance',
-                count: security.Ambulance
-            },
-            'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot', count: security.gunshot},
-            'stressedvoice': {icon: 'img/security/stressedvoice.png', text: 'Stressed Voice', name: 'stressedvoice', count: security.stressedvoice},
-            'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name:'caralarm', count: security.caralarm},
-            'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', name:'brokenglass', count: security.brokenglass},
-            'caraccident': {
-                icon: 'img/security/caraccident.png',
-                text: 'Car accident',
-                name:'caraccident',
-                count: security.caraccident
-            },
-            'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name:'Gas', count: security.Gas},
-            'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name:'Smoke', count: security.Smoke}
-        };
+        $scope.eventTypes = util.eventTypes;
+        for(key in $scope.eventTypes){
+            $scope.eventTypes[key].count = security[$scope.eventTypes[key].name];
+        }
     }
     $scope.autorun(reload)
 

@@ -6,49 +6,6 @@ CriticalEvents = new Mongo.Collection('criticalEvents');
 
 MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, $stateParams, IconService, util) {
     $reactive(this).attach($scope);
-    $scope.eventTypes = {
-        'policedept': {
-            icon: 'img/security/Politie.png',
-            text: 'Police Department',
-            name: 'Politie',
-            checked: true
-        },
-        'firedept': {
-            icon: 'img/security/brandweer.png',
-            text: 'Fire Department',
-            name: 'brandweer',
-            checked: true
-        },
-        'paramedics': {
-            icon: 'img/security/Ambulance.png',
-            text: 'Paramedics',
-            name: 'Ambulance',
-            checked: false,
-            style: 'margin-bottom: 20px'
-        },
-        'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot', checked: true},
-        'stressedvoice': {
-            icon: 'img/security/stressedvoice.png',
-            text: 'Stressed Voice',
-            name: 'stressedvoice',
-            checked: false
-        },
-        'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name: 'caralarm', checked: false},
-        'brokenglass': {icon: 'img/security/brokenglass.png', text: 'Broken Glass', name: 'brokenglass', checked: true},
-        'caraccident': {
-            icon: 'img/security/caraccident.png',
-            text: 'Car accident',
-            checked: true,
-            name: 'caraccident',
-            style: 'margin-bottom: 20px'
-        },
-        'warninggeneral': {icon: 'img/security/warninggeneral.png', text: 'Critical Event', checked: true},
-        'warningevacuation': {icon: 'img/security/warningfire2.png', text: 'Evacuation Notice', checked: false},
-        'warningfire': {icon: 'img/security/warningfire.png', text: 'Fire Alarm', checked: false},
-        'warningbombthreat': {icon: 'img/security/warningbombthreat.png', text: 'Bomb Threat', checked: false},
-        'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name: 'Gas', checked: true},
-        'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name: 'Smoke', checked: true}
-    };
 
     $meteor.subscribe('P2000Pub');
     $meteor.subscribe('soundSensorPub');
@@ -57,6 +14,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     $scope.range = { //Initial range slider value
         value: 24
     }
+    $scope.eventTypes = util.eventTypes;
 
     /**
      * @summary find one specific event based on location

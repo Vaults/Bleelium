@@ -21,7 +21,7 @@ if (!MAIN_MODULE) {
         'ui.router',
         'percentCircle-directive'
     ]);
-    MAIN_MODULE.factory('util',function(){
+    MAIN_MODULE.factory('util', function () {
         return {
             map: {
                 center: {
@@ -38,7 +38,7 @@ if (!MAIN_MODULE) {
                 }
 
             },
-            calculateMarkers : function(objs, markers, optFunc, click){
+            calculateMarkers: function (objs, markers, optFunc, click) {
                 var newMarkers = [];
 
                 for (var i = 0; i < objs.length; i++) {
@@ -46,30 +46,78 @@ if (!MAIN_MODULE) {
                     if (objs[i].attributes) {
                         newMarkers.push({
                             options: optFunc(options, objs[i]),
-                            events:{
+                            events: {
                                 click: click
                             },
                             location: {
-                                longitude: (objs[i].attributes.coord_lon)?objs[i].attributes.coord_lon:objs[i].attributes.coord_lng,
+                                longitude: (objs[i].attributes.coord_lon) ? objs[i].attributes.coord_lon : objs[i].attributes.coord_lng,
                                 latitude: objs[i].attributes.coord_lat,
                             }
                         });
-                    }else {
+                    } else {
                         markers[i].setMap(null);
                     }
                 }
                 return newMarkers;
             },
-            initSetInfo: function(scope, func){
+            initSetInfo: function (scope, func) {
                 var setInfo = function (event, arg) {
                     if (arg) {
                         func(arg);
                     }
                 };
                 scope.$on('setInfo', setInfo);
+            },
+            eventTypes: {
+                'policedept': {
+                    icon: 'img/security/Politie.png',
+                    text: 'Police Department',
+                    name: 'Politie',
+                    checked: true
+                },
+                'firedept': {
+                    icon: 'img/security/brandweer.png',
+                    text: 'Fire Department',
+                    name: 'brandweer',
+                    checked: true
+                },
+                'paramedics': {
+                    icon: 'img/security/Ambulance.png',
+                    text: 'Paramedics',
+                    name: 'Ambulance',
+                    checked: false,
+                    style: 'margin-bottom: 20px'
+                },
+                'gunshot': {icon: 'img/security/gunshot.png', text: 'Gunshot', name: 'gunshot', checked: true},
+                'stressedvoice': {
+                    icon: 'img/security/stressedvoice.png',
+                    text: 'Stressed Voice',
+                    name: 'stressedvoice',
+                    checked: false
+                },
+                'caralarm': {icon: 'img/security/caralarm.png', text: 'Car Alarm', name: 'caralarm', checked: false},
+                'brokenglass': {
+                    icon: 'img/security/brokenglass.png',
+                    text: 'Broken Glass',
+                    name: 'brokenglass',
+                    checked: true
+                },
+                'caraccident': {
+                    icon: 'img/security/caraccident.png',
+                    text: 'Car accident',
+                    checked: true,
+                    name: 'caraccident',
+                    style: 'margin-bottom: 20px'
+                },
+                'warninggeneral': {icon: 'img/security/warninggeneral.png', text: 'Critical Event', checked: true},
+                'warningevacuation': {icon: 'img/security/warningfire2.png', text: 'Evacuation Notice', checked: false},
+                'warningfire': {icon: 'img/security/warningfire.png', text: 'Fire Alarm', checked: false},
+                'warningbombthreat': {icon: 'img/security/warningbombthreat.png', text: 'Bomb Threat', checked: false},
+                'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name: 'Gas', checked: true},
+                'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name: 'Smoke', checked: true}
             }
-        }
-    })
+        };
+    });
     /**
      * @summary Specifies which urls route to which files and controllers
      */
@@ -136,10 +184,10 @@ if (!MAIN_MODULE) {
      * @summary Binds the critical event HTML to the name criticalEvents
      */
     MAIN_MODULE.directive('criticalEvents', function () {
-    return {
-        templateUrl: 'client/js/directives/critical-event.html',
-        scope: '=',
-    };
+        return {
+            templateUrl: 'client/js/directives/critical-event.html',
+            scope: '=',
+        };
     });
     /**
      * @summary Binds the navigation bar HTML to the name navBar
@@ -170,10 +218,9 @@ if (!MAIN_MODULE) {
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
 
-        $scope.state = function() {
+        $scope.state = function () {
             var split = $location.path().split("/");
-            console.log(split);
-            return (split.length == 2)?split[1]:'';
+            return (split.length == 2) ? split[1] : '';
         }
     });
     /**
@@ -188,22 +235,22 @@ if (!MAIN_MODULE) {
     /**
      * @summary Keeps the parking spaces and area for the detailed view
      */
-    MAIN_MODULE.factory('ParkingService', function() {
+    MAIN_MODULE.factory('ParkingService', function () {
         var ParkingService = {};
         ParkingService.parkingSpaces = {};
         ParkingService.name = '';
         ParkingService.areaIndex = -1;
         ParkingService.color = {
-            center : 'white',
+            center: 'white',
             highlight: '#ea5959',
-            remaining : 'lightGrey'
+            remaining: 'lightGrey'
         };
         /**
          * @summary setter for fields
          * @param i lot to load
          * @param area ParkingArea object from DB
          */
-        ParkingService.setInfo = function(i, area){
+        ParkingService.setInfo = function (i, area) {
             this.parkingSpaces = area.lots[i].parkingSpaces;
             this.name = area.name;
             this.areaIndex = area.index;
@@ -268,8 +315,12 @@ if (!MAIN_MODULE) {
             'attributes.coord_lon': '51.44'
         };
         var ret = {
-            setWeatherLocation : function(o){wLoc = o},
-            getWeatherLocation : function(){return wLoc}
+            setWeatherLocation: function (o) {
+                wLoc = o
+            },
+            getWeatherLocation: function () {
+                return wLoc
+            }
         };
         return ret;
     });
@@ -284,13 +335,16 @@ if (!MAIN_MODULE) {
     /**
      * @summary caches data, and queues calls of aggregateparking
      */
-    MAIN_MODULE.factory('aggregateParking', function(){
-        var data = { spaces: { '1': 240, '2': 120, '3': 498, total: 858 },occupied: { '1': 120, '2': 61, '3': 243, total: 424 } };
+    MAIN_MODULE.factory('aggregateParking', function () {
+        var data = {
+            spaces: {'1': 240, '2': 120, '3': 498, total: 858},
+            occupied: {'1': 120, '2': 61, '3': 243, total: 424}
+        };
         var flag = false;
-        return function() {
-            if(!flag){
+        return function () {
+            if (!flag) {
                 flag = true;
-                Meteor.call('aggregateParking', function(e, r){
+                Meteor.call('aggregateParking', function (e, r) {
                     data = r;
                     flag = false;
                 })
@@ -302,13 +356,13 @@ if (!MAIN_MODULE) {
     /**
      * @summary caches data, and queues calls of aggregateSecurity;
      */
-    MAIN_MODULE.factory('aggregateSecurity', function(){
-        var data = {counts:{}};
+    MAIN_MODULE.factory('aggregateSecurity', function () {
+        var data = {counts: {}};
         var flag = false;
-        return function() {
-            if(!flag){
+        return function () {
+            if (!flag) {
                 flag = true;
-                Meteor.call('aggregateSecurity', function(e, r){
+                Meteor.call('aggregateSecurity', function (e, r) {
                     data = r;
                     flag = false;
                 })
@@ -316,9 +370,9 @@ if (!MAIN_MODULE) {
             return data;
         }
     });
-    
-    MAIN_MODULE.factory('circleHandler', ['aggregateParking', function(aggregateParking){
-        return function(scope, index) {
+
+    MAIN_MODULE.factory('circleHandler', ['aggregateParking', function (aggregateParking) {
+        return function (scope, index) {
             var setFreeColor = function (c) {
                 scope.color = {
                     center: 'white',
@@ -344,12 +398,12 @@ if (!MAIN_MODULE) {
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
             scope.occupied = result['occupied']; //get current occupancy number for this parking area
             scope.percent = (scope.occupied.total / scope.capacity.total) * 100; //update current occupancy percentage
-            if(index) {
+            if (index) {
                 scope.capacity = scope.capacity[index];
                 scope.occupied = scope.occupied[index];
                 scope.percent = (scope.occupied / scope.capacity) * 100; //update current occupancy percentage
             }
-             //setTimeout(changeColor, 500);
+            //setTimeout(changeColor, 500);
 
         }
     }]);
