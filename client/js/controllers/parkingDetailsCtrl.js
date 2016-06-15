@@ -28,6 +28,11 @@ MAIN_MODULE.controller('parkingDetailsCtrl', function ($scope, $meteor, $reactiv
             }
         }
     };
+    $scope.color = {
+        center : 'white',
+        highlight: '#ea5959',
+        remaining : 'lightGrey'
+    }
     //Change the loaded image to the correct one by altering the HTML attribute
     var imageElement = document.querySelector("parking-image");
     imageElement.setAttribute('template-url', ParkingService.name);
@@ -49,6 +54,6 @@ MAIN_MODULE.directive('parkingImage', ['ParkingService', function(ParkingService
                 scope.contentUrl = 'img/parking/'+v+'.svg';
             });
         },
-        template: '<div ng-include="contentUrl"></div>'
+        template: '<div ng-include="contentUrl" style="height:100%"></div>'
     }
 }]);

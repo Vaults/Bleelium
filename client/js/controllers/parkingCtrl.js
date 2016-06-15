@@ -41,7 +41,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     /** Defines the colors of percentage circle */
     $scope.color = {
         center : 'white',
-        highlight: 'blue',
+        highlight: '#ea5959',
         remaining : 'lightGrey'
     }
 

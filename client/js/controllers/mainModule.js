@@ -122,7 +122,7 @@ if (!MAIN_MODULE) {
         ];
 
         $scope.state = function() {
-            return $location.path().replace(/\//g, '');
+            return $location.path().split("/")[1];
         }
     });
     /**

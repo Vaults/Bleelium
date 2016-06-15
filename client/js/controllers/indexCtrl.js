@@ -8,7 +8,11 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
     $meteor.subscribe('soundSensorPub');
     $meteor.subscribe('criticalEventsPub');
     $meteor.subscribe('parkingAreaPub');
-
+    $scope.color = {
+        center : 'white',
+        highlight: '#ea5959',
+        remaining : 'lightGrey'
+    }
     $scope.helpers({	//Scope helpers to get from Meteor collections
         weatherStations(){
             return WeatherStations.find({});

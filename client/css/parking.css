@@ -1,50 +1,50 @@
 .parking-item h2 {
-    font-size: 24px;
-    font-weight: 900;
-    margin-top: 10;
-    text-align: center;
-    margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 900;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .parking-item p {
-    font-size: 17px;
-    line-height: 30px;
-    margin: 0 0 25px 0;
-    font-weight: normal;
+  font-size: 17px;
+  line-height: 30px;
+  margin: 0 0 25px 0;
+  font-weight: normal;
 }
 
 .parking-item .pull-right {
-    text-align: right;
+  text-align: right;
 }
 
 .pc-container {
-    position: relative;
-    width: 80%;
-    margin: auto;
+  position: relative;
+  width: 100%;
 }
 
 .pc-border {
-    position: relative;
-    text-align: center;
-    width: 100%;
-    padding-top: 100%;
-    border-radius: 100%;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 100%;
 }
 
 .pc-circle {
-    position: relative;
-    margin-top: -90%;
-    margin-left: 10%;
-    width: 80%;
-    padding-top: 80%;
-    border-radius: 100%;
+  position: relative;
+  margin-top: -90%;
+  margin-left: 10%;
+  width: 80%;
+  padding-top: 80%;
+  border-radius: 100%;
+  background-color: #ea5959;
 }
 
 .pc-percent {
-    font-family: Lato, sans-serif;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3em;
+  font-family: Lato, sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
 }

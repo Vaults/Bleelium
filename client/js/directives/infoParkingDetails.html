@@ -1,15 +1,26 @@
 
-<div class="row">
-    <a ui-sref="parking.sub"  id="closebutton1" class="closebutton"><img src="/img/cross_black.png" style="margin-top: 7px" height="20px"/></a>
-    <div class="col-md-7">
-        <div style="margin-top: 50px; margin-left: 25px; height: 550px; width: 100%">
+
+    <div style="position: absolute; right: 320px; top: 0px; bottom: 0px; left: 0px; margin-top: 25px; margin-left: 25px; margin-right: 25px; margin-bottom: 25px">
             <parking-image id="parking-image" width="100%" template-url="Area_1"></parking-image>
-        </div>
     </div>
-    <div class="col-md-3">
-        <div class="parking-item">
-        <h2>Strijp-S</h2>
-        <percent-circle percent="percent" colors="color"></percent-circle>
+    <div class="side">
+        <div style="
+            position: absolute;
+            top: -72px;
+            height: 72px;
+            left: 0px;
+            right: 0px;
+            background-color: red;
+            z-index: 99;"></div>
+
+            <div class="parking-item">
+            <h2>Strijp-S</h2>
+            <percent-circle percent="percent" colors="color"></percent-circle>
+            </div>
+
+        <div class="pull-right" style="position: absolute; top: 20px; bottom: 20px; right: 20px; width: 40px;">
+            <a ui-sref="parking.sub"  id="closebutton1" class="closebutton"><img src="/img/cross_black.png" style="margin-top: 7px" height="20px"/></a>
         </div>
-    </div>
-</div>
+
+        </div>
+
