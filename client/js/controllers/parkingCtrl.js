@@ -12,7 +12,7 @@ ParkingArea = new Mongo.Collection('ParkingArea');
  * @param IconService is used to set the marker icon
  * @param aggregateParking is used for the parking space aggregation to get the occupancy values
  */
-MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler) {
+MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler, ParkingService) {
     /** Make scope reactive scope */
     $reactive(this).attach($scope);
 
@@ -64,7 +64,12 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
-
+            ParkingService.setInfo(Object.keys(arg.lots)[0], arg);
+            //ParkingService.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
+            // ParkingService.parkingLocation = { //Set a global variable with current location
+            //     'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
+            //     'attributes.coord_lon': '' + lodash.round(arg.lng(), 2)
+            // };
             $scope.$apply();
         }
     };
@@ -77,7 +82,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      */
     var reload = function () {
         var parkingAreas= $scope.getReactively('parkingArea');
-
+        
         /** Remove old markers */
         $scope.markers = [];
 
@@ -89,10 +94,12 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                     options: {
                         draggable: false,
                         icon: IconService.createMarkerIcon('Parking', 'parking'),
+                        name: currentMarker.name,
                         address: currentMarker.address,
                         openingHours: currentMarker.openingHours,
                         price: currentMarker.price,
-                        index: parkingAreas[i]._id
+                        index: parkingAreas[i]._id,
+                        lots: parkingAreas[i].parkingLots
                     },
                     events: {
                         click: (marker, eventName, args) => {

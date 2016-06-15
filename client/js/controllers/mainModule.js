@@ -20,7 +20,7 @@ if (!MAIN_MODULE) {
         'ui.bootstrap',
         'ui.router',
         'percentCircle-directive'
-    ]);
+    ]);    
     /**
      * @summary Specifies which urls route to which files and controllers
      */
@@ -52,6 +52,11 @@ if (!MAIN_MODULE) {
             .state('parking.sub', {
                 url: '/parking',
                 templateUrl: 'client/js/directives/infoParking.html'
+            })
+            .state('parkingDetails', {
+                url: '/parking/details',
+                templateUrl: 'client/js/directives/infoParkingDetails.html',
+                controller: 'parkingDetailsCtrl'
             })
             .state('security', {
                 templateUrl: 'client/ui-view.html',
@@ -128,6 +133,22 @@ if (!MAIN_MODULE) {
             templateUrl: 'client/js/directives/google-map.html',
             scope: '='
         }
+    });
+    MAIN_MODULE.factory('ParkingService', function() {
+        var ParkingService = {};
+        ParkingService.parkingSpaces = {};
+        ParkingService.name = '';
+        ParkingService.areaIndex = -1;
+        ParkingService.setInfo = function(i, area){
+            this.parkingSpaces = area.lots[i].parkingSpaces;
+            this.name = area.name;
+            this.areaIndex = area.index;
+        }
+        ParkingService.parkingLocation = {
+            'attributes.coord_lat': '51.448527',
+            'attributes.coord_lon': '5.452773'
+        };
+        return ParkingService;
     });
     /**
      * @summary Provides functionality for displaying icons in UI and on markers
@@ -209,6 +230,24 @@ if (!MAIN_MODULE) {
         }
     });
 
+    /**
+     * @summary caches data, and queues calls of aggregateSecurity;
+     */
+    MAIN_MODULE.factory('aggregateSecurity', function(){
+        var data = {counts:{}};
+        var flag = false;
+        return function() {
+            if(!flag){
+                flag = true;
+                Meteor.call('aggregateSecurity', function(e, r){
+                    data = r;
+                    flag = false;
+                })
+            }
+            return data;
+        }
+    });
+    
     MAIN_MODULE.factory('circleHandler', ['aggregateParking', function(aggregateParking){
         return function(scope, index) {
             var setFreeColor = function (c) {
@@ -232,7 +271,6 @@ if (!MAIN_MODULE) {
                 }
             }
             var result = aggregateParking();
-            console.log(result);
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
             scope.occupied = result['occupied']; //get current occupancy number for this parking area
             scope.percent = (scope.occupied.total / scope.capacity.total) * 100; //update current occupancy percentage
@@ -241,8 +279,8 @@ if (!MAIN_MODULE) {
                 scope.occupied = scope.occupied[index];
                 scope.percent = (scope.occupied / scope.capacity) * 100; //update current occupancy percentage
             }
+             //setTimeout(changeColor, 500);
 
-            changeColor();
         }
     }]);
 }
