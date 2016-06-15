@@ -22,18 +22,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
             return WeatherStations.find({});
         }
     });
-    /**
-     * @summary Find a weatherstation based on geolocation
-     * @param loc object with attributes 'attributes.coord_lat' and 'attributes.coord_lon'
-     * @returns WeatherStation
-     */
-    $scope.findWeatherStationInfo = function (loc) { //Finds a weather station from coordinates
-        var selector = {
-            'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
-            'attributes.coord_lon': String(lodash.round(loc.lng(), 2))
-        };
-        return WeatherStations.findOne(selector);
-    }
 
     /**
      * @summary Updates the scope information when a marker is clicked
@@ -42,7 +30,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
      */
     util.initSetInfo($scope, function(arg){
             console.log(arg);
-            var loc = $scope.findWeatherStationInfo(arg);
+            var loc = WeatherStations.findOne(WeatherService.findWeatherStationInfo(arg));
             $scope.loc = arg;
             WeatherService.setWeatherLocation({ //Set a global variable with current location
                 'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
@@ -87,7 +75,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
         //Create map and center on Eindhoven
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
-            var temp = {
+            $rootScope.$broadcast('setInfo',  {
                 lat: function(){
                     return '51.44';
 
@@ -95,8 +83,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                 lng: function(){
                     return '5.48';
                 }
-            };
-            $rootScope.$broadcast('setInfo',  temp);
+            });
         }
         // //Create map markers for each weatherstation
         var optFunc = function(opts, obj){

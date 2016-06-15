@@ -50,7 +50,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             selector = {"falseValue": "Do not show"};
         }
 
-        return (selector);
+        return selector;
     };
 
     $scope.helpers({	//Scope helpers to get from Meteor collections

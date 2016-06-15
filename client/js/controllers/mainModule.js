@@ -320,6 +320,17 @@ if (!MAIN_MODULE) {
             },
             getWeatherLocation: function () {
                 return wLoc
+            },
+            /**
+             * @summary Find a weatherstation based on geolocation
+             * @param loc object with attributes 'attributes.coord_lat' and 'attributes.coord_lon'
+             * @returns selector
+             */
+            findWeatherStationInfo : function (loc) { //Finds a weather station from coordinates
+                return {
+                    'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
+                    'attributes.coord_lon': String(lodash.round(loc.lng(), 2))
+                };
             }
         };
         return ret;

@@ -17,18 +17,7 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
             return ParkingArea.find({});
         }
     });
-    /**
-     * @summary Find a weatherstation based on geolocation
-     * @param loc object with attributes 'attributes.coord_lat' and 'attributes.coord_lon'
-     * @returns WeatherStation
-     */
-    $scope.findWeatherStationInfo = function (loc) { //Finds a weather station from coordinates
-        var selector = {
-            'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
-            'attributes.coord_lon': String(lodash.round(loc.lng(), 2))
-        };
-        return WeatherStations.findOne(selector);
-    }
+
 
     /**
      * @summary Updates the scope information when a marker is clicked
@@ -36,7 +25,7 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
      * @param arg WeatherStation information
      */
     util.initSetInfo($scope, function(arg){
-            var loc = $scope.findWeatherStationInfo(arg);
+            var loc = WeatherStations.findOne(WeatherService.findWeatherStationInfo(arg));
             $scope.weather_loc = arg;
             WeatherService.weatherLocation = { //Set a global variable with current location
                 'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
