@@ -116,7 +116,7 @@ if (!MAIN_MODULE) {
         //Categories to display in the top bar.
         $scope.categories = [
             {link: 'parking', text: 'PARKING', color: '#ea5959'},
-            {link: 'weather', text: 'WEATHER', color: '#eb9860'},
+            {link: 'weather', text: 'WEATHER', color: '#47BB47'},
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
