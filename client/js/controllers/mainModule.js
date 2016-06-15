@@ -357,15 +357,24 @@ if (!MAIN_MODULE) {
      */
     MAIN_MODULE.factory('WeatherService', function () {
         var wLoc = {
-            'attributes.coord_lat': '5.48',
-            'attributes.coord_lon': '51.44'
-        };
+                latitude: '51.44',
+                longitude: '5.48',
+                lat: function () {
+                    return this.latitude;
+                },
+                lng: function () {
+                    return this.longitude;
+                }
+            };
         var ret = {
-            setWeatherLocation: function (o) {
-                wLoc = o
+            setWeatherLocationLat: function (lat) {
+                wLoc.latitude = '' + lodash.round(lat, 2)
             },
-            getWeatherLocation: function () {
-                return wLoc
+            setWeatherLocationLng: function (lng) {
+                wLoc.longitude = '' + lodash.round(lng, 2)
+            },
+            getWeatherLocationSetInfo: function () {
+                return wLoc;
             },
             /**
              * @summary Find a weatherstation based on geolocation

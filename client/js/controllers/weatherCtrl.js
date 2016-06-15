@@ -29,12 +29,10 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
      */
     util.initSetInfo($scope, function(arg){
             console.log(arg);
+            WeatherService.setWeatherLocationLat(arg.lat());
+            WeatherService.setWeatherLocationLng(arg.lng());
             var loc = WeatherStations.findOne(WeatherService.findWeatherStationInfo(arg));
-            $scope.loc = arg;
-            WeatherService.setWeatherLocation({ //Set a global variable with current location
-                'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
-                'attributes.coord_lon': '' + lodash.round(arg.lng(), 2)
-            });
+            $scope.loc = arg;;
             $scope.date = loc.attributes.date;
             $scope.name = loc.attributes.name;
             $scope.latitude = lodash.round(arg.lat(), 2);
@@ -59,15 +57,7 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
         //Create map and center on Eindhoven
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
-            $rootScope.$broadcast('setInfo',  {
-                lat: function(){
-                    return '51.44';
-
-                },
-                lng: function(){
-                    return '5.48';
-                }
-            });
+            $rootScope.$broadcast('setInfo',  WeatherService.getWeatherLocationSetInfo());
         }
         /**
          * @summary Create map markers for each of the weather stations
