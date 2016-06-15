@@ -1,7 +1,9 @@
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+html {
   box-sizing: border-box;
+}
+
+*, *::after, *::before {
+  box-sizing: inherit;
 }
 
 .nav {
@@ -24,6 +26,7 @@
   -moz-transition: all 0.05s ease;
   transition: all 0.05s ease;
 }
+
 .nav .logo:hover {
   transform: scale(1.02);
   -webkit-transition: all 0.05s ease;
@@ -57,6 +60,7 @@
   padding: 0 40px;
   height: 72px;
   width: 320px;
+  box-sizing: border-box;
 }
 
 .nav .user-container .profile {
