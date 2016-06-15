@@ -46,45 +46,7 @@ var ambulanceInfo = function (o) {
     o.restTitle = description;
 
     return o;
-}
-
-/**
- * @summary !!DEPRECATED!! Modifies object to include (fake) location data, and sets fakeFlag accordingly .
- * @param !!DEPRECATED!! {json} o
- * @pre  !!DEPRECATED!! {string} !o.coord_lat
- * @modifies !!DEPRECATED!!  {json} o
- * @deprecated
- */
-var geoLoc = function (o) {
-    if (!o.coord_lat) {
-        if (o['geo:lat']) {
-            o.coord_lat = o['geo:lat'];
-            o.coord_lng = o['geo:long']
-            o.fakeFlag = false;
-            return;
-        } else if (o.fakeFlag === undefined) {
-            o.fakeFlag = true;
-            generateFakeCoords(o);
-        } else {
-            //retrieve actual coords
-            //set fakeFlag to false
-        }
-    } else if (o.fakeFlag === undefined) {
-        o.fakeFlag = false;
-    }
-}
-/**
- * @summary !!DEPRECATED!! Generates fake coords for p2000 obbject o.
- * @param  !!DEPRECATED!! {json} o
- * @modifies !!DEPRECATED!! {json} o
- * @deprecated
- */
-var generateFakeCoords = function (o) {
-    //51.50N, 5.60E topright
-    //51°23′N 5°20′E bottom left
-    o.coord_lng = lodash.random(5.2, 5.60);
-    o.coord_lat = lodash.random(51.23, 51.50);
-}
+};
 
 /**
  * @summary Get and modifies all necessary P2000 data into 1 object for orion
@@ -118,4 +80,4 @@ var createP2000Data = function (o) { //Creates orion-compliant objects for Orion
 }
 
 //exports for tests
-export {parseData, geoLoc, generateFakeCoords, ambulanceInfo, createP2000Data}
+export {parseData, ambulanceInfo, createP2000Data}
