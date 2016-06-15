@@ -1,12 +1,15 @@
 .box-container {
   text-align: center;
+  overflow-y: auto;
 }
 .box-container .box {
   vertical-align: top;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
   width: 29%;
-  border-left: 5px solid;
+  border-top: 5px solid;
   background-color: white;
   display: inline-block;
+  min-height: 819px;
   margin: 50px 2%;
   padding: 20px 40px;
 }
@@ -33,25 +36,22 @@
   font-weight: normal;
 }
 
-.index-parking h4 {
+.index-parking h4, .index-security h4 {
   font-size: 17px;
   font-weight: normal;
   color: #a8a8a8;
   margin-top: 0;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
-.index-parking p {
+.index-parking p, .index-security p {
   font-size: 17px;
   display: inline;
   margin-left: 15px;
   line-height: 50px;
   font-weight: normal;
 }
-.index-parking .pc-container {
+.index-parking .pc-container, .index-security .pc-container {
   width: 75%;
   margin: 15px auto;
-}
-.index-parking .pc-container .pc-border {
-  background-color: #ea5959 !important;
 }

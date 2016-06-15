@@ -1,7 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 import {expect,assert} from 'meteor/practicalmeteor:chai';
-import {Mongo} from 'meteor/mongo';
-import {collectionWrapper} from '/server/imports/collections.js';
+import {isEqual} from '/server/imports/util.js';
 
 //to be tested functions
 import {
@@ -91,7 +90,7 @@ describe('createP2000Data()', function () {
                 name: 'description',
                 type: 'string',
                 value: '1123117 MKA Brabant Zuid-Oost  Ambulance 22-117 Eersel '
-            }, {
+            }, { name: 'dt', type: 'string', value: '1464254272000' },{
                 name: 'publish_date',
                 type: 'string',
                 value: 'Thu, 26 May 2016 11:17:52 +0200'
@@ -111,14 +110,12 @@ describe('createP2000Data()', function () {
                 name: 'strLoc',
                 type: 'string',
                 value: 'Raambrug Bladel '
-            }, {name: 'info', type: 'string', value: false}]
-        }], updateAction: 'APPEND'
+            }]
+        }], updateAction: 'APPEND_STRICT'
     }
     it('should return object with P2000 data format we specified', function () {
         var res = createP2000Data(inputData());
-        assert.equal(res.contextElements[0].attributes[0].value, outputData.contextElements[0].attributes[0].value);
-        assert.equal(res.contextElements[0].attributes[1].value, outputData.contextElements[0].attributes[1].value);
-        assert.equal(res.contextElements[0].attributes[2].value, outputData.contextElements[0].attributes[2].value);
+        assert.isTrue(isEqual(res, outputData));
     });
 });
 describe('geoLoc()', function () {

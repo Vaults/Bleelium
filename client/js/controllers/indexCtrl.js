@@ -2,7 +2,7 @@ import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
 
-MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateParking) {
+MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateParking, circleHandler) {
     $meteor.subscribe('weatherPub');
     $meteor.subscribe('P2000Pub');
     $meteor.subscribe('soundSensorPub');
@@ -82,7 +82,6 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
      */
     var reload = function () {
         console.log($scope.getReactively('parkingArea'));
-        console.log($scope.parkingArea);
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
                 var temp = {
@@ -102,12 +101,7 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
             return sel;
         };
 
-        var result = aggregateParking();
-        $scope.spaces = result.spaces;
-        $scope.occupied = result.occupied;
-        $scope.percent = (result.occupied.total/result.spaces.total)*100;
-
-
+        circleHandler($scope);
 
         $scope.eventTypes = {
             'policedept': {

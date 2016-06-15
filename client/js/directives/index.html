@@ -2,24 +2,23 @@
     <div class="box" style="border-color: #ea5959">
         <div class="index-parking">
             <h2>Parking spots in Eindhoven</h2>
-            <h4>{{occupied.total}}/{{spaces.total}}</h4>
+            <h4>{{occupied.total}}/{{capacity.total}}</h4>
             <percent-circle percent="percent" colors="color"></percent-circle>
-            {{parkingAreas}}
-            <div class="pull-left">
-                <div ng-repeat="occupie in occupied">
-                {{occupie}} <br>
+            <div class="pull-left" style="text-align: left">
+                <div ng-repeat="area in parkingArea">
+                    <p>{{area.attributes.address}} </p>
                 </div>
             </div>
-            <div class="pull-right">
-                <div ng-repeat="(key, value) in spaces">
-                    <p ng-if="key >= 0">{{occupied[key]}} / {{spaces[key]}}</p>
+            <div class="pull-right" style="text-align: right">
+                <div ng-repeat="area in parkingArea">
+                    <p>{{occupied[area._id]}} / {{capacity[area._id]}}</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="box" style="border-color: #eb9860">
         <div class="weather-item">
-        	<h2>{{weather_name}}</h2>
+        	<h2>Weather in {{weather_name}}</h2>
         	<h4>{{'Long: '+ weather_longtitude.toFixed(2) + ' &deg;&nbsp;&nbsp;&nbsp;  Lat: ' + weather_latitude.toFixed(2) + ' &deg;'}}</h4>
         	<img src="{{weather_iconURL}}" class="icon"/>
         	<h2>{{weather_temperature.toFixed(1)}} &deg;C</h2>
@@ -54,8 +53,9 @@
         	</div>
         </div>
     </div>
-    <div class="box" style="border-color: #52acdb">
-        <h2>Security events past 24 hrs</h2>
+    <div class="box index-security" style="border-color: #52acdb">
+        <h2>Security events in Eindhoven</h2>
+        <h4>of the past 24 hrs</h4>
         <div class="security-item clearfix" ng-repeat="type in eventTypes">
             <div class="pull-left">
                 <img ng-src="{{type.icon}}" class="security-icon" height="50px"/>

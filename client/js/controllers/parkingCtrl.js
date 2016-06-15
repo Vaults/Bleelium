@@ -10,10 +10,10 @@ ParkingArea = new Mongo.Collection('ParkingArea');
  * @param $reactive Angular reactive component
  * @param $rootScope Angular root scope
  * @param IconService is used to set the marker icon
+ * @param aggregateParking is used for the parking space aggregation to get the occupancy values
  */
-//
-MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking) {
-    /** Attach this to the scope */
+MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler) {
+    /** Make scope reactive scope */
     $reactive(this).attach($scope);
 
     /** Subscribe parking data from server */
@@ -22,7 +22,6 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     /** Scope helpers to get from Meteor collections */
     $scope.helpers({
         parkingArea(){
-            /*console.log(ParkingArea.find({}))*/
             return ParkingArea.find({});
         }
     });
@@ -39,39 +38,15 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
         }
     };
 
-    /** Function that changes the freeColor when the percentage changes
-     * @var {string} changeColor
-     */
-    var changeColor = function() {
-        if ($scope.occupied <= $scope.capacity) {
-            if ($scope.occupied <= Math.round($scope.capacity / 2)) {
-                $scope.freeColor = 'green';
-            }
-            else if ($scope.occupied > Math.round($scope.capacity / 2) && $scope.occupied != $scope.capacity) {
-                $scope.freeColor = 'orange';
-            }
-            else {
-                $scope.freeColor = 'red';
-            }
-        }
-    }
-    $scope.autorun(changeColor);
-
     /** Defines the colors of percentage circle */
     $scope.color = {
         center : 'white',
-        highlight: $scope.freeColor,
+        highlight: 'blue',
         remaining : 'lightGrey'
     }
 
-    Meteor.call('aggregateParking', function(error, result){
-        if(error !== null) {
-            $scope.capacity = result['spaces']['total'];
-            $scope.occupied = result['occupied']['total'];
-        }
-    })
 
-    /** TODO: Make sure this works with the db structure and gets outputed with the html when that's done
+    /**
      * @summary Updates the scope information to the current selected parking area when a marker is clicked
      * @param event Marker click event
      * @param arg ParkingArea information
@@ -88,11 +63,8 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             var price = arg.price.split("_"); //splits the price entry to the hourly and daily prices
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
+            circleHandler($scope, arg.index);
 
-            var result = aggregateParking();
-            $scope.capacity = result['spaces'][arg.index]; //get the amount of parking spaces for this parking area
-            $scope.occupied = result['occupied'][arg.index]; //get current occupancy number for this parking area
-            $scope.percent = ($scope.occupied/$scope.capacity)*100
             $scope.$apply();
         }
     };
@@ -120,7 +92,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                         address: currentMarker.address,
                         openingHours: currentMarker.openingHours,
                         price: currentMarker.price,
-                        index: i
+                        index: parkingAreas[i]._id
                     },
                     events: {
                         click: (marker, eventName, args) => {
