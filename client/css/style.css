@@ -2,12 +2,12 @@ html, body {
   margin: 0;
   height: 100%;
   background-color: #f6f6f6;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .button {
   padding: 7px 17px;
-  color: white;
+  color: #fff;
   font-size: 17px;
   border: 0px solid;
   width: 100%;
@@ -16,17 +16,27 @@ html, body {
 }
 
 .button-orange {
-  background-color: #eb9860;
+  background-color: #EB9860;
 }
+
 .button-orange:hover {
-  background-color: #d38550;
+  background-color: #D38550;
+}
+
+.button-green {
+  background-color: #47BB47;
+}
+
+.button-green:hover {
+  background-color: #358C35;
 }
 
 .button-red {
   background-color: #ea5959;
 }
+
 .button-red:hover {
-  background-color: #d45a5a;
+  background-color: #D45A5A;
 }
 
 .main {
@@ -50,11 +60,12 @@ html, body {
   position: absolute;
   background-size: cover;
 }
+
 .background .side {
-  background-color: white;
+  background-color: #fff;
   width: 320px;
   height: 100%;
-  color: black;
+  color: #000;
   position: absolute;
   top: 0;
   right: 0;
@@ -62,16 +73,18 @@ html, body {
   font-size: 17px;
   overflow-y: auto;
 }
+
 .background .side h2 {
   font-size: 24px;
   font-weight: 900;
   margin-top: 0;
   margin-bottom: 10px;
 }
+
 .background .side h4 {
   font-size: 17px;
   font-weight: normal;
-  color: #a8a8a8;
+  color: #A8A8A8;
   margin-top: 0;
   margin-bottom: 10px;
 }

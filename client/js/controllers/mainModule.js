@@ -116,7 +116,7 @@ if (!MAIN_MODULE) {
         //Categories to display in the top bar.
         $scope.categories = [
             {link: 'parking', text: 'PARKING', color: '#ea5959'},
-            {link: 'weather', text: 'WEATHER', color: '#eb9860'},
+            {link: 'weather', text: 'WEATHER', color: '#47BB47'},
             {link: 'security', text: 'SECURITY', color: '#52acdb'},
             {link: 'energy', text: 'ENERGY', color: '#f3db36'},
         ];
@@ -134,16 +134,24 @@ if (!MAIN_MODULE) {
             scope: '='
         }
     });
+    /**
+     * @summary Keeps the parking spaces and area for the detailed view
+     */
     MAIN_MODULE.factory('ParkingService', function() {
         var ParkingService = {};
         ParkingService.parkingSpaces = {};
         ParkingService.name = '';
         ParkingService.areaIndex = -1;
+        /**
+         * @summary setter for fields
+         * @param i lot to load
+         * @param area ParkingArea object from DB
+         */
         ParkingService.setInfo = function(i, area){
             this.parkingSpaces = area.lots[i].parkingSpaces;
             this.name = area.name;
             this.areaIndex = area.index;
-        }
+        };
         ParkingService.parkingLocation = {
             'attributes.coord_lat': '51.448527',
             'attributes.coord_lon': '5.452773'
