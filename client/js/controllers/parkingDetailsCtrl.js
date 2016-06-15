@@ -20,13 +20,11 @@ MAIN_MODULE.controller('parkingDetailsCtrl', function ($scope, $meteor, $reactiv
     var setParkingImage = function() {
         var parkingSpaces = ParkingService.parkingSpaces;
         //For each full parking space, set the svg's color to red, otherwise green
-        //console.log(parkingSpaces);
+
         for (var i = 0; i < parkingSpaces.length; i++) {
-            console.log(parkingSpaces[i])
 
             var selector = "#ParkingSpace-" + (i + 1);
             var thisSpace = document.querySelector(selector);
-            console.log(thisSpace);
             if (!thisSpace) {
                 continue;
             }

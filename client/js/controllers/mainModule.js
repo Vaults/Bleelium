@@ -137,24 +137,6 @@ if (!MAIN_MODULE) {
                 'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name: 'Gas', checked: true},
                 'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name: 'Smoke', checked: true}
             },
-            /**
-             * @summary Wrapper for aggregateParking and aggregateSecurity for caching
-             * @param meteorCall back-end meteor function to call
-             * @param flag mutex flag
-             * @param data current cache
-             * @modifies data
-             * @returns data cache
-             */
-            concurrentCall : function(meteorCall, flag, data){
-                if (!flag) {
-                    flag = true;
-                    Meteor.call(meteorCall, function (e, r) {
-                        data = r;
-                        flag = false;
-                    })
-                }
-                return data;
-            }
         };
     });
     /**
@@ -404,22 +386,43 @@ if (!MAIN_MODULE) {
     /**
      * @summary caches data, and queues calls of aggregateparking
      */
-    MAIN_MODULE.factory('aggregateParking', function (util) {
+    MAIN_MODULE.factory('aggregateParking', function () {
         var data = {
             spaces: {'1': 240, '2': 120, '3': 498, total: 858},
             occupied: {'1': 120, '2': 61, '3': 243, total: 424}
         };
         var flag = false;
-        return util.concurrentCall('aggregateParking', flag, data);
+        return function () {
+            if (!flag) {
+                flag = true;
+                Meteor.call('aggregateParking', function (e, r) {
+                    data = r;
+                    flag = false;
+                })
+            }
+            return data;
+        }
     });
 
     /**
-     * @summary caches data, and queues calls of aggregateSecurity;
+     * @summary caches data, and queues calls of aggregateSecurity
+     * Although aggregateSecurity and aggregateParking have similar structure, this is non-trivial
+     * to delegate to a helper function. Unfortunately if done, the variables within the factories
+     * cannot be mutated.
      */
-    MAIN_MODULE.factory('aggregateSecurity', function (util) {
-        var data = {counts: {}};
+    MAIN_MODULE.factory('aggregateSecurity', function(){
+        var data = {counts:{}};
         var flag = false;
-        return util.concurrentCall('aggregateSecurity', flag, data);
+        return function() {
+            if(!flag){
+                flag = true;
+                Meteor.call('aggregateSecurity', function(e, r){
+                    data = r;
+                    flag = false;
+                })
+            }
+            return data;
+        }
     });
 
     /**
@@ -447,7 +450,7 @@ if (!MAIN_MODULE) {
                     }
                 }
             }*/
-            var result = aggregateParking;
+            var result = aggregateParking();
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
             scope.occupied = result['occupied']; //get current occupancy number for this parking area
             scope.percent = (scope.occupied.total / scope.capacity.total) * 100; //update current occupancy percentage

@@ -28,7 +28,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
      * @param arg WeatherStation information
      */
     util.initSetInfo($scope, function(arg){
-            console.log(arg);
             WeatherService.setWeatherLocationLat(arg.lat());
             WeatherService.setWeatherLocationLng(arg.lng());
             var loc = WeatherStations.findOne(WeatherService.findWeatherStationInfo(arg));

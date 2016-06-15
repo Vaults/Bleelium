@@ -95,7 +95,6 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
      * @summary Zooms and loads critical event when info button is clicked on homepage
      */
     $rootScope.$on('critEventSet', function (event, args) {
-        console.log(args);
         $scope.map = {
             center: {
                 longitude: args.attributes.coord_lng,
