@@ -2,17 +2,13 @@ import {HTTP} from 'meteor/http';
 import {MAIN_MODULE} from  './mainModule.js';
 
 
-MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateSecurity, aggregateParking, circleHandler) {
+MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, aggregateSecurity, aggregateParking, circleHandler, ParkingService) {
     $meteor.subscribe('weatherPub');
     $meteor.subscribe('P2000Pub');
     $meteor.subscribe('soundSensorPub');
     $meteor.subscribe('criticalEventsPub');
     $meteor.subscribe('parkingAreaPub');
-    $scope.color = {
-        center : 'white',
-        highlight: '#ea5959',
-        remaining : 'lightGrey'
-    }
+    $scope.color = ParkingService.color;
     $scope.helpers({	//Scope helpers to get from Meteor collections
         weatherStations(){
             return WeatherStations.find({});

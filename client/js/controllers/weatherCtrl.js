@@ -12,23 +12,8 @@ WeatherStations = new Mongo.Collection('weatherStations');
  * @param WeatherService stores the location of the currently selected weather station
  * @param IconService is used to set the marker icon
  */
-MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService) {
-    $scope.map = {
-        center: {
-            longitude: '5.48',
-            latitude: '51.44'
-        },
-        zoom: 11,
-        events: {
-            click: (mapModel, eventName, originalEventArgs) => {
-                //$scope.$apply();
-            }
-        },
-        options: {
-            disableDefaultUI: true
-        }
-
-    };
+MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, util) {
+    $scope.map = util.map;
 
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
@@ -43,7 +28,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
      * @returns WeatherStation
      */
     $scope.findWeatherStationInfo = function (loc) { //Finds a weather station from coordinates
-        console.log(loc.lat());
         var selector = {
             'attributes.coord_lat': String(lodash.round(loc.lat(), 2)),
             'attributes.coord_lon': String(lodash.round(loc.lng(), 2))
@@ -59,12 +43,13 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
     var setInfo = function (event, arg) { //Updates scope to the current selected weatherstation
         console.log(arg);
         if (arg) {
+            console.log(arg);
             var loc = $scope.findWeatherStationInfo(arg);
             $scope.loc = arg;
-            WeatherService.weatherLocation = { //Set a global variable with current location
+            WeatherService.setWeatherLocation({ //Set a global variable with current location
                 'attributes.coord_lat': '' + lodash.round(arg.lat(), 2),
                 'attributes.coord_lon': '' + lodash.round(arg.lng(), 2)
-            };
+            });
             $scope.date = loc.attributes.date;
             $scope.name = loc.attributes.name;
             $scope.latitude = lodash.round(arg.lat(), 2);
@@ -73,29 +58,13 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.min = lodash.round(loc.attributes.temp_min, 2);
             $scope.max = lodash.round(loc.attributes.temp_max, 2);
             $scope.windDegrees = loc.attributes.wind_deg;
-            //$scope.windDirection = getWindDir(loc.attributes.wind_deg);
             $scope.Airpressure = lodash.round(loc.attributes.pressure);
             $scope.Humidity = lodash.round(loc.attributes.humidity);
             $scope.sunrise = loc.attributes.sunrise;
             $scope.sunset = loc.attributes.sunset;
             $scope.iconURL = IconService.retIconUrl(loc.attributes.weather_icon, 'weather');
-            //$scope.$apply();
         }
     };
-
-    /**
-     * @summary Add a textual description of the wind direction, e.g. NW
-     * @param degrees Wind Direction
-     * @deprecated unused
-     */
-    var getWindDir = function (degrees) {	//gets Wind Direction from a degree
-        Meteor.call('findWindDir', degrees, function (error, result) {
-            if (!error) {
-                $scope.windDirection = result;
-            }
-        })
-    }
-
 
     //When setInfo is broadcasted, call setInfo function
     $scope.$on('setInfo', setInfo);
@@ -122,7 +91,6 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
         //Create map and center on Eindhoven
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
-        //    if (!$scope.map) {
                 var temp = {
                     lat: function(){
                         return '51.44';
@@ -133,30 +101,17 @@ MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $roo
                     }
                 };
                 setInfo(null, temp);
-          //  }
         }
-        //Create map markers for each weatherstation
-        $scope.markers = [];
-        for (var i = 0; i < stations.length; i++) {
-            if (stations[i].attributes) {
-                $scope.markers.push({
-                    options: {
-                        draggable: false,
-                        icon: IconService.createMarkerIcon(stations[i].attributes.weather_icon, 'weather')
-                    },
-                    events: {
-                        click: (marker, eventName, args) => {
-                            //Set global variable to current weatherstation for use from other controllers
-                            $rootScope.$broadcast('setInfo', marker.getPosition());
-                        }
-                    },
-                    location: {
-                        longitude: stations[i].attributes.coord_lon,
-                        latitude: stations[i].attributes.coord_lat,
-                    },
-                });
-            }
+        // //Create map markers for each weatherstation
+        var optFunc = function(opts, obj){
+            opts['icon'] = IconService.createMarkerIcon(obj.attributes.weather_icon, 'weather')
+            return opts;
         }
+        var markerFunc = (marker)=>{
+            $rootScope.$broadcast('setInfo', marker.getPosition());
+        }
+        $scope.markers = util.calculateMarkers(stations, $scope.markers, optFunc, markerFunc);
+
     }
     $scope.autorun(reload)
 

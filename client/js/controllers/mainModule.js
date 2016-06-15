@@ -20,7 +20,48 @@ if (!MAIN_MODULE) {
         'ui.bootstrap',
         'ui.router',
         'percentCircle-directive'
-    ]);    
+    ]);
+    MAIN_MODULE.factory('util',function(){
+        return {
+            map: {
+                center: {
+                    longitude: '5.48',
+                    latitude: '51.44'
+                },
+                zoom: 11,
+                events: {
+                    click: (mapModel, eventName, originalEventArgs) => {
+                    }
+                },
+                options: {
+                    disableDefaultUI: true
+                }
+
+            },
+            calculateMarkers : function(objs, markers, optFunc, click){
+                var newMarkers = [];
+
+                for (var i = 0; i < objs.length; i++) {
+                    var options = {draggable: false};
+                    if (objs[i].attributes) {
+                        newMarkers.push({
+                            options: optFunc(options, objs[i]),
+                            events:{
+                                click: click
+                            },
+                            location: {
+                                longitude: (objs[i].attributes.coord_lon)?objs[i].attributes.coord_lon:objs[i].attributes.coord_lng,
+                                latitude: objs[i].attributes.coord_lat,
+                            }
+                        });
+                    }else {
+                        markers[i].setMap(null);
+                    }
+                }
+                return newMarkers;
+            }
+        }
+    })
     /**
      * @summary Specifies which urls route to which files and controllers
      */
@@ -142,6 +183,11 @@ if (!MAIN_MODULE) {
         ParkingService.parkingSpaces = {};
         ParkingService.name = '';
         ParkingService.areaIndex = -1;
+        ParkingService.color = {
+            center : 'white',
+            highlight: '#ea5959',
+            remaining : 'lightGrey'
+        };
         /**
          * @summary setter for fields
          * @param i lot to load
@@ -207,10 +253,15 @@ if (!MAIN_MODULE) {
      * @summary keeps the currently selected weatherstation's location
      */
     MAIN_MODULE.factory('WeatherService', function () {
-        return weatherLocation = {
+        var wLoc = {
             'attributes.coord_lat': '5.48',
             'attributes.coord_lon': '51.44'
         };
+        var ret = {
+            setWeatherLocation : function(o){wLoc = o},
+            getWeatherLocation : function(){return wLoc}
+        };
+        return ret;
     });
     /**
      * @summary Filter to round floats in a string format usable from HTML
@@ -292,6 +343,20 @@ if (!MAIN_MODULE) {
 
         }
     }]);
+
+    MAIN_MODULE.filter('convertHours', function () {
+        /**
+         * @summary convert integer amount of hours into a string with amount of days and hours
+         * @return string hours/24+'d'+hours%24+'h'
+         */
+        return function (hours) {
+            if (Math.floor(hours / 24) > 0) {
+                return Math.floor(hours / 24) + 'd' + hours % 24 + 'h';
+            }
+            return hours % 24 + 'h';
+        }
+    });
+
 }
 
 export {MAIN_MODULE}

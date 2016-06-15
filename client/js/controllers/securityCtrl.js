@@ -4,7 +4,7 @@ P2000 = new Mongo.Collection('P2000');
 SoundSensor = new Mongo.Collection('SoundSensor');
 CriticalEvents = new Mongo.Collection('criticalEvents');
 
-MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, $stateParams, IconService) {
+MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, $stateParams, IconService, util) {
     $reactive(this).attach($scope);
     $scope.eventTypes = {
         'policedept': {
@@ -129,17 +129,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
     };
     $scope.$on('setInfo', setInfo);
 
-    if(!$scope.map){
-    $scope.map = {
-        center: {
-            longitude: 5.48,
-            latitude: 51.44
-        },
-        zoom: 13,
-        options: {
-            disableDefaultUI: true
-        }
-    }}
+    $scope.map = util.map;
 
     $rootScope.$on('critEventSet', function (event, args) {
         console.log(args);
@@ -171,52 +161,22 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
         var events = P2000.find($scope.returnFilteredEvents()).fetch();
         events = events.concat(SoundSensor.find($scope.returnFilteredEvents()).fetch());
         events = events.concat(CriticalEvents.find($scope.returnFilteredEvents()).fetch());
+        var optFunc = function(opts, obj){
+            opts['icon'] = IconService.createMarkerIcon(obj.attributes.type, 'security'),
+            opts['type'] = obj.attributes.type,
+            opts['title'] = obj.attributes.restTitle,
+            opts['description'] = obj.attributes.description,
+            opts['publish_date'] = obj.attributes.publish_date
+            return opts;
+        };
+        var markerFunc = (marker) => {
+            $rootScope.$broadcast('setInfo', marker);
+        };
+        $scope.markers = util.calculateMarkers(events, $scope.markers, optFunc, markerFunc);
 
-        $scope.markers = [];
-        for (var i = 0; i < events.length; i++) {
-            if (events[i].attributes) {
-                var currentMarker = events[i].attributes;
-                $scope.markers.push({
-                    options: {
-                        draggable: false,
-                        icon: IconService.createMarkerIcon(events[i].attributes.type, 'security'),
-                        type: currentMarker.type,
-                        title: currentMarker.restTitle,
-                        description: currentMarker.description,
-                        publish_date: currentMarker.publish_date
-                    },
-                    events: {
-                        click: (marker, eventName, args) => {
-                            $rootScope.$broadcast('setInfo', marker);
-                        },
-                        dragend: (marker, eventName, args) => {
-                            this.setLocation(marker.getPosition().lat(), marker.getPosition().lng());
-                            $scope.$apply();
-                        }
-                    },
-                    location: {
-                        latitude: events[i].attributes.coord_lat,
-                        longitude: events[i].attributes.coord_lng
-                    },
-                });
-            } else {
-                $scope.markers[i].setMap(null);
-            }
-        }
     }
     $scope.autorun(reload);
     $scope.$watch('eventTypes', reload, true);
     $scope.$watch('range.value', reload);
 
-}).filter('convertHours', function () {
-    /**
-     * @summary convert integer amount of hours into a string with amount of days and hours
-     * @return string hours/24+'d'+hours%24+'h'
-     */
-    return function (hours) {
-        if (Math.floor(hours / 24) > 0) {
-            return Math.floor(hours / 24) + 'd' + hours % 24 + 'h';
-        }
-        return hours % 24 + 'h';
-    }
-})
+});

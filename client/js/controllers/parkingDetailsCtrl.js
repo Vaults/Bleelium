@@ -28,17 +28,10 @@ MAIN_MODULE.controller('parkingDetailsCtrl', function ($scope, $meteor, $reactiv
             }
         }
     };
-    $scope.color = {
-        center : 'white',
-        highlight: '#ea5959',
-        remaining : 'lightGrey'
-    }
+    $scope.color = ParkingService.color;
     //Change the loaded image to the correct one by altering the HTML attribute
-    var imageElement = document.querySelector("parking-image");
-    imageElement.setAttribute('template-url', ParkingService.name);
-    setTimeout(function(){
-        setParkingImage();
-    }, 500);
+    document.querySelector("parking-image").setAttribute('template-url', ParkingService.name);
+    setTimeout(function(){setParkingImage();}, 150);
     circleHandler($scope, ParkingService.areaIndex);
 });
 /**
