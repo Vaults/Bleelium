@@ -12,7 +12,7 @@ ParkingArea = new Mongo.Collection('ParkingArea');
  * @param IconService is used to set the marker icon
  * @param aggregateParking is used for the parking space aggregation to get the occupancy values
  */
-MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler) {
+MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler, ParkingService) {
     /** Make scope reactive scope */
     $reactive(this).attach($scope);
 
@@ -64,7 +64,9 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
             $scope.pricehour = price[0]; //hourly fee
             $scope.priceday = price[1]; //daily fee
             circleHandler($scope, arg.index);
-
+            $scope.parkingLot = arg.name;
+            $scope.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
+            ParkingService.parkingSpaces = arg.lots[Object.keys(arg.lots)[0]].parkingSpaces;
             $scope.$apply();
         }
     };
@@ -77,7 +79,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
      */
     var reload = function () {
         var parkingAreas= $scope.getReactively('parkingArea');
-
+        
         /** Remove old markers */
         $scope.markers = [];
 
@@ -89,10 +91,12 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
                     options: {
                         draggable: false,
                         icon: IconService.createMarkerIcon('Parking', 'parking'),
+                        name: currentMarker.name,
                         address: currentMarker.address,
                         openingHours: currentMarker.openingHours,
                         price: currentMarker.price,
-                        index: parkingAreas[i]._id
+                        index: parkingAreas[i]._id,
+                        lots: parkingAreas[i].parkingLots
                     },
                     events: {
                         click: (marker, eventName, args) => {

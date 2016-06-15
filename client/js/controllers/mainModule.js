@@ -20,7 +20,7 @@ if (!MAIN_MODULE) {
         'ui.bootstrap',
         'ui.router',
         'percentCircle-directive'
-    ]);
+    ]);    
     /**
      * @summary Specifies which urls route to which files and controllers
      */
@@ -52,6 +52,11 @@ if (!MAIN_MODULE) {
             .state('parking.sub', {
                 url: '/parking',
                 templateUrl: 'client/js/directives/infoParking.html'
+            })
+            .state('details', {
+                url: '/parking/details',
+                templateUrl: 'client/js/directives/infoDetails.html',
+                controller: 'detailsCtrl'
             })
             .state('security', {
                 templateUrl: 'client/ui-view.html',
@@ -128,6 +133,32 @@ if (!MAIN_MODULE) {
             templateUrl: 'client/js/directives/google-map.html',
             scope: '='
         }
+    });
+    MAIN_MODULE.factory('ParkingService', function() {
+        var ParkingService = {};
+        ParkingService.parkingSpaces = {};
+        ParkingService.setParkingImage = function() {
+            var parkingSpaces = ParkingService.parkingSpaces;
+            //For each full parking space, set the svg's color to red, otherwise green
+            for (var i = 0; i < parkingSpaces.length; i++){
+                var selector = "#ParkingSpace-"+(i+1);
+                var thisSpace = document.querySelector(selector);
+                if(!thisSpace){
+                    continue;
+                }
+                if(parkingSpaces[i].attributes.occupied === "true"){
+                    thisSpace.style.fill = "#ea5959";
+                }
+                else {
+                    thisSpace.style.fill = "#53dc4e";
+                }
+            }
+        };
+        ParkingService.parkingLocation = {
+            'attributes.coord_lat': '51.448527',
+            'attributes.coord_lon': '5.452773'
+        };
+        return ParkingService;
     });
     /**
      * @summary Provides functionality for displaying icons in UI and on markers
@@ -209,6 +240,24 @@ if (!MAIN_MODULE) {
         }
     });
 
+    /**
+     * @summary caches data, and queues calls of aggregateSecurity;
+     */
+    MAIN_MODULE.factory('aggregateSecurity', function(){
+        var data = {counts:{}};
+        var flag = false;
+        return function() {
+            if(!flag){
+                flag = true;
+                Meteor.call('aggregateSecurity', function(e, r){
+                    data = r;
+                    flag = false;
+                })
+            }
+            return data;
+        }
+    });
+    
     MAIN_MODULE.factory('circleHandler', ['aggregateParking', function(aggregateParking){
         return function(scope, index) {
             var setFreeColor = function (c) {
@@ -231,6 +280,7 @@ if (!MAIN_MODULE) {
                     }
                 }
             }
+
             var result = aggregateParking();
             console.log(result);
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
