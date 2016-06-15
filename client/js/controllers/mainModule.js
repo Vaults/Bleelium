@@ -53,10 +53,10 @@ if (!MAIN_MODULE) {
                 url: '/parking',
                 templateUrl: 'client/js/directives/infoParking.html'
             })
-            .state('details', {
+            .state('parkingDetails', {
                 url: '/parking/details',
-                templateUrl: 'client/js/directives/infoDetails.html',
-                controller: 'detailsCtrl'
+                templateUrl: 'client/js/directives/infoParkingDetails.html',
+                controller: 'parkingDetailsCtrl'
             })
             .state('security', {
                 templateUrl: 'client/ui-view.html',
@@ -137,23 +137,13 @@ if (!MAIN_MODULE) {
     MAIN_MODULE.factory('ParkingService', function() {
         var ParkingService = {};
         ParkingService.parkingSpaces = {};
-        ParkingService.setParkingImage = function() {
-            var parkingSpaces = ParkingService.parkingSpaces;
-            //For each full parking space, set the svg's color to red, otherwise green
-            for (var i = 0; i < parkingSpaces.length; i++){
-                var selector = "#ParkingSpace-"+(i+1);
-                var thisSpace = document.querySelector(selector);
-                if(!thisSpace){
-                    continue;
-                }
-                if(parkingSpaces[i].attributes.occupied === "true"){
-                    thisSpace.style.fill = "#ea5959";
-                }
-                else {
-                    thisSpace.style.fill = "#53dc4e";
-                }
-            }
-        };
+        ParkingService.name = '';
+        ParkingService.areaIndex = -1;
+        ParkingService.setInfo = function(i, area){
+            this.parkingSpaces = area.lots[i].parkingSpaces;
+            this.name = area.name;
+            this.areaIndex = area.index;
+        }
         ParkingService.parkingLocation = {
             'attributes.coord_lat': '51.448527',
             'attributes.coord_lon': '5.452773'
@@ -282,7 +272,6 @@ if (!MAIN_MODULE) {
             }
 
             var result = aggregateParking();
-            console.log(result);
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
             scope.occupied = result['occupied']; //get current occupancy number for this parking area
             scope.percent = (scope.occupied.total / scope.capacity.total) * 100; //update current occupancy percentage
@@ -291,8 +280,8 @@ if (!MAIN_MODULE) {
                 scope.occupied = scope.occupied[index];
                 scope.percent = (scope.occupied / scope.capacity) * 100; //update current occupancy percentage
             }
+             //setTimeout(changeColor, 500);
 
-            changeColor();
         }
     }]);
 }
