@@ -71,11 +71,12 @@ describe('initPulls()', function(done) {
                 var count = 0;
                 response.data.contextResponses.forEach(function(o){
                     var obj = o.contextElement;
-                    if(obj.attributes[2].value > 0) {
+                    var attr = lodash.find(obj.attributes, function(o){return o.name === 'smoke'});
+                    if(attr.value > 0) {
                         count++;
                     }
                 });
-                assert.equal(collectionWrapper['criticalEvents'].find({type: 'Smoke'}).count(), count);
+                assert.equal(collectionWrapper['criticalEvents'].find({'attributes.type': 'Smoke', 'attributes.smoke' : {$gt: "0"}}).count(), count);
                 done();
             }));
         }, 1000);
