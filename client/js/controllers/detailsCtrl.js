@@ -1,6 +1,6 @@
 import {MAIN_MODULE} from  './mainModule.js';
 
-MAIN_MODULE.controller('detailsCtrl', function ($scope, $meteor, ParkingService, aggregateParking, circleHandler) {
+MAIN_MODULE.controller('detailsCtrl', function ($scope, $meteor, $reactive, $rootScope, $state, IconService, aggregateParking, circleHandler, ParkingService) {
     $meteor.subscribe('parkingAreaPub');
 
     //Load the name and coordinates for this location
@@ -24,6 +24,7 @@ MAIN_MODULE.controller('detailsCtrl', function ($scope, $meteor, ParkingService,
     var imageElement = document.querySelector("parking-image");
     imageElement.setAttribute('template-url', $scope.parkingLot);
     ParkingService.setParkingImage();
+    $scope.$apply();
 
 }).directive('parkingImage', ['ParkingService', function(ParkingService){
     return {
