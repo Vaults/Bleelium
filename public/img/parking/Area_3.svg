@@ -9,13 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="100%"
    width="100%"
-   viewBox="0 0 1029.3252 460.60925"
+   height="100%"
+   viewBox="0 0 1029.3249 460.60925"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="Area_3.svg">
+   sodipodi:docname="Area_3.svg"
+   width="1029.3248"
+   height="460.60925">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="368.52565"
-     inkscape:cy="206.37218"
+     inkscape:cx="437.48144"
+     inkscape:cy="66.409898"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -36,7 +38,7 @@
      fit-margin-bottom="1"
      fit-margin-right="1"
      inkscape:window-width="1920"
-     inkscape:window-height="1058"
+     inkscape:window-height="1017"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
@@ -57,98 +59,98 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(-178.77633,-324.93596)">
+     transform="translate(-176.7459,-323.93595)">
     <path
-       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 204.02,325.93596 -24.24367,81.82236 1.01016,376.7869 1026.31501,0 0,-305.06607 -113.1371,0 -885.90379,-153.54319 z"
+       style="display:inline;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 201.98957,324.93595 -24.24367,81.82236 1.01016,376.7869 1026.31464,0 0,-305.06607 -113.1372,0 -885.90332,-153.54319 z"
        id="path3462"
        inkscape:connector-curvature="0" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-1"
        width="43"
        height="22"
        x="189.41016"
        y="680.98822" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-2"
        width="43"
        height="22"
        x="189.40579"
        y="657.06506" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-3"
        width="43"
        height="22"
        x="189.40688"
        y="633.06635" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-4"
        width="43"
        height="22"
        x="189.39844"
        y="609.06006" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-5"
        width="43"
        height="22"
        x="189.39952"
        y="585.06134" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-6"
        width="43"
        height="22"
        x="189.39516"
        y="561.13818" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-7"
        width="43"
        height="22"
        x="189.39624"
        y="537.13947" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-8"
        width="43"
        height="22"
        x="189.39119"
        y="513.12512" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-9"
        width="43"
        height="22"
        x="189.39227"
        y="489.12628" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-10"
        width="43"
        height="22"
        x="189.38791"
        y="465.20312" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-11"
        width="43"
        height="22"
        x="189.38899"
        y="441.20441" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-12"
        width="43"
        height="22"
        x="189.38055"
        y="417.19812" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-13"
        width="43"
        height="22"
@@ -156,700 +158,700 @@
        y="-293.56958"
        transform="matrix(-0.96592583,-0.25881905,0.25881905,-0.96592583,0,0)" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-14"
        width="43"
        height="22"
        x="312.40353"
        y="692.979" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-15"
        width="43"
        height="22"
        x="312.39917"
        y="669.05585" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-16"
        width="43"
        height="22"
        x="312.40027"
        y="645.05713" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-17"
        width="43"
        height="22"
        x="312.39182"
        y="621.05084" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-18"
        width="43"
        height="22"
        x="312.39288"
        y="597.05212" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-19"
        width="43"
        height="22"
        x="312.38855"
        y="573.12897" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-20"
        width="43"
        height="22"
        x="312.38962"
        y="549.13025" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-21"
        width="43"
        height="22"
        x="312.38458"
        y="525.11591" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-22"
        width="43"
        height="22"
        x="312.38565"
        y="501.1171" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-23"
        width="43"
        height="22"
        x="312.38129"
        y="477.19394" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-24"
        width="43"
        height="22"
        x="312.38239"
        y="453.19522" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-25"
        width="43"
        height="22"
        x="357.41339"
        y="692.97815" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-26"
        width="43"
        height="22"
        x="357.40903"
        y="669.05499" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-27"
        width="43"
        height="22"
        x="357.41013"
        y="645.05627" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-28"
        width="43"
        height="22"
        x="357.40167"
        y="621.04999" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-29"
        width="43"
        height="22"
        x="357.40274"
        y="597.05127" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-30"
        width="43"
        height="22"
        x="357.39841"
        y="573.12811" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-31"
        width="43"
        height="22"
        x="357.39948"
        y="549.12939" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-32"
        width="43"
        height="22"
        x="357.39444"
        y="525.11505" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-33"
        width="43"
        height="22"
        x="357.39551"
        y="501.11618" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-34"
        width="43"
        height="22"
        x="357.39114"
        y="477.19302" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-35"
        width="43"
        height="22"
        x="357.39224"
        y="453.19431" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-36"
        width="43"
        height="22"
        x="480.44168"
        y="692.96881" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-37"
        width="43"
        height="22"
        x="480.43732"
        y="669.04565" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-38"
        width="43"
        height="22"
        x="480.43842"
        y="645.04694" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-39"
        width="43"
        height="22"
        x="480.42996"
        y="621.04065" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-40"
        width="43"
        height="22"
        x="480.43103"
        y="597.04193" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-41"
        width="43"
        height="22"
        x="480.4267"
        y="573.11877" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-42"
        width="43"
        height="22"
        x="480.42776"
        y="549.12006" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-43"
        width="43"
        height="22"
        x="480.42273"
        y="525.10571" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-44"
        width="43"
        height="22"
        x="480.4238"
        y="501.10681" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-45"
        width="43"
        height="22"
        x="480.41943"
        y="477.18365" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-46"
        width="43"
        height="22"
        x="525.45154"
        y="692.96796" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-47"
        width="43"
        height="22"
        x="525.44714"
        y="669.0448" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-48"
        width="43"
        height="22"
        x="525.44824"
        y="645.04608" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-49"
        width="43"
        height="22"
        x="525.43982"
        y="621.03979" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-50"
        width="43"
        height="22"
        x="525.44092"
        y="597.04108" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-51"
        width="43"
        height="22"
        x="525.43652"
        y="573.11792" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-52"
        width="43"
        height="22"
        x="525.43762"
        y="549.1192" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-53"
        width="43"
        height="22"
        x="525.43262"
        y="525.10486" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-54"
        width="43"
        height="22"
        x="525.43365"
        y="501.1059" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-55"
        width="43"
        height="22"
        x="525.42932"
        y="477.08005" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-56"
        width="43"
        height="22"
        x="648.42145"
        y="692.93634" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-57"
        width="43"
        height="22"
        x="648.41711"
        y="669.01318" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-58"
        width="43"
        height="22"
        x="648.41821"
        y="645.01447" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-59"
        width="43"
        height="22"
        x="648.40973"
        y="621.00818" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-60"
        width="43"
        height="22"
        x="648.41083"
        y="597.00946" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-61"
        width="43"
        height="22"
        x="648.40649"
        y="573.0863" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-62"
        width="43"
        height="22"
        x="648.40753"
        y="549.08759" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-63"
        width="43"
        height="22"
        x="648.40253"
        y="525.07324" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-64"
        width="43"
        height="22"
        x="693.43134"
        y="692.93549" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-65"
        width="43"
        height="22"
        x="693.42694"
        y="669.01233" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-66"
        width="43"
        height="22"
        x="693.42804"
        y="645.01361" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-67"
        width="43"
        height="22"
        x="693.41962"
        y="621.00732" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-68"
        width="43"
        height="22"
        x="693.42072"
        y="597.00861" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-69"
        width="43"
        height="22"
        x="693.41632"
        y="573.08545" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-70"
        width="43"
        height="22"
        x="693.41742"
        y="549.08673" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-71"
        width="43"
        height="22"
        x="693.41241"
        y="525.07239" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-72"
        width="43"
        height="22"
        x="1152.4374"
        y="680.86426" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-73"
        width="43"
        height="22"
        x="1152.433"
        y="656.9411" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-74"
        width="43"
        height="22"
        x="1152.4341"
        y="632.94238" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-75"
        width="43"
        height="22"
        x="1152.4257"
        y="608.93604" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-76"
        width="43"
        height="22"
        x="1152.4268"
        y="584.93738" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-77"
        width="43"
        height="22"
        x="1152.4224"
        y="561.01422" />
     <rect
-       style="fill:#ff0505;fill-opacity:1;stroke:none"
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-78"
        width="43"
        height="22"
        x="1152.4235"
        y="537.0155" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-79"
        width="43"
        height="22"
        x="816.43433"
        y="692.93835" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-80"
        width="43"
        height="22"
        x="816.42999"
        y="669.0152" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-81"
        width="43"
        height="22"
        x="816.43109"
        y="645.01648" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-82"
        width="43"
        height="22"
        x="816.42261"
        y="621.01019" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-83"
        width="43"
        height="22"
        x="816.42371"
        y="597.01147" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-84"
        width="43"
        height="22"
        x="816.41937"
        y="573.08832" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-85"
        width="43"
        height="22"
        x="861.44421"
        y="692.9375" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-86"
        width="43"
        height="22"
        x="861.43982"
        y="669.01434" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-87"
        width="43"
        height="22"
        x="861.44092"
        y="645.01562" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-88"
        width="43"
        height="22"
        x="861.4325"
        y="621.00934" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-89"
        width="43"
        height="22"
        x="861.43359"
        y="597.01062" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-90"
        width="43"
        height="22"
        x="861.4292"
        y="573.08746" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-91"
        width="43"
        height="22"
        x="648.5127"
        y="500.9498" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-92"
        width="43"
        height="22"
        x="693.52258"
        y="500.94894" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-93"
        width="43"
        height="22"
        x="816.44574"
        y="549.36725" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-94"
        width="43"
        height="22"
        x="816.44684"
        y="525.36853" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-95"
        width="43"
        height="22"
        x="861.45563"
        y="549.36639" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-96"
        width="43"
        height="22"
        x="861.45673"
        y="525.36768" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-97"
        width="43"
        height="22"
        x="1152.3938"
        y="512.94904" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-98"
        width="43"
        height="22"
        x="1152.3854"
        y="488.94263" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-99"
        width="43"
        height="22"
        x="984.44073"
        y="692.92651" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-100"
        width="43"
        height="22"
        x="984.4364"
        y="669.00336" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-101"
        width="43"
        height="22"
        x="984.4375"
        y="645.00464" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-102"
        width="43"
        height="22"
        x="984.42902"
        y="620.99835" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-103"
        width="43"
        height="22"
        x="984.43011"
        y="596.99963" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-104"
        width="43"
        height="22"
        x="984.42578"
        y="573.07648" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-105"
        width="43"
        height="22"
        x="1029.4506"
        y="692.92566" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-106"
        width="43"
        height="22"
        x="1029.4462"
        y="669.0025" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-107"
        width="43"
        height="22"
        x="1029.4473"
        y="645.00378" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-108"
        width="43"
        height="22"
        x="1029.439"
        y="620.9975" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-109"
        width="43"
        height="22"
        x="1029.4399"
        y="596.99878" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-110"
        width="43"
        height="22"
        x="1029.4355"
        y="573.07562" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-111"
        width="43"
        height="22"
        x="984.45215"
        y="549.35541" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-112"
        width="43"
        height="22"
        x="1029.4619"
        y="549.35455" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-113"
        width="43"
        height="22"
@@ -857,7 +859,7 @@
        y="-317.56442"
        transform="matrix(-0.96592583,-0.25881905,0.25881905,-0.96592583,0,0)" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-114"
        width="43"
        height="22"
@@ -865,57 +867,85 @@
        y="-341.48752"
        transform="matrix(-0.96592583,-0.25881905,0.25881905,-0.96592583,0,0)" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-115"
        width="43"
        height="22"
        x="189.40056"
        y="752.94098" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-116"
        width="43"
        height="22"
        x="189.39619"
        y="729.01782" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-117"
        width="43"
        height="22"
        x="189.39726"
        y="705.0191" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-118"
        width="43"
        height="22"
        x="1152.4227"
        y="752.77576" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-119"
        width="43"
        height="22"
        x="1152.4185"
        y="728.8526" />
     <rect
-       style="display:inline;fill:#ff0505;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke:none"
        id="ParkingSpace-120"
        width="43"
        height="22"
        x="1152.4194"
        y="704.85388" />
+    <rect
+       style="fill:#666666;fill-opacity:1;stroke:none"
+       id="rect3458"
+       width="16"
+       height="3.1567271"
+       x="248.86243"
+       y="762.62396" />
+    <rect
+       style="display:inline;fill:#666666;fill-opacity:1;stroke:none"
+       id="rect3458-9"
+       width="16"
+       height="3.1567271"
+       x="281.41089"
+       y="771.53497" />
+    <rect
+       style="display:inline;fill:#666666;fill-opacity:1;stroke:none"
+       id="rect3458-9-7"
+       width="16"
+       height="3.1567271"
+       x="1087.8015"
+       y="762.70941" />
+    <rect
+       style="display:inline;fill:#666666;fill-opacity:1;stroke:none"
+       id="rect3458-9-3"
+       width="16"
+       height="3.1567271"
+       x="1120.3462"
+       y="771.10242" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Laag 2"
      style="display:inline"
-     transform="translate(-178.77633,-324.93596)">
+     transform="translate(-176.7459,-323.93595)">
     <path
        sodipodi:type="star"
-       style="display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#666666;fill-opacity:1;stroke:none"
        id="path3442-9"
        sodipodi:sides="3"
        sodipodi:cx="372.99884"
@@ -932,7 +962,7 @@
        inkscape:transform-center-y="-1.5573126" />
     <path
        sodipodi:type="star"
-       style="display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#666666;fill-opacity:1;stroke:none"
        id="path3442-3-7"
        sodipodi:sides="3"
        sodipodi:cx="372.99884"
@@ -949,7 +979,7 @@
        inkscape:transform-center-y="1.5573137" />
     <path
        sodipodi:type="star"
-       style="display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#666666;fill-opacity:1;stroke:none"
        id="path3442-9-6"
        sodipodi:sides="3"
        sodipodi:cx="372.99884"
@@ -966,7 +996,7 @@
        inkscape:transform-center-y="-1.5573126" />
     <path
        sodipodi:type="star"
-       style="display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#666666;fill-opacity:1;stroke:none"
        id="path3442-3-7-9"
        sodipodi:sides="3"
        sodipodi:cx="372.99884"
