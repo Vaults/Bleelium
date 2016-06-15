@@ -4,6 +4,9 @@ MAIN_MODULE.controller('parkingDetailsCtrl', function ($scope, $meteor, $reactiv
 
     $meteor.subscribe('parkingAreaPub');
 
+    /**
+     * @summary sets the free parking spaces to green based on parkingSpaces set in the factory
+     */
     var setParkingImage = function() {
         var parkingSpaces = ParkingService.parkingSpaces;
         //For each full parking space, set the svg's color to red, otherwise green
@@ -24,30 +27,24 @@ MAIN_MODULE.controller('parkingDetailsCtrl', function ($scope, $meteor, $reactiv
                 thisSpace.style.fill = "#53dc4e";
             }
         }
-    }
-
-    //Load the name and coordinates for this location
-    //var arg = ParkingArea.findOne(ParkingService.parkingLocation);
-
-    //$scope.latitude = lodash.round(arg.attributes.coord_lat, 2);
-   // $scope.longtitude = lodash.round(arg.attributes.coord_lon, 2);
-    //$scope.address = arg.attributes.address; //parking address name
-    //circleHandler($scope, arg.attributes.index);
-
-
+    };
+    //Change the loaded image to the correct one by altering the HTML attribute
     var imageElement = document.querySelector("parking-image");
     imageElement.setAttribute('template-url', ParkingService.name);
     setTimeout(function(){
         setParkingImage();
     }, 500);
     circleHandler($scope, ParkingService.areaIndex);
-
-}).directive('parkingImage', ['ParkingService', function(ParkingService){
+});
+/**
+ * @summary Creates the HTML tag for the parking image and detects when it needs to be updated
+ */
+MAIN_MODULE.directive('parkingImage', ['ParkingService', function(ParkingService){
     return {
         restrict: 'E',
         link: function(scope,element,attrs) {
-            //console.log(attrs.templateUrl);
             scope.contentUrl = 'img/parking/'+attrs.templateUrl+'.svg';
+            //When attribute changes, load corresponding image
             scope.$watch(function() {return element.attr('template-url'); }, function(v){
                 scope.contentUrl = 'img/parking/'+v+'.svg';
             });
