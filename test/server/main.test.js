@@ -100,7 +100,7 @@ describe('initPulls()', function(done) {
         Meteor.setTimeout(function(){
             var res = countParking();
             var comp = { spaces: { '1': 498, '2': 240, '3': 120, total: 858 },
-				occupied: { '1': 243, '2': 120, '3': 61, total: 424 } };
+				occupied: { '1': 264, '2': 119, '3': 67, total: 450 } };
             assert.isTrue(isEqual(res.spaces,comp.spaces));
             assert.isTrue(isEqual(res.occupied,comp.occupied));
             done();
