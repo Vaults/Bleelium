@@ -6,5 +6,5 @@ import {MAIN_MODULE} from  './mainModule.js';
  * @param util utilities for map
  */
 MAIN_MODULE.controller('energyCtrl', function ($scope, util) {
-    $scope.map = util.map;
+    $scope.map = util.map();
 });

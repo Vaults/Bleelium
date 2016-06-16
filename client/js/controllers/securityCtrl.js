@@ -89,7 +89,7 @@ MAIN_MODULE.controller('securityCtrl', function ($scope, $meteor, $reactive, $ro
             $scope.$apply();
     });
 
-    $scope.map = util.map;
+    $scope.map = util.map();
 
     /**
      * @summary Zooms and loads critical event when info button is clicked on homepage

@@ -29,20 +29,21 @@ if (!MAIN_MODULE) {
             /**
              * @summary global variable to keep state of map
              */
-            map: {
-                center: {
-                    longitude: '5.48',
-                    latitude: '51.44'
-                },
-                zoom: 11,
-                events: {
-                    click: (mapModel, eventName, originalEventArgs) => {
+            map: function() {
+                return {
+                    center: {
+                        longitude: '5.48',
+                        latitude: '51.44'
+                    },
+                    zoom: 11,
+                    events: {
+                        click: (mapModel, eventName, originalEventArgs) => {
+                        }
+                    },
+                    options: {
+                        disableDefaultUI: true
                     }
-                },
-                options: {
-                    disableDefaultUI: true
                 }
-
             },
             /**
              * @summary Creates all markers for the map and adds correct parameters using helper functions

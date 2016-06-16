@@ -27,7 +27,7 @@ MAIN_MODULE.controller('parkingCtrl', function ($scope, $meteor, $reactive, $roo
     });
 
     /** Create a google map and adjust the view to Strijp-S*/
-    $scope.map = util.map;
+    $scope.map = util.map();
 
     /** Defines the colors of percentage circle */
     $scope.color = ParkingService.color;

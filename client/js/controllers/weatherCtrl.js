@@ -13,7 +13,7 @@ WeatherStations = new Mongo.Collection('weatherStations');
  * @param IconService is used to set the marker icon
  */
 MAIN_MODULE.controller('weatherCtrl', function ($scope, $meteor, $reactive, $rootScope, WeatherService, IconService, util) {
-    $scope.map = util.map;
+    $scope.map = util.map();
 
     $meteor.subscribe('weatherPub');
     $scope.markers = [];
