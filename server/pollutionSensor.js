@@ -72,7 +72,7 @@ var pushPollutionToOrion = function () {
         if (!(i == 5 || i == 23 || i == 32 || i == 33)) {
             HTTP.call('GET', "http://data.aireas.com/api/v1/?airboxid=" + i + ".cal", {}, handleError(function (response) {
                 setTimeout(postOrionData(createPollutionSensorData(response.data, count),function(error,response){
-                    console.log(response);
+                    //console.log(response);
                 }),500);
                 count++;
             }));

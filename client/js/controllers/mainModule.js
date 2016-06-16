@@ -29,20 +29,21 @@ if (!MAIN_MODULE) {
             /**
              * @summary global variable to keep state of map
              */
-            map: {
-                center: {
-                    longitude: '5.48',
-                    latitude: '51.44'
-                },
-                zoom: 11,
-                events: {
-                    click: (mapModel, eventName, originalEventArgs) => {
+            map: function() {
+                return {
+                    center: {
+                        longitude: '5.48',
+                        latitude: '51.44'
+                    },
+                    zoom: 11,
+                    events: {
+                        click: (mapModel, eventName, originalEventArgs) => {
+                        }
+                    },
+                    options: {
+                        disableDefaultUI: true
                     }
-                },
-                options: {
-                    disableDefaultUI: true
                 }
-
             },
             /**
              * @summary Creates all markers for the map and adds correct parameters using helper functions
@@ -137,24 +138,6 @@ if (!MAIN_MODULE) {
                 'warninggasleak': {icon: 'img/security/Gas.png', text: 'Gas Leak', name: 'Gas', checked: true},
                 'warningsmoke': {icon: 'img/security/Smoke.png', text: 'Smoke', name: 'Smoke', checked: true}
             },
-            /**
-             * @summary Wrapper for aggregateParking and aggregateSecurity for caching
-             * @param meteorCall back-end meteor function to call
-             * @param flag mutex flag
-             * @param data current cache
-             * @modifies data
-             * @returns data cache
-             */
-            concurrentCall : function(meteorCall, flag, data){
-                if (!flag) {
-                    flag = true;
-                    Meteor.call(meteorCall, function (e, r) {
-                        data = r;
-                        flag = false;
-                    })
-                }
-                return data;
-            }
         };
     });
     /**
@@ -359,15 +342,24 @@ if (!MAIN_MODULE) {
      */
     MAIN_MODULE.factory('WeatherService', function () {
         var wLoc = {
-            'attributes.coord_lat': '5.48',
-            'attributes.coord_lon': '51.44'
-        };
+                latitude: '51.44',
+                longitude: '5.48',
+                lat: function () {
+                    return this.latitude;
+                },
+                lng: function () {
+                    return this.longitude;
+                }
+            };
         var ret = {
-            setWeatherLocation: function (o) {
-                wLoc = o
+            setWeatherLocationLat: function (lat) {
+                wLoc.latitude = '' + lodash.round(lat, 2)
             },
-            getWeatherLocation: function () {
-                return wLoc
+            setWeatherLocationLng: function (lng) {
+                wLoc.longitude = '' + lodash.round(lng, 2)
+            },
+            getWeatherLocationSetInfo: function () {
+                return wLoc;
             },
             /**
              * @summary Find a weatherstation based on geolocation
@@ -397,22 +389,43 @@ if (!MAIN_MODULE) {
     /**
      * @summary caches data, and queues calls of aggregateparking
      */
-    MAIN_MODULE.factory('aggregateParking', function (util) {
+    MAIN_MODULE.factory('aggregateParking', function () {
         var data = {
             spaces: {'1': 240, '2': 120, '3': 498, total: 858},
             occupied: {'1': 120, '2': 61, '3': 243, total: 424}
         };
         var flag = false;
-        return util.concurrentCall('aggregateParking', flag, data);
+        return function () {
+            if (!flag) {
+                flag = true;
+                Meteor.call('aggregateParking', function (e, r) {
+                    data = r;
+                    flag = false;
+                })
+            }
+            return data;
+        }
     });
 
     /**
-     * @summary caches data, and queues calls of aggregateSecurity;
+     * @summary caches data, and queues calls of aggregateSecurity
+     * Although aggregateSecurity and aggregateParking have similar structure, this is non-trivial
+     * to delegate to a helper function. Unfortunately if done, the variables within the factories
+     * cannot be mutated.
      */
-    MAIN_MODULE.factory('aggregateSecurity', function (util) {
-        var data = {counts: {}};
+    MAIN_MODULE.factory('aggregateSecurity', function(){
+        var data = {counts:{}};
         var flag = false;
-        return util.concurrentCall('aggregateSecurity', flag, data);
+        return function() {
+            if(!flag){
+                flag = true;
+                Meteor.call('aggregateSecurity', function(e, r){
+                    data = r;
+                    flag = false;
+                })
+            }
+            return data;
+        }
     });
 
     /**
@@ -440,7 +453,7 @@ if (!MAIN_MODULE) {
                     }
                 }
             }*/
-            var result = aggregateParking;
+            var result = aggregateParking();
             scope.capacity = result['spaces']; //get the amount of parking spaces for this parking area
             scope.occupied = result['occupied']; //get current occupancy number for this parking area
             scope.percent = (scope.occupied.total / scope.capacity.total) * 100; //update current occupancy percentage

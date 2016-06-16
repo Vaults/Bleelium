@@ -14,7 +14,7 @@ MAIN_MODULE.controller('forecastCtrl', function ($scope, $meteor, WeatherService
     $meteor.subscribe('weatherPub');
 
     //Load the name and coordinates for this location
-    var loc = WeatherStations.findOne(WeatherService.getWeatherLocation());
+    var loc = WeatherStations.findOne(WeatherService.findWeatherStationInfo(WeatherService.getWeatherLocationSetInfo()));
 
     //Set scope to selected weatherstation
     $scope.name = loc.attributes.name;

@@ -65,8 +65,7 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
     /**
      * @summary Runs whenever weatherstation collection is updated. Pulls weatherstations and updates UI elements accordingly
      */
-    var reload = function () {
-        console.log($scope.getReactively('parkingArea'));
+    var reload = function () {  
         var selStation = WeatherStations.findOne({"_id": "2756253"});
         if (selStation && !$scope.name) {
             $rootScope.$broadcast('setInfo', {
@@ -81,7 +80,8 @@ MAIN_MODULE.controller('indexCtrl', function ($scope, $meteor, $reactive, $rootS
         }
 
         circleHandler($scope);
-        var security = aggregateSecurity.counts;
+        var security = aggregateSecurity().counts;
+
         $scope.eventTypes = util.eventTypes;
         for(key in $scope.eventTypes){
             $scope.eventTypes[key].count = security[$scope.eventTypes[key].name];
