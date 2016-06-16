@@ -238,12 +238,14 @@ if (!MAIN_MODULE) {
     });
     /**
      * @summary Controller for the navigation bar, keeps categories and highlights current category
+     * @param $scope Angular scope
+     * @param $location Service that parses the URL in the browser address bar
      */
     MAIN_MODULE.controller('navBarCtrl', function ($scope, $location) {
         /**
          * @summary Determine which tab is currently selected
-         * @param {String} path to test current webpage path to
-         * @returns {string} active when path === current page, '' otherwise
+         * @param {String} path that is compared to the current URL in the address bar
+         * @returns {string} active when path === current URL, '' otherwise
          */
         $scope.navClass = function (path) {
             return (($location.path().substr(1, path.length)) === path) ? 'active' : '';

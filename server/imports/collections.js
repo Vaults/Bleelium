@@ -1,6 +1,9 @@
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
 
+/**
+ * @var secSelector query for security events
+ */
 var secSelector = {'attributes.dt': {$gte: (new Date().getTime() - 2 * 24 * 60 * 60 * 1000) + ''}};
 
 /**
@@ -48,6 +51,7 @@ var ParkingLot = new Mongo.Collection('ParkingLot');
 Meteor.publish('parkingAreaPub', function parkingAreaPub() {
     return ParkingArea.find({});
 });
+
 /**
  * @summary Creates a new mongo instance for AggregationCache
  * @return {json} - The collection for AggregationCache
@@ -56,8 +60,6 @@ var AggregationCache = new Mongo.Collection('AggregationCache');
 Meteor.publish('AggregationCachePub', function aggregationCachePub() {
     return AggregationCache.find({});
 });
-
-
 
 /**
  * @summary The array to map collections to variables

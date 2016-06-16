@@ -2,7 +2,7 @@ import {collectionWrapper} from '/server/imports/collections.js';
 import {rewriteAttributes} from '/server/imports/util.js';
 
 /**
- * @summary The bounds in percentages of when each gas is flameable
+ * @summary The bounds in percentages of when each gas is flammable
  * @var {array} bound
  */
 var bounds = {
@@ -32,7 +32,7 @@ var bounds = {
  */
 var criticalEventPush = function (o, ins) {
     collectionWrapper['criticalEvents'].upsert({_id: (o.contextElement.type + o.contextElement._id)}, {$set: ins});
-}
+};
 
 /**
  * @summary Defines the variables for the gasSensors pull, containing the name, arguments and the callback function.
@@ -69,7 +69,7 @@ var gasSensorPull = {
             }
         });
     }
-}
+};
 
 /**
  * @summary Defines the variables for the smokeSensor pull, containing the name, arguments and the callback function.
@@ -98,7 +98,7 @@ var smokeSensorPull = {
             }
         });
     }
-}
+};
 
 //exports for tests
 export {bounds, gasSensorPull, smokeSensorPull}

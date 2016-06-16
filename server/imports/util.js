@@ -22,10 +22,9 @@ var isEqual = function (a, b) {
             }
         }
         return res;
-    }
+    };
     return checkObj(a, b) && checkObj(b, a);
-}
-
+};
 
 /**
  * @summary Rewrites the attribute format of Orion into key = value
@@ -33,16 +32,16 @@ var isEqual = function (a, b) {
  * @returns {array} Rewritten attribute as key=value
  */
 var attributesToKeyValue = function (attr) {
-    var temp = {}
+    var temp = {};
     attr.forEach(function (o) {
         temp[o.name] = o.value;
     });
     return temp;
-}
+};
 /**
  * @summary Loops through all the attributes and rewrites them to key = value
  * @param {json} obj - The Orion object
- * @param {function} c - callback
+ * @param {function} callback - callback
  * @returns {json} - the complete Orion object with the attributes rewritten as key = value
  */
 var rewriteAttributes = function (obj, callback) {
@@ -58,10 +57,10 @@ var rewriteAttributes = function (obj, callback) {
         return callback(obj);
     }
     return obj;
-}
+};
 /**
  * @summary Handles the error if there is one
- * @param {function} c - callback
+ * @param {function} c - callback function
  * @returns If there is no error the result is returned
  */
 var handleError = function (c) {
@@ -80,10 +79,10 @@ var handleError = function (c) {
         }
         c(result);
     }
-}
+};
 /**
  * @summary Adjust the Orion attribute for forecast data
- * @param {json} 0 - An orion attribute
+ * @param {json} o - An orion attribute
  * @returns {json} - The adjusted Orion attribute for forecast
  */
 var numToObj = function (o) {
@@ -100,7 +99,7 @@ var numToObj = function (o) {
         }
     }
     return tempObj;
-}
+};
 /**
  * @summary Adjust the Orion object so we are able to save forecast data
  * @param {json} obj - The Orion object
@@ -112,7 +111,7 @@ var rewriteNumbersToObjects = function (obj) {
         tempobj.attributes = numToObj(tempobj.attributes);
     }
     return obj;
-}
+};
 /**
  * @summary Creates a simple Orion object that can be directly POSTed to the Orion instance.
  * @param type - The type of entity sent

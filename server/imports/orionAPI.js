@@ -11,9 +11,9 @@ var postOrionData = function (data, callback) {
 }
 /**
  * @summary Pulls data from Orion
- * @param {string} coll - The type to request data from
+ * @param {string} coll - The collection to request data from
  * @param {string} args - Arguments to pass
- * @param callback - callback
+ * @param {function} callback - callback
  */
 var pull = function (coll, args, callback) {
     //console.log(query.data.entities[0]);
